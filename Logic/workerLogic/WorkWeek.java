@@ -12,11 +12,32 @@ public class WorkWeek
 	private ArrayList<String>	helpedTasksName	=	new ArrayList<String>();
 	private ArrayList<Integer>	helpedTasksTime	=	new ArrayList<Integer>();
 	
-	public int getWorkTime(int i)
+	/**
+	 * Returns a specific task
+	 * @param index
+	 * @return task
+	 * @throws WorkerMissingTask
+	 * @author s164166
+	 */
+	public Tasks getWorkTask(int index) throws WorkerMissingTask
 	{
-		return workTime[i];
+		if (assignments[index] == null)
+			throw new WorkerMissingTask("Could not get workTime.");
+		return assignments[index];
 	}
-	
+	/**
+	 * Returns the work time for a single project.
+	 * @param index
+	 * @return amount of half hours worked on a single project.
+	 * @throws WorkerMissingTask 
+	 * @author s164166
+	 */
+	public int getWorkTime(int index) throws WorkerMissingTask
+	{
+		if (assignments[index] == null)
+			throw new WorkerMissingTask("Could not get workTime.");
+		return workTime[index];
+	}
 	
 	/**
 	 * Adds a task to the helped list with an amount of time, if the user works on the same tasks multiple times a week, each will be logged as something different.

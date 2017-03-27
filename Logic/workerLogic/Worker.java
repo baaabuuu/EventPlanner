@@ -8,12 +8,16 @@ public class Worker
 	private String name, workName;
 	private int workID;
 	private ArrayList<WorkWeek> WorkWeek = new ArrayList<WorkWeek>();
-	private Tasks[] assignments	= new Tasks[20];
 	
+	
+	/**
+	 * Constructs a worker object with a set name.
+	 * @param NAME
+	 * @throws WorkerNameError
+	 */
 	public Worker(String NAME) throws WorkerNameError
 	{
 		setName(NAME);
-
 		setWorkName(NAME);
 	}
 
@@ -83,11 +87,18 @@ public class Worker
 	 * @author s164166
 	 * @return ArrayList<WorkWeek>
 	 */
-	public ArrayList<WorkWeek> getWorkWeek()
+	public ArrayList<WorkWeek> getWorkWeeks()
 	{
 		return WorkWeek;
 	}
-
-
+	
+	/**
+	 * Returns the current workweek.
+	 * @return
+	 */
+	public WorkWeek getCurrWeek()
+	{
+		return getWorkWeeks().get(getWorkWeeks().size());
+	}
 	
 }

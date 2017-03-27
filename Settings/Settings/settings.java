@@ -13,6 +13,5 @@ public class settings {
 	public final static int		maxAssignments	=	20;
 	public final static String	applicationName =	"Work Planner";	
 	public final Date 			startupDate 	= new GregorianCalendar(2017, Calendar.APRIL, 10).getTime();
-
 }
 

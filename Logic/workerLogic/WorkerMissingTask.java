@@ -1,6 +1,6 @@
 package workerLogic;
 /**
- * Used to signify that something went wrong with a task.
+ * Used to signify that a task is missing.
  * @author s164166
  */
 public class WorkerMissingTask extends Exception {

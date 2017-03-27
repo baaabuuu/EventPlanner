@@ -5,10 +5,9 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 import workerLogic.Worker;
 /**
- * 
+
+ * This class contains info regarding who is working for the company.
  * @author s164166
- * This class is used to hold the company info regarding who is working for the company.
- * 
  */
 public class CompanyWorkers {
 	private static ArrayList<Worker> companyWorkers = new ArrayList<Worker>();
