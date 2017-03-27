@@ -16,16 +16,19 @@ public class settings
 	public final static	Date startupDate 			=	new GregorianCalendar(2017, Calendar.APRIL, 10).getTime();
 	private int weekNumber							=	0;
 	
-	
-	
 	/**
 	 * Added so we can advance weeks, 
+	 * @author s164166
 	 */
 	public void updateWeek()
 	{
 		weekNumber++;
 	}
 	
+	/**
+	 * Added so we can advance weeks, 
+	 * @author s164166
+	 */
 	public int getWeekNumber()
 	{
 		return weekNumber;
