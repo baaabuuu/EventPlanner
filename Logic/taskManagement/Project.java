@@ -6,15 +6,34 @@ import workerLogic.*;
 
 
 public class Project {
-
-	public Project(List<Worker> _workers)
+	List<Worker> workers = new ArrayList<Worker>();
+	String name;
+	
+	public Project(List<Worker> workers, String name)
 	{
-		List<Worker> workers = new ArrayList<Worker>();
-		workers = _workers;
+		this.name = name;
+		if(workers != null)
+			this.workers = workers;
 	}
 	
-	public int getWorkerbyID()
+	public void addWorker(Worker worker)
 	{
-		
+		workers.add(worker);
+	}
+	
+	public List<Worker> getWorkerbyID(int searchTerm)
+	{
+		List<Worker> foundWorkers = new ArrayList<Worker>();
+		for(Worker worker : workers)
+		{
+			if(worker.getWorkID() == searchTerm)
+				foundWorkers.add(worker);
+		}
+		return foundWorkers;
+	}
+	
+	public String getName()
+	{
+		return name;
 	}
 }
