@@ -7,6 +7,7 @@ import workerLogic.*;
 
 public class Project {
 	List<Worker> workers = new ArrayList<Worker>();
+	List<Task> tasks = new ArrayList<Task>();
 	String name;
 	
 	public Project(List<Worker> workers, String name)
@@ -36,4 +37,24 @@ public class Project {
 	{
 		return name;
 	}
+	public List<Task> getallTasks()
+	{
+		return tasks;
+	}
+	public List<Task> getTaskbyName(String searchTerm)
+	{
+		List<Task> foundTasks = new ArrayList<Task>();
+		for(Task task : tasks)
+		{
+			if(task.getName().equals(searchTerm))
+				foundTasks.add(task);
+		}
+		return foundTasks;
+	}
+
+	public void addTask(Task task) {
+		tasks.add(task);
+		
+	}
+	
 }
