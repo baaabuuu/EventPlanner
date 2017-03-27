@@ -19,6 +19,7 @@ public class CompanyWorkers {
 	 */
 	public void addWorker(Worker worker)
 	{
+		worker.setWorkID(companyWorkers.size());
 		companyWorkers.add(worker);
 	}
 	/**
@@ -58,12 +59,5 @@ public class CompanyWorkers {
 	public List<Worker> getElligbleWorkers()
 	{
 		return companyWorkers.stream().filter(worker -> worker.isLegalWorker()).collect(Collectors.toList());		
-	}
-	
-	
-	
-	
-	
-	
-	
+	}	
 }
