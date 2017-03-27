@@ -17,7 +17,7 @@ public class CompanyWorkers {
 	 * @author s164166
 	 * @param worker
 	 */
-	public void addWorker(Worker worker)
+	public static void addWorker(Worker worker)
 	{
 		worker.setWorkID(companyWorkers.size());
 		companyWorkers.add(worker);
@@ -27,7 +27,7 @@ public class CompanyWorkers {
 	 * @author s164166
 	 * @param worker
 	 */
-	public void removeWorker(Worker worker)
+	public static void removeWorker(Worker worker)
 	{
 		companyWorkers.remove(worker);
 	}
@@ -36,7 +36,7 @@ public class CompanyWorkers {
 	 * @author s164166
 	 * @param index, the index.
 	 */
-	public void removeWorker(int index)
+	public static void removeWorker(int index)
 	{
 		companyWorkers.remove(index);
 	}
@@ -46,7 +46,7 @@ public class CompanyWorkers {
 	 * @author s164166
 	 * @param index, the index.
 	 */
-	public Worker getWorker(int index)
+	public static Worker getWorker(int index)
 	{
 		return companyWorkers.get(index);
 	}
@@ -56,8 +56,18 @@ public class CompanyWorkers {
 	 * @author s164166
 	 * @return the workers than can work on a task at the moment
 	 */
-	public List<Worker> getElligbleWorkers()
+	public static List<Worker> getElligbleWorkers()
 	{
 		return companyWorkers.stream().filter(worker -> worker.isLegalWorker()).collect(Collectors.toList());		
 	}
+	/**
+	 * Returns a list of workers.
+	 * @author s164166
+	 * @return the workers than can work on a task at the moment
+	 */
+	public static List<Worker> getAllWorkers()
+	{
+		return companyWorkers;		
+	}
+
 }

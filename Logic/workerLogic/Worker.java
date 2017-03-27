@@ -1,6 +1,7 @@
 package workerLogic;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Worker 
 {
@@ -9,22 +10,39 @@ public class Worker
 	private ArrayList<WorkWeek> WorkWeek = new ArrayList<WorkWeek>();
 	private Tasks[] assignments	= new Tasks[20];
 	
-	public Worker(String NAME) throws WorkerNameError 
+	public Worker(String NAME) throws WorkerNameError
 	{
 		setName(NAME);
+
 		setWorkName(NAME);
 	}
 
+	/**
+	 * returns full name of the worker
+	 * @author s164166
+	 * @return
+	 */
 	public String getName()
 	{
 		return name;
 	}
 
-	private void setName(String name)
+	/**
+	 * sets the name of the worker, can throw an error in case of blank name.
+	 * @author s164166
+	 * @return
+	 */
+	private void setName(String name) throws WorkerNameError
 	{
+		if (name.isEmpty())
+			throw new WorkerNameError("Name was empty.");
 		this.name = name;
 	}
-
+	/**
+	 * returns the work name of the worker
+	 * @author s164166
+	 * @return
+	 */
 	public String getWorkName() 
 	{
 		return workName;
@@ -70,31 +88,6 @@ public class Worker
 		return WorkWeek;
 	}
 
-	/**
-	 * an array consisting of the current assignments, it has a max size of 20.
-	 * @author s164166
-	 * @return Tasks[]
-	 */
-	public Tasks[] getAssignments() 
-	{
-		return assignments;
-	}
-	/**
-	 * Gets
-	 * @author s164166
-	 * @return the current amount of tasks.
-	 */
-	public int getCurrTaskAmm()
-	{
-		return getAssignments().length;
-	}
-	/**
-	 * @author s164166
-	 * @return whether or whether not the user can take on more tasks currently.
-	 */
-	public boolean isLegalWorker()
-	{
-		return getCurrTaskAmm()<Settings.settings.maxAssignments;
-	}
+
 	
 }
