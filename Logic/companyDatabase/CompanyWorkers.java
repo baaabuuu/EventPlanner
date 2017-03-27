@@ -57,7 +57,7 @@ public class CompanyWorkers {
 	 */
 	public static List<Worker> getElligbleWorkers()
 	{
-		return companyWorkers.stream().filter(worker -> worker.isLegalWorker()).collect(Collectors.toList());		
+		return companyWorkers.stream().filter(worker -> worker.isAvailableCurrWeek()).collect(Collectors.toList());		
 	}
 	/**
 	 * Returns a list of workers.

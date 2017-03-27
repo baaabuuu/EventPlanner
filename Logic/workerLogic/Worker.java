@@ -125,10 +125,9 @@ public class Worker
 	/**
 	 * Checks whether the worker is available this week.
 	 * @author s164166
-	 * @param index
-	 * @return
+	 * @return boolean
 	 */
-	public boolean	isAvailableCurrWeek(int index)
+	public boolean	isAvailableCurrWeek()
 	{
 		return getCurrWeek().isLegalThisweek();
 	}
@@ -137,7 +136,7 @@ public class Worker
 	 * Checks whether the user is available x workweek, where x is index amount of weeks after the current week.
 	 * @author s164166
 	 * @param index
-	 * @return 
+	 * @return  boolean
 	 */
 	public  boolean isAvailableXweek(int index)
 	{
