@@ -59,5 +59,5 @@ public class CompanyWorkers {
 	public List<Worker> getElligbleWorkers()
 	{
 		return companyWorkers.stream().filter(worker -> worker.isLegalWorker()).collect(Collectors.toList());		
-	}	
+	}
 }

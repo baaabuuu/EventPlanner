@@ -40,6 +40,12 @@ public class Worker
 		this.workName = String.format("%4s", workName).substring(0, 4);
 	}
 
+	/**
+	 * 	 * returns the workID
+
+	 * @author s164166
+	 * @param workID
+	 */
 	public int getWorkID()
 	{
 		return workID;
@@ -47,6 +53,7 @@ public class Worker
 	/**
 	 * Sets the work ID of the user to a specific value - used in CompanyDatabase.
 	 * @param workID
+	 * @author s164166
 	 */
 	public void setWorkID(int workID)
 	{
@@ -54,8 +61,9 @@ public class Worker
 	}
 
 	/**
+	 * Returns a list of workweeks that the user has.
 	 * @author s164166
-	 * @return gets all the workweeks, usefull for scheduling in the future.
+	 * @return ArrayList<WorkWeek>
 	 */
 	public ArrayList<WorkWeek> getWorkWeek()
 	{
@@ -63,14 +71,16 @@ public class Worker
 	}
 
 	/**
+	 * an array consisting of the current assignments, it has a max size of 20.
 	 * @author s164166
-	 * @return an array consisting of the current assignments.
+	 * @return Tasks[]
 	 */
 	public Tasks[] getAssignments() 
 	{
 		return assignments;
 	}
 	/**
+	 * Gets
 	 * @author s164166
 	 * @return the current amount of tasks.
 	 */
