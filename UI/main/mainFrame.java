@@ -1,42 +1,28 @@
 package main;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import javax.swing.JLabel;
 
 public class mainFrame extends JFrame {
-
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
+	private static final long serialVersionUID = 1L;
+	static contentPanel contentPanel;
+	
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					mainFrame frame = new mainFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		mainFrame frame = new mainFrame();
+		frame.setVisible(true);
 	}
-
-	/**
-	 * Create the frame.
-	 */
 	public mainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 400);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		setBounds(100, 100, 800, 600);
+		
+		contentPanel = new contentPanel();
+		
+		JScrollPane scrollPane = new JScrollPane(contentPanel);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(50, 30, 300, 50);
+        setContentPane(scrollPane);
 	}
-
 }
