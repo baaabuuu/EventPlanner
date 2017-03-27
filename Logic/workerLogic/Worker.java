@@ -11,9 +11,6 @@ public class Worker
 	private int workID;
 	private ArrayList<WorkWeek> workWeek = new ArrayList<WorkWeek>();
 	
-		
-	
-	
 	/**
 	 * Constructs a worker object with a set name.
 	 * @param NAME

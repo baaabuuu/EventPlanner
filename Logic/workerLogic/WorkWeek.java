@@ -11,6 +11,16 @@ public class WorkWeek
 	private Tasks[]				assignments		=	new Tasks[20];
 	private ArrayList<String>	helpedTasksName	=	new ArrayList<String>();
 	private ArrayList<Integer>	helpedTasksTime	=	new ArrayList<Integer>();
+	private boolean				isBussy			=	false;
+	
+	/**
+	 * Denotes whether the user is sick or perhaps having a vacation this week.
+	 * Once this trigger, the user is unable to work for the remainder of this week.
+	 */
+	public void setBussy()
+	{
+		isBussy = true;
+	}
 	
 	/**
 	 * Returns a specific task
@@ -131,6 +141,6 @@ public class WorkWeek
 	 */
 	public boolean isLegalThisweek()
 	{
-		return getCurrTaskAmm()<Settings.settings.maxAssignments;
+		return isBussy ? false : getCurrTaskAmm()<Settings.settings.maxAssignments;
 	}
 }
