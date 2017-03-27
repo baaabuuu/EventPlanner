@@ -3,11 +3,15 @@ package workerLogic;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import Settings.settings;
+
 public class Worker 
 {
 	private String name, workName;
 	private int workID;
-	private ArrayList<WorkWeek> WorkWeek = new ArrayList<WorkWeek>();
+	private ArrayList<WorkWeek> workWeek = new ArrayList<WorkWeek>();
+	
+		
 	
 	
 	/**
@@ -63,8 +67,7 @@ public class Worker
 	}
 
 	/**
-	 * 	 * returns the workID
-
+	 * returns the workID of the worker.
 	 * @author s164166
 	 * @param workID
 	 */
@@ -89,21 +92,82 @@ public class Worker
 	 */
 	public ArrayList<WorkWeek> getWorkWeeks()
 	{
-		return WorkWeek;
+		return workWeek;
 	}
 	
 	/**
 	 * Returns the current workweek.
 	 * @return
+	 * @author s164166
+	 *
 	 */
 	public WorkWeek getCurrWeek()
 	{
-		return getWorkWeeks().get();
+		return getWorkWeeks().get(settings.getWeekNumber());
 	}
 	
+	/**
+	 * Returns the x week from the current time point.
+	 * @param index
+	 * @return
+	 * @author s164166
+	 */
+	public WorkWeek getXweek(int index)
+	{
+		try 
+		{
+			return getWorkWeeks().get(settings.getWeekNumber() + index);
+		} catch (IndexOutOfBoundsException e)
+		{
+			fillMissingWorkWeeks(index);
+			return getWorkWeeks().get(settings.getWeekNumber() + index);
+		}
+		
+	}
 	
+	/**
+	 * Checks whether the worker is available this week.
+	 * @author s164166
+	 * @param index
+	 * @return
+	 */
+	public boolean	isAvailableCurrWeek(int index)
+	{
+		return getCurrWeek().isLegalThisweek();
+	}
 	
+	/**
+	 * Checks whether the user is available x workweek, where x is index amount of weeks after the current week.
+	 * @author s164166
+	 * @param index
+	 * @return 
+	 */
+	public  boolean isAvailableXweek(int index)
+	{
+		try 
+		{
+			return getWorkWeeks().get(settings.getWeekNumber() + index).isLegalThisweek();
+		} catch (IndexOutOfBoundsException e)
+		{
+			fillMissingWorkWeeks(index);
+			return getWorkWeeks().get(settings.getWeekNumber() + index).isLegalThisweek();
+		}
+	}
 	
-	
-	
+	/**
+	 * Fills the missing weeks until the index, this ensures that there is no holes.
+	 * @param index
+	 * @author s164166
+	 */
+	private void fillMissingWorkWeeks(int index)
+	{
+		for (int i = settings.getWeekNumber(); i <= index; i++)
+			try
+			{
+				getWorkWeeks().get(settings.getWeekNumber() + index).isLegalThisweek();
+			} catch (IndexOutOfBoundsException a)
+			{
+					getWorkWeeks().add(new WorkWeek());
+			}
+	}
 }
