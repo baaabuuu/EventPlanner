@@ -2,7 +2,8 @@ package workerLogic;
 
 import java.util.ArrayList;
 
-public class Worker {
+public class Worker 
+{
 	private String name, workName;
 	private int workID;
 	private ArrayList<WorkWeek> WorkWeek = new ArrayList<WorkWeek>();
@@ -14,15 +15,18 @@ public class Worker {
 		setWorkName(NAME);
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	private void setName(String name) {
+	private void setName(String name)
+	{
 		this.name = name;
 	}
 
-	public String getWorkName() {
+	public String getWorkName() 
+	{
 		return workName;
 	}
 	
@@ -31,7 +35,8 @@ public class Worker {
 	 * @param workName - the name for the user.
 	 * Since we in our creation take a full "worker name" we only want the first 4 letters as the name.
 	 */
-	private void setWorkName(String workName) {
+	private void setWorkName(String workName)
+	{
 		this.workName = String.format("%4s", workName).substring(0, 4);
 	}
 
@@ -39,15 +44,21 @@ public class Worker {
 	{
 		return workID;
 	}
-	private void setWorkID()
+	/**
+	 * Sets the work ID of the user to a specific value - used in CompanyDatabase.
+	 * @param workID
+	 */
+	public void setWorkID(int workID)
 	{
+		this.workID = workID;
 	}
 
 	/**
 	 * @author s164166
 	 * @return gets all the workweeks, usefull for scheduling in the future.
 	 */
-	public ArrayList<WorkWeek> getWorkWeek() {
+	public ArrayList<WorkWeek> getWorkWeek()
+	{
 		return WorkWeek;
 	}
 
@@ -55,7 +66,8 @@ public class Worker {
 	 * @author s164166
 	 * @return an array consisting of the current assignments.
 	 */
-	public Tasks[] getAssignments() {
+	public Tasks[] getAssignments() 
+	{
 		return assignments;
 	}
 	/**
