@@ -11,22 +11,25 @@ import java.util.GregorianCalendar;
  */
 public class settings 
 {
-	public final static int maxAssignments		 	=	20;
-	public final static String applicationName		=	"Work Planner";
-	public final static	Date startupDate 			=	new GregorianCalendar(2017, Calendar.APRIL, 10).getTime();
-	private int weekNumber							=	0;
-	
-	
+	public final static int 	maxAssignments		=	20;
+	public final static String 	applicationName		=	"Work Planner";
+	public final static	Date 	startupDate 		=	new GregorianCalendar(2017, Calendar.APRIL, 10).getTime();
+	private 	 static	int		weekNumber			=	0;
 	
 	/**
 	 * Added so we can advance weeks, 
+	 * @author s164166
 	 */
-	public void updateWeek()
+	public static void updateWeek()
 	{
 		weekNumber++;
 	}
 	
-	public int getWeekNumber()
+	/**
+	 * Added so we can advance weeks, 
+	 * @author s164166
+	 */
+	public static int getWeekNumber()
 	{
 		return weekNumber;
 	}

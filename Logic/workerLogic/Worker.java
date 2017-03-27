@@ -98,7 +98,12 @@ public class Worker
 	 */
 	public WorkWeek getCurrWeek()
 	{
-		return getWorkWeeks().get(getWorkWeeks().size());
+		return getWorkWeeks().get();
 	}
+	
+	
+	
+	
+	
 	
 }
