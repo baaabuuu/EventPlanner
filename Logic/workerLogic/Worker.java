@@ -1,7 +1,6 @@
 package workerLogic;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import Settings.settings;
 
@@ -111,15 +110,9 @@ public class Worker
 	 */
 	public WorkWeek getXweek(int index)
 	{
-		try 
-		{
-			return getWorkWeeks().get(settings.getWeekNumber() + index);
-		} catch (IndexOutOfBoundsException e)
-		{
+		if (getWorkWeeks().size() < settings.getWeekNumber() +index)
 			fillMissingWorkWeeks(index);
-			return getWorkWeeks().get(settings.getWeekNumber() + index);
-		}
-		
+		return getWorkWeeks().get(settings.getWeekNumber() + index);
 	}
 	
 	/**
@@ -140,14 +133,8 @@ public class Worker
 	 */
 	public  boolean isAvailableXweek(int index)
 	{
-		try 
-		{
-			return getWorkWeeks().get(settings.getWeekNumber() + index).isLegalThisweek();
-		} catch (IndexOutOfBoundsException e)
-		{
-			fillMissingWorkWeeks(index);
-			return getWorkWeeks().get(settings.getWeekNumber() + index).isLegalThisweek();
-		}
+		
+		return getXweek(index).isLegalThisweek();
 	}
 	
 	/**
@@ -157,13 +144,7 @@ public class Worker
 	 */
 	private void fillMissingWorkWeeks(int index)
 	{
-		for (int i = settings.getWeekNumber(); i <= index; i++)
-			try
-			{
-				getWorkWeeks().get(settings.getWeekNumber() + index).isLegalThisweek();
-			} catch (IndexOutOfBoundsException a)
-			{
-					getWorkWeeks().add(new WorkWeek());
-			}
+		for (int i = getWorkWeeks().size(); i <= index; i++)
+			getWorkWeeks().add(new WorkWeek());
 	}
 }
