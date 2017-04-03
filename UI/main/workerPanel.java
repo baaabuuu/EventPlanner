@@ -14,6 +14,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
 
 public class workerPanel extends JPanel implements KeyListener, ListSelectionListener {
 	
@@ -47,9 +49,25 @@ public class workerPanel extends JPanel implements KeyListener, ListSelectionLis
 		workerScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		workerScroll.setOpaque(false);
 		workerScroll.getViewport().setOpaque(false);
-		workerScroll.setBounds(10, 30, 150, 170);
+		workerScroll.setBounds(10, 30, 150, 270);
 		workerScroll.setBackground(new Color(219, 142, 27));
 		add(workerScroll);
+		
+		JLabel lblWorkerSelection = new JLabel("Worker Selection");
+		lblWorkerSelection.setBounds(10, 10, 100, 20);
+		add(lblWorkerSelection);
+		
+		JLabel lblCurrentWork = new JLabel("Current weeks work");
+		lblCurrentWork.setBounds(170, 10, 120, 20);
+		add(lblCurrentWork);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(170, 30, 120, 20);
+		add(comboBox);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(170, 93, 120, 20);
+		add(lblNewLabel);
 
 	}
 	
