@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import workerLogic.*;
 
-
 public class Project {
 	List<Worker> workers = new ArrayList<Worker>();
 	List<Task> tasks = new ArrayList<Task>();
