@@ -6,19 +6,29 @@ import Settings.settings;
 
 public class Worker 
 {
-	private String name, workName;
-	private int workID;
+	private String 				name, workName;
+	private int 				workID;
 	private ArrayList<WorkWeek> workWeek = new ArrayList<WorkWeek>();
+	private boolean				fired	 = false;
+	
 	
 	/**
 	 * Constructs a worker object with a set name.
-	 * @param NAME
+	 * @param Worker Name
 	 * @throws WorkerNameError
 	 */
 	public Worker(String NAME) throws WorkerNameError
 	{
 		setName(NAME);
 		setWorkName(NAME);
+	}
+	/**
+	 * Fires a worker, their work hours can still be access in the database but they cannot be assigned to projects anymore.
+	 * @author s160902
+	 */
+	public void fireWorker()
+	{
+		fired	=	true;
 	}
 
 	/**
@@ -110,7 +120,7 @@ public class Worker
 	 */
 	public WorkWeek getXweek(int index)
 	{
-		if (getWorkWeeks().size() < settings.getWeekNumber() +index)
+		if (getWorkWeeks().size() < settings.getWeekNumber() + index)
 			fillMissingWorkWeeks(index);
 		return getWorkWeeks().get(settings.getWeekNumber() + index);
 	}
@@ -122,7 +132,7 @@ public class Worker
 	 */
 	public boolean	isAvailableCurrWeek()
 	{
-		return getCurrWeek().isLegalThisweek();
+		return getCurrWeek().isLegalThisweek(this);
 	}
 	
 	/**
@@ -131,10 +141,9 @@ public class Worker
 	 * @param index
 	 * @return  boolean
 	 */
-	public  boolean isAvailableXweek(int index)
+	public boolean isAvailableXweek(int index)
 	{
-		
-		return getXweek(index).isLegalThisweek();
+		return getXweek(index).isLegalThisweek(this);
 	}
 	
 	/**
@@ -146,5 +155,13 @@ public class Worker
 	{
 		for (int i = getWorkWeeks().size(); i <= index; i++)
 			getWorkWeeks().add(new WorkWeek());
+	}
+	
+	/**
+	 * Checks whether the worker is fired or not.
+	 * @author s160902
+	 */
+	public boolean isFired() {
+		return fired;
 	}
 }

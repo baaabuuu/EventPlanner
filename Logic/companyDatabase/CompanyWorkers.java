@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import workerLogic.Worker;
+import workerLogic.WorkerNameError;
 /**
 
  * This class contains info regarding who is working for the company.
@@ -11,6 +12,18 @@ import workerLogic.Worker;
  */
 public class CompanyWorkers {
 	private static ArrayList<Worker> companyWorkers = new ArrayList<Worker>();
+	
+	/**
+	 * Adds a new worker
+	 * @author s160902
+	 * @throws WorkerNameError 
+	 */
+	public static void addNewWorker(String name) throws WorkerNameError
+	{
+		Worker newWorker = new Worker(name);
+		addWorker(newWorker);
+	}
+	
 	/**
 	 * Adds a worker to the company database.
 	 * @author s164166

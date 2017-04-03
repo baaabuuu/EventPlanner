@@ -1,14 +1,15 @@
 package workerLogic;
 
 import java.util.ArrayList;
+import Settings.settings;
 /**
  * Used to contain data for a WorkWeek for a user.
  * @author s164166
  */
 public class WorkWeek
 {
-	private int[]				workTime		=	new int[20];
-	private Tasks[]				assignments		=	new Tasks[20];
+	private int[]				workTime		=	new int[settings.maxAssignments];
+	private Tasks[]				assignments		=	new Tasks[settings.maxAssignments];
 	private ArrayList<String>	helpedTasksName	=	new ArrayList<String>();
 	private ArrayList<Integer>	helpedTasksTime	=	new ArrayList<Integer>();
 	private boolean				isBussy			=	false;
@@ -16,6 +17,7 @@ public class WorkWeek
 	/**
 	 * Denotes whether the user is sick or perhaps having a vacation this week.
 	 * Once this trigger, the user is unable to work for the remainder of this week.
+	 * @author s160902
 	 */
 	public void setBussy()
 	{
@@ -35,6 +37,7 @@ public class WorkWeek
 			throw new WorkerMissingTask("Could not get workTime.");
 		return assignments[index];
 	}
+	
 	/**
 	 * Returns the work time for a single project.
 	 * @param index
@@ -122,6 +125,7 @@ public class WorkWeek
 	{
 		return assignments;
 	}
+	
 	/**
 	 * Gets the current amount of tasks
 	 * @author s164166
@@ -135,12 +139,26 @@ public class WorkWeek
 				count++;
 		return count;	
 	}
+	
+	/**
+	 * 
+	 * @param worker
+	 * @return
+	 * @author s160902
+	 */
+	public boolean isFired(Worker worker)
+	{
+		return worker.isFired();
+	}
+	
 	/**
 	 * @author s164166
 	 * @return whether or whether not the user can take on more tasks currently.
 	 */
-	public boolean isLegalThisweek()
+	public boolean isLegalThisweek(Worker worker)
 	{
+		if (worker.isFired())
+			return false;
 		return isBussy ? false : getCurrTaskAmm()<Settings.settings.maxAssignments;
 	}
 }
