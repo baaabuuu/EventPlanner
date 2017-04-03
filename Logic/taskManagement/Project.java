@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import workerLogic.*;
 
+
 public class Project {
-	List<Worker> workers = new ArrayList<Worker>();
-	List<Task> tasks = new ArrayList<Task>();
-	String name;
+	private List<Worker> workers = new ArrayList<Worker>();
+	private List<Task> tasks = new ArrayList<Task>();
+	private String name;
 	
 	public Project(List<Worker> workers, String name)
 	{
@@ -35,6 +36,10 @@ public class Project {
 	public String getName()
 	{
 		return name;
+	}
+	public void setName(String newName)
+	{
+		name = newName;
 	}
 	public List<Task> getallTasks()
 	{
