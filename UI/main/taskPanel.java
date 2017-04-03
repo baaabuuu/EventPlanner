@@ -21,12 +21,11 @@ import javax.swing.event.ListSelectionListener;
 public class taskPanel extends JPanel implements KeyListener, ListSelectionListener {
 	
 	private static final long serialVersionUID = 1L;
-	public DefaultListModel<String> listModel;
-	public JList<String> taskList;
-	public JScrollPane taskScroll, taskDescScroll;
-	public JLabel lblTaskDesc, lblTaskSelect;
+	public DefaultListModel<String> listModelTask, listModelTaskedWorker;
+	public JList<String> taskList, taskedWorkerList;
+	public JScrollPane taskScroll, taskedWorkerScroll, taskDescScroll;
+	public JLabel lblTaskDesc, lblTaskSelect, lblTaskName, lblTaskedWorkers;
 	public JTextArea textAreaTaskDesc;
-	public JLabel label;
 	public JTextField textField;
 	
 	public taskPanel() {
@@ -38,9 +37,9 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		lblTaskSelect.setBounds(10, 10, 100, 20);
 		add(lblTaskSelect);
 		
-		listModel = new DefaultListModel<String>();
+		listModelTask = new DefaultListModel<String>();
 		
-		taskList = new JList<String>(listModel);
+		taskList = new JList<String>(listModelTask);
 		taskList.setForeground(Color.white);
 		taskList.setBackground(Color.darkGray);
 		taskList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -49,20 +48,44 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		taskList.addListSelectionListener(this);
 		taskList.addKeyListener(this);
 		
-		listModel.addElement("<html>Project: soft_1 <br/>deadline: 24/03 <br/>By: luvHTML<3</html>");
-		listModel.addElement("<html>Project: soft_2 <br/>deadline: 14/08 <br/>By: workIsLife</html>");
+		listModelTask.addElement("<html>Project: soft_1 <br/>deadline: 24/03 <br/>By: luvHTML<3</html>");
+		listModelTask.addElement("<html>Project: soft_2 <br/>deadline: 14/08 <br/>By: workIsLife</html>");
 		
 		taskScroll = new JScrollPane(taskList);
 		taskScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		taskScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		taskScroll.setOpaque(false);
 		taskScroll.getViewport().setOpaque(false);
-		taskScroll.setBounds(10, 30, 150, 170);
+		taskScroll.setBounds(10, 230, 150, 125);
 		taskScroll.setBackground(new Color(219, 142, 27));
 		add(taskScroll);
 		
+		lblTaskedWorkers = new JLabel("Tasked workers");
+		lblTaskedWorkers.setBounds(10, 210, 100, 20);
+		add(lblTaskedWorkers);
+		
+		listModelTaskedWorker = new DefaultListModel<String>();
+		
+		taskedWorkerList = new JList<String>(listModelTaskedWorker);
+		taskedWorkerList.setForeground(Color.white);
+		taskedWorkerList.setBackground(Color.darkGray);
+		taskedWorkerList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		taskedWorkerList.setVisibleRowCount(-1);
+		taskedWorkerList.setLayoutOrientation(JList.VERTICAL);
+		taskedWorkerList.addListSelectionListener(this);
+		taskedWorkerList.addKeyListener(this);
+		
+		taskedWorkerScroll = new JScrollPane(taskedWorkerList);
+		taskedWorkerScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		taskedWorkerScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		taskedWorkerScroll.setOpaque(false);
+		taskedWorkerScroll.getViewport().setOpaque(false);
+		taskedWorkerScroll.setBounds(10, 30, 150, 175);
+		taskedWorkerScroll.setBackground(new Color(219, 142, 27));
+		add(taskedWorkerScroll);
+		
 		lblTaskDesc = new JLabel("Task description");
-		lblTaskDesc.setBounds(10, 210, 100, 20);
+		lblTaskDesc.setBounds(10, 360, 100, 20);
 		add(lblTaskDesc);
 		
 		textAreaTaskDesc = new JTextArea();
@@ -72,16 +95,18 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		textAreaTaskDesc.setWrapStyleWord(true);
 		
 		taskDescScroll = new JScrollPane(textAreaTaskDesc);
-		taskDescScroll.setBounds(10, 240, 280, 200);
+		taskDescScroll.setBounds(10, 379, 280, 170);
 		taskDescScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		taskDescScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		taskDescScroll.setOpaque(false);
 		taskDescScroll.getViewport().setOpaque(false);
 		add(taskDescScroll);
 		
-		label = new JLabel("Task selection");
-		label.setBounds(160, 13, 79, 14);
-		add(label);
+		lblTaskName = new JLabel("Task name");
+		lblTaskName.setBounds(170, 10, 120, 20);
+		add(lblTaskName);
+		
+		
 		
 		
 	}
@@ -90,5 +115,4 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 	public void keyPressed(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
-	
 }

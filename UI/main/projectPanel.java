@@ -2,10 +2,12 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -24,10 +26,11 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 	public DefaultListModel<String> listModel;
 	public JList<String> projectList;
 	public JScrollPane projectScroll, projectDescScroll;
-	public JLabel lblProjectDesc, lblProjectSelect;
+	public JLabel lblProjectDesc, lblProjectSelect, lblProjectName, lblProjectDeadline, lblEndWeek, lblProjectLeader;
+	public JLabel lblWorkTime, lblHours, lblProjectCompletion;
 	public JTextArea textAreaProjectDesc;
-	public JLabel label;
-	public JTextField textField;
+	public JTextField textProjectName, textEndWeek, textProjectLeader, textWorkTime, textProjectCompletion;
+	public JButton btnLeaderAdd, btnLeaderRemove, btnProjectSave, btnDeleteProject;
 	
 	public projectPanel() {
 		
@@ -36,7 +39,7 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 		setLayout(null);
 
 		lblProjectSelect = new JLabel("Project selection");
-		lblProjectSelect.setBounds(10, 10, 100, 20);
+		lblProjectSelect.setBounds(10, 10, 120, 20);
 		add(lblProjectSelect);
 		
 		listModel = new DefaultListModel<String>();
@@ -58,12 +61,12 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 		projectScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		projectScroll.setOpaque(false);
 		projectScroll.getViewport().setOpaque(false);
-		projectScroll.setBounds(10, 30, 150, 170);
+		projectScroll.setBounds(10, 30, 150, 225);
 		projectScroll.setBackground(new Color(219, 142, 27));
 		add(projectScroll);
 		
 		lblProjectDesc = new JLabel("Project description");
-		lblProjectDesc.setBounds(10, 210, 100, 20);
+		lblProjectDesc.setBounds(10, 260, 150, 20);
 		add(lblProjectDesc);
 		
 		textAreaProjectDesc = new JTextArea();
@@ -73,16 +76,86 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 		textAreaProjectDesc.setWrapStyleWord(true);
 		
 		projectDescScroll = new JScrollPane(textAreaProjectDesc);
-		projectDescScroll.setBounds(10, 240, 280, 200);
+		projectDescScroll.setBounds(10, 280, 280, 200);
 		projectDescScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		projectDescScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		projectDescScroll.setOpaque(false);
 		projectDescScroll.getViewport().setOpaque(false);
 		add(projectDescScroll);
 		
-		label = new JLabel("Project selection");
-		label.setBounds(160, 13, 79, 14);
-		add(label);
+		lblProjectName = new JLabel("Project name");
+		lblProjectName.setBounds(170, 10, 120, 20);
+		lblProjectName.setLocation(170, 10);
+		add(lblProjectName);
+		
+		textProjectName = new JTextField();
+		textProjectName.setColumns(10);
+		textProjectName.setBounds(170, 30, 120, 20);
+		add(textProjectName);
+		
+		lblProjectDeadline = new JLabel("Project deadline");
+		lblProjectDeadline.setBounds(170, 55, 120, 20);
+		add(lblProjectDeadline);
+		
+		lblEndWeek = new JLabel("End of week:");
+		lblEndWeek.setBounds(170, 75, 80, 20);
+		add(lblEndWeek);
+		
+		textEndWeek = new JTextField();
+		textEndWeek.setColumns(10);
+		textEndWeek.setBounds(250, 75, 40, 20);
+		add(textEndWeek);
+		
+		lblProjectLeader = new JLabel("Project leader");
+		lblProjectLeader.setBounds(170, 100, 120, 20);
+		add(lblProjectLeader);
+		
+		textProjectLeader = new JTextField();
+		textProjectLeader.setEditable(false);
+		textProjectLeader.setColumns(10);
+		textProjectLeader.setBounds(170, 120, 120, 20);
+		add(textProjectLeader);
+		
+		btnLeaderAdd = new JButton("Add");
+		btnLeaderAdd.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnLeaderAdd.setBounds(170, 145, 55, 20);
+		add(btnLeaderAdd);
+		
+		btnLeaderRemove = new JButton("DEL");
+		btnLeaderRemove.setBounds(235, 145, 55, 20);
+		add(btnLeaderRemove);
+		
+		lblWorkTime = new JLabel("Total worktime spent");
+		lblWorkTime.setBounds(170, 170, 120, 20);
+		add(lblWorkTime);
+		
+		textWorkTime = new JTextField();
+		textWorkTime.setBounds(215, 190, 75, 20);
+		textWorkTime.setEditable(false);
+		textWorkTime.setColumns(10);
+		add(textWorkTime);
+		
+		lblHours = new JLabel("Hours:");
+		lblHours.setBounds(170, 190, 40, 20);
+		add(lblHours);
+		
+		lblProjectCompletion = new JLabel("Project completion");
+		lblProjectCompletion.setBounds(170, 215, 120, 20);
+		add(lblProjectCompletion);
+		
+		textProjectCompletion = new JTextField();
+		textProjectCompletion.setBounds(170, 235, 120, 20);
+		textProjectCompletion.setEditable(false);
+		textProjectCompletion.setColumns(10);
+		add(textProjectCompletion);
+		
+		btnProjectSave = new JButton("Save project");
+		btnProjectSave.setBounds(10, 485, 135, 23);
+		add(btnProjectSave);
+		
+		btnDeleteProject = new JButton("Delete project");
+		btnDeleteProject.setBounds(155, 485, 135, 23);
+		add(btnDeleteProject);
 		
 	}
 	
