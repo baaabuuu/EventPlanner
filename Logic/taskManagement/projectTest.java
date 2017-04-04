@@ -2,7 +2,6 @@ package taskManagement;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import workerLogic.*;
 
@@ -11,7 +10,7 @@ import org.junit.Test;
 
 public class projectTest {
 	
-	Project project = new Project(null, "testname");
+	Project project = new Project(null, "testname", null);
 	//@Test
 	@Before
 	//Create project with name and two workers
