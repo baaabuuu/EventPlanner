@@ -39,7 +39,13 @@ public class contentPanel extends JPanel implements KeyListener, ListSelectionLi
 	
 	public void valueChanged(ListSelectionEvent e) {}
 	public void keyPressed(KeyEvent e) {}
-	public void keyReleased(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {
+		
+		if(e.getSource() == projectPanel.projectList && e.getKeyCode() == KeyEvent.VK_ENTER){
+			
+		}
+		
+	}
 	public void keyTyped(KeyEvent e) {}
 	
 }
