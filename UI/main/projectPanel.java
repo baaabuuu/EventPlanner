@@ -20,6 +20,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import companyDatabase.CompanyProjects;
+import taskManagement.Project;
+
 public class projectPanel extends JPanel implements KeyListener, ListSelectionListener {
 	
 	private static final long serialVersionUID = 1L;
@@ -163,10 +166,39 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 		add(btnDelProject);
 		
 	}
+	/**
+	 * Updates the project list.
+	 * @author s160902
+	 */
+	private void updProjectList(){
+		for(int i = 0; i<CompanyProjects.getAllProjects().size();i++){
+			listModel.addElement(
+					"<html>Project: "+CompanyProjects.getAllProjects().get(i).getName()+
+					"<br/>Deadline:"+ CompanyProjects.getAllProjects().get(i).getDeadline()+
+					"<br/>Leader: "+CompanyProjects.getAllProjects().get(i).getLeader()+"</html>");
+		}
+		listModel.addElement("<html>/--------------\\<br/>ADD NEW PROJECT<br/>/---------------\\</html>");
+	}
 	
 	public void valueChanged(ListSelectionEvent e) {}
 	public void keyPressed(KeyEvent e) {}
-	public void keyReleased(KeyEvent e) {}
+	/**
+	 * Manages actions by key released.
+	 * @author s160902
+	 */
+	public void keyReleased(KeyEvent e) {
+		if(e.getSource() == projectList && e.getKeyCode() == KeyEvent.VK_ENTER){
+			System.out.println("projectList says HI!");
+			//Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
+			
+			//textProjectName.setText(project.getName());
+			//textEndWeek.setText(project.getDeadline());
+			//textProjectLeader.setText(project.getLeader());
+			
+			//workTime, projectCompletion
+			
+		}
+	}
 	public void keyTyped(KeyEvent e) {}
 
 }
