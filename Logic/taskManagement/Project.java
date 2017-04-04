@@ -9,10 +9,13 @@ public class Project {
 	private List<Worker> workers = new ArrayList<Worker>();
 	private List<Task> tasks = new ArrayList<Task>();
 	private String name;
+	private Calendar deadline;
 	
-	public Project(List<Worker> workers, String name)
+	
+	public Project(List<Worker> workers, String name int[2] deadline)
 	{
 		this.name = name;
+		this.deadline = new GregorianCalendar(deadline[0],deadline[1],deadline[2]);
 		if(workers != null)
 			this.workers = workers;
 	}
@@ -59,6 +62,14 @@ public class Project {
 	public void addTask(Task task) {
 		tasks.add(task);
 		
+	}
+	public void setDeadline(int[2] newDeadline)
+	{
+		deadline = new GregorianCalendar(newDeadline[0],newDeadline[1],newDeadline[2]);
+	}
+	public Calendar getDeadline()
+	{
+		return deadline;
 	}
 	
 }
