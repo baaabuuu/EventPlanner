@@ -27,7 +27,10 @@ public class workerPanel extends JPanel implements KeyListener, ListSelectionLis
 	public JList<String> workerList;
 	public JScrollPane workerScroll;
 	private JTextField textField;
-	
+	/**
+	 * Contains UI related to worker.
+	 * @author s160902
+	 */
 	public workerPanel() {
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));

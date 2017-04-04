@@ -31,7 +31,10 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 	public JTextArea textAreaProjectDesc;
 	public JTextField textProjectName, textEndWeek, textProjectLeader, textWorkTime, textProjectCompletion;
 	public JButton btnAddLeader, btnDelLeader, btnProjectSave, btnDelProject;
-	
+	/**
+	 * Contains UI related to project.
+	 * @author s160902
+	 */
 	public projectPanel() {
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,7 +57,9 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 		projectList.addKeyListener(this);
 		
 		listModel.addElement("<html>Project: soft_1 <br/>deadline: 24/03 <br/>By: luvHTML<3</html>");
-		listModel.addElement("<html>Project: soft_2 <br/>deadline: 14/08 <br/>By: workIsLife</html>");
+		listModel.addElement("<html>Project: soft_1 <br/>deadline: 24/03 <br/>By: luvHTML<3</html>");
+		listModel.addElement("<html>Project: soft_1 <br/>deadline: 24/03 <br/>By: luvHTML<3</html>");
+		listModel.addElement("<html>------------------------<br/>Add new project<br/>------------------------</html>");
 		
 		projectScroll = new JScrollPane(projectList);
 		projectScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);

@@ -33,7 +33,10 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 	private JTextField textTaskName;
 	private JTextField textEndWeek;
 	private JTextField textField_1;
-	
+	/**
+	 * Contains UI related to task.
+	 * @author s160902
+	 */
 	public taskPanel() {
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setPreferredSize(new Dimension(300, 600));
@@ -162,9 +165,6 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		JButton btnDelTask = new JButton("Delete task");
 		btnDelTask.setBounds(155, 535, 135, 23);
 		add(btnDelTask);
-		
-		
-		
 		
 	}
 	

@@ -9,10 +9,18 @@ public class mainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	static contentPanel contentPanel;
 	
+	/**
+	 * Starts the program.
+	 * @author s160902
+	 */
 	public static void main(String[] args) {
 		mainFrame frame = new mainFrame();
 		frame.setVisible(true);
 	}
+	/**
+	 * Creates the frame in which the UI is shown.
+	 * @author s160902
+	 */
 	public mainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 925, 625);
