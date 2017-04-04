@@ -8,11 +8,11 @@ import java.util.List;
 import workerLogic.*;
 
 public class Task {
-	String name;
-	boolean finished = false;
-	String description;
-	List<Worker> assignedWorkers = new ArrayList<Worker>();
-	Calendar deadline;
+	private String name;
+	private boolean finished = false;
+	private String description;
+	private List<Worker> assignedWorkers = new ArrayList<Worker>();
+	private Calendar deadline;
 	
 	
 	Task(String name, String description, List<Worker> assignedWorkers, int[] deadline)
@@ -28,12 +28,10 @@ public class Task {
 	{
 		return name;
 	}
-	
 	public void setName(String newName)
 	{
 		name = newName;
 	}
-	
 	public boolean getStatus()
 	{
 		return finished;
@@ -49,5 +47,25 @@ public class Task {
 	public Calendar getDeadline()
 	{
 		return deadline;
+	}
+	public String getDescription()
+	{
+		return description;
+	}
+	public void setDescription(String newDesc)
+	{
+		description = newDesc;
+	}
+	public void addWorker(Worker worker)
+	{
+		assignedWorkers.add(worker);
+	}
+	public void removeWorker(int idToRemove)
+	{
+		for(Worker worker : assignedWorkers)
+		{
+			if(worker.getWorkID() == idToRemove)
+				assignedWorkers.remove(worker);
+		}
 	}
 }
