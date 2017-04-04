@@ -3,14 +3,20 @@ package main;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JComboBox;
 
-public class contentPanel extends JPanel {
+public class contentPanel extends JPanel implements KeyListener, ListSelectionListener {
 	private static final long serialVersionUID = 1L;
 	projectPanel projectPanel;
 	taskPanel taskPanel;
@@ -30,4 +36,10 @@ public class contentPanel extends JPanel {
 		workerPanel = new workerPanel();
 		add(workerPanel,BorderLayout.LINE_END);
 	}
+	
+	public void valueChanged(ListSelectionEvent e) {}
+	public void keyPressed(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {}
+	public void keyTyped(KeyEvent e) {}
+	
 }

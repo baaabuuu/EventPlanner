@@ -129,7 +129,7 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		comboBox.setBounds(170, 190, 120, 20);
 		add(comboBox);
 		
-		JLabel lblAssistedTime = new JLabel("Assisted time");
+		JLabel lblAssistedTime = new JLabel("Assisted work time");
 		lblAssistedTime.setBounds(170, 170, 120, 20);
 		add(lblAssistedTime);
 		

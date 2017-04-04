@@ -16,6 +16,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
+import javax.swing.JButton;
+import java.awt.Font;
+import javax.swing.JTextField;
 
 public class workerPanel extends JPanel implements KeyListener, ListSelectionListener {
 	
@@ -23,6 +26,7 @@ public class workerPanel extends JPanel implements KeyListener, ListSelectionLis
 	public DefaultListModel<String> listModel;
 	public JList<String> workerList;
 	public JScrollPane workerScroll;
+	private JTextField textField;
 	
 	public workerPanel() {
 		
@@ -65,9 +69,23 @@ public class workerPanel extends JPanel implements KeyListener, ListSelectionLis
 		comboBox.setBounds(170, 30, 120, 20);
 		add(comboBox);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(170, 93, 120, 20);
+		JLabel lblNewLabel = new JLabel("Add time to task");
+		lblNewLabel.setBounds(170, 55, 120, 20);
 		add(lblNewLabel);
+		
+		JButton button = new JButton("Add");
+		button.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		button.setBounds(170, 100, 57, 20);
+		add(button);
+		
+		JButton button_1 = new JButton("DEL");
+		button_1.setBounds(233, 100, 57, 20);
+		add(button_1);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(170, 75, 120, 20);
+		add(textField);
 
 	}
 	
