@@ -15,10 +15,10 @@ public class projectTest {
 	//@Test
 	@Before
 	//Create project with name and two workers
-	public void testCreateProject()
+	public void testCreateProject() throws WorkerNameError
 	{
-		project.addWorker(new Worker("aegfuhr",2));
-		project.addWorker(new Worker("aeg",5));
+		project.addWorker(new Worker("aegfuhr"));
+		project.addWorker(new Worker("aeg"));
 		assertEquals("testname",project.getName());
 	}
 	//@Test
