@@ -201,13 +201,11 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 			textEndWeek.setText(format.format(project.getDeadline()));
 			textProjectLeader.setText(project.getLeader().getName());
 			try {
-				textWorkTime.setText(String.valueOf(((double) project.getWorkTime())/2));
+				textWorkTime.setText(String.valueOf(1.0*project.getWorkTime()/2));
 			} catch (WorkerMissingTask e1) {
 				e1.printStackTrace();
 			}
-			
 			//projectCompletion
-			
 		}
 	}
 	public void keyTyped(KeyEvent e) {}
