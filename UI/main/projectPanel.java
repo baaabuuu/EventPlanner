@@ -176,7 +176,7 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 			listModel.addElement(
 					"<html>Project: "+CompanyProjects.getAllProjects().get(i).getName()+
 					"<br/>Deadline:"+ CompanyProjects.getAllProjects().get(i).getDeadline()+
-					"<br/>Leader: "+CompanyProjects.getAllProjects().get(i).getLeader()+"</html>");
+					"<br/>Leader: "+CompanyProjects.getAllProjects().get(i).getLeader().getName()+"</html>");
 		}
 		listModel.addElement("<html>/--------------\\<br/>ADD NEW PROJECT<br/>/---------------\\</html>");
 	}

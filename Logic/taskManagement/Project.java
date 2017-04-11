@@ -13,6 +13,18 @@ public class Project {
 	private String name;
 	private Calendar deadline;
 	private Worker leader;
+	private int projectID;
+	
+	public void setID(int id)
+	{
+		projectID=id;
+	}
+	
+	public int getID()
+	{
+		return projectID;
+	}
+	
 	
 	public Project(List<Worker> workers, String name, int[] deadline)
 	{

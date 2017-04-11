@@ -2,8 +2,6 @@ package companyDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import taskManagement.Project;
 
 /* This class contains info regarding what projects the company is working on.
@@ -18,6 +16,7 @@ public class CompanyProjects {
 	public static void addNewProject(String name)
 	{
 		Project newProject = new Project(null, name, null);
+		newProject.setID(companyProjects.size());
 		companyProjects.add(newProject);
 	}
 	/**
