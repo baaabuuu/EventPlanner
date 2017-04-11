@@ -11,7 +11,6 @@ public class Worker
 	private ArrayList<WorkWeek> workWeek = new ArrayList<WorkWeek>();
 	private boolean				fired	 = false;
 	
-	
 	/**
 	 * Constructs a worker object with a set name.
 	 * @param Worker Name
@@ -30,9 +29,8 @@ public class Worker
 	{
 		fired	=	true;
 	}
-
 	/**
-	 * returns full name of the worker
+	 * returns full name of the worker.
 	 * @author s164166
 	 * @return
 	 */
@@ -61,7 +59,6 @@ public class Worker
 	{
 		return workName;
 	}
-	
 	/**
 	 * Author s164166
 	 * @param workName - the name for the user.
@@ -71,7 +68,6 @@ public class Worker
 	{
 		this.workName = String.format("%4s", workName).substring(0, 4);
 	}
-
 	/**
 	 * returns the workID of the worker.
 	 * @author s164166
@@ -90,7 +86,6 @@ public class Worker
 	{
 		this.workID = workID;
 	}
-
 	/**
 	 * Returns a list of workweeks that the user has.
 	 * @author s164166
@@ -100,7 +95,6 @@ public class Worker
 	{
 		return workWeek;
 	}
-	
 	/**
 	 * Returns the current workweek.
 	 * @return
@@ -111,7 +105,6 @@ public class Worker
 	{
 		return getWorkWeeks().get(settings.getWeekNumber());
 	}
-	
 	/**
 	 * Returns the x week from the current time point.
 	 * @param index
@@ -124,7 +117,6 @@ public class Worker
 			fillMissingWorkWeeks(index);
 		return getWorkWeeks().get(settings.getWeekNumber() + index);
 	}
-	
 	/**
 	 * Checks whether the worker is available this week.
 	 * @author s164166
@@ -134,7 +126,6 @@ public class Worker
 	{
 		return getCurrWeek().isLegalThisweek(this);
 	}
-	
 	/**
 	 * Checks whether the user is available x workweek, where x is index amount of weeks after the current week.
 	 * @author s164166
@@ -145,7 +136,6 @@ public class Worker
 	{
 		return getXweek(index).isLegalThisweek(this);
 	}
-	
 	/**
 	 * Fills the missing weeks until the index, this ensures that there is no holes.
 	 * @param index
@@ -156,7 +146,6 @@ public class Worker
 		for (int i = getWorkWeeks().size(); i <= index; i++)
 			getWorkWeeks().add(new WorkWeek());
 	}
-	
 	/**
 	 * Checks whether the worker is fired or not.
 	 * @author s160902

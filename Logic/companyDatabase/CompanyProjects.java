@@ -17,7 +17,7 @@ public class CompanyProjects {
 	 */
 	public static void addNewProject(String name)
 	{
-		Project newProject = new Project(name);
+		Project newProject = new Project(null, name, null);
 		companyProjects.add(newProject);
 	}
 	/**
@@ -48,7 +48,6 @@ public class CompanyProjects {
 	{
 		return companyProjects.get(index);
 	}
-	
 	/**
 	 * Returns a list of projects.
 	 * @author s160902
@@ -58,9 +57,4 @@ public class CompanyProjects {
 	{
 		return companyProjects;
 	}
-	
-	
-	
-	
-
 }

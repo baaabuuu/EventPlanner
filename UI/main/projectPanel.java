@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -171,7 +172,7 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 	 * @author s160902
 	 */
 	private void updProjectList(){
-		for(int i = 0; i<CompanyProjects.getAllProjects().size();i++){
+		for(int i = 0; i < CompanyProjects.getAllProjects().size(); i++){
 			listModel.addElement(
 					"<html>Project: "+CompanyProjects.getAllProjects().get(i).getName()+
 					"<br/>Deadline:"+ CompanyProjects.getAllProjects().get(i).getDeadline()+
@@ -189,11 +190,20 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 	public void keyReleased(KeyEvent e) {
 		if(e.getSource() == projectList && e.getKeyCode() == KeyEvent.VK_ENTER){
 			System.out.println("projectList says HI!");
-			//Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
+			Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
 			
-			//textProjectName.setText(project.getName());
-			//textEndWeek.setText(project.getDeadline());
-			//textProjectLeader.setText(project.getLeader());
+			textProjectName.setText(project.getName());
+			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+			textEndWeek.setText(format1.format(project.getDeadline()));
+			textProjectLeader.setText(project.getLeader().getName());
+			int total = 0;
+			for(int i = 0; i < project.getallTasks().size(); i++){
+				for(int j = 0; j < project.getTaskbyIndex(i).getAllAssignedWorkers().size(); j++){
+					
+				}
+			}
+			
+			//textWorkTime.setText(project.get);
 			
 			//workTime, projectCompletion
 			

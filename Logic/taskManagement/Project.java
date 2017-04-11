@@ -12,7 +12,7 @@ public class Project {
 	private List<Task> tasks = new ArrayList<Task>();
 	private String name;
 	private Calendar deadline;
-	
+	private Worker leader;
 	
 	public Project(List<Worker> workers, String name, int[] deadline)
 	{
@@ -21,12 +21,10 @@ public class Project {
 		if(workers != null)
 			this.workers = workers;
 	}
-	
 	public void addWorker(Worker worker)
 	{
 		workers.add(worker);
 	}
-	
 	public List<Worker> getWorkerbyID(int searchTerm)
 	{
 		List<Worker> foundWorkers = new ArrayList<Worker>();
@@ -60,7 +58,14 @@ public class Project {
 		}
 		return foundTasks;
 	}
-
+	/**
+	 * Returns a task from the tasks list by its index.
+	 * @author s160902
+	 */
+	public Task getTaskbyIndex(int index)
+	{
+		return this.tasks.get(index);
+	}
 	public void addTask(Task task) {
 		tasks.add(task);
 		
@@ -73,5 +78,20 @@ public class Project {
 	{
 		return deadline;
 	}
-	
+	/**
+	 * Returns the project leader.
+	 * @author s160902
+	 */
+	public Worker getLeader()
+	{
+		return this.leader;
+	}
+	/**
+	 * Updates the project leader.
+	 * @author s160902
+	 */
+	public void setLeader(Worker newLeader)
+	{
+		this.leader = newLeader;
+	}
 }

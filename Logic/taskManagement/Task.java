@@ -68,4 +68,11 @@ public class Task {
 				assignedWorkers.remove(worker);
 		}
 	}
+	/**
+	 * Returns a list of all workers assigned to the task.
+	 * @author s160902
+	 */
+	public List<Worker> getAllAssignedWorkers(){
+		return this.assignedWorkers;
+	}
 }
