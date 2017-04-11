@@ -2,6 +2,7 @@ package workerLogic;
 
 import java.util.ArrayList;
 import Settings.settings;
+import taskManagement.Task;
 /**
  * Used to contain data for a WorkWeek for a user.
  * @author s164166
@@ -9,7 +10,7 @@ import Settings.settings;
 public class WorkWeek
 {
 	private int[]				workTime		=	new int[settings.maxAssignments];
-	private Tasks[]				assignments		=	new Tasks[settings.maxAssignments];
+	private Task[]				assignments		=	new Task[settings.maxAssignments];
 	private ArrayList<String>	helpedTasksName	=	new ArrayList<String>();
 	private ArrayList<Integer>	helpedTasksTime	=	new ArrayList<Integer>();
 	private boolean				isBussy			=	false;
@@ -31,7 +32,7 @@ public class WorkWeek
 	 * @throws WorkerMissingTask
 	 * @author s164166
 	 */
-	public Tasks getWorkTask(int index) throws WorkerMissingTask
+	public Task getWorkTask(int index) throws WorkerMissingTask
 	{
 		if (assignments[index] == null)
 			throw new WorkerMissingTask("Could not get workTime.");
@@ -105,9 +106,9 @@ public class WorkWeek
 	 * @param newTask
 	 * @return true/false WorkerMissingTask
 	 */
-	public boolean updAssignments(Tasks newTask)
+	public boolean updAssignments(Task newTask)
 	{
-		for (Tasks task : assignments)
+		for (Task task : assignments)
 			if (task == null)
 			{
 				task = newTask;
@@ -121,7 +122,7 @@ public class WorkWeek
 	 * @author s164166
 	 * @return Tasks[]
 	 */
-	public Tasks[] getAssignments() 
+	public Task[] getAssignments() 
 	{
 		return assignments;
 	}
@@ -134,7 +135,7 @@ public class WorkWeek
 	public int getCurrTaskAmm()
 	{
 		int count = 0;
-		for (Tasks task : getAssignments())
+		for (Task task : getAssignments())
 			if (task != null)
 				count++;
 		return count;	
@@ -157,8 +158,6 @@ public class WorkWeek
 	 */
 	public boolean isLegalThisweek(Worker worker)
 	{
-		if (worker.isFired())
-			return false;
-		return isBussy ? false : getCurrTaskAmm()<Settings.settings.maxAssignments;
+		return isBussy || worker.isFired() ? false : getCurrTaskAmm()<Settings.settings.maxAssignments;
 	}
 }

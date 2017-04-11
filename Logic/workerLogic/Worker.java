@@ -1,8 +1,11 @@
 package workerLogic;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import Settings.settings;
+import taskManagement.Project;
+import taskManagement.Task;
 
 public class Worker 
 {
@@ -150,7 +153,32 @@ public class Worker
 	 * Checks whether the worker is fired or not.
 	 * @author s160902
 	 */
-	public boolean isFired() {
+	public boolean isFired()
+	{
 		return fired;
+	}
+	
+	/**
+	 *  This function takes a task and returns all half hours spent on this specific task.
+	 * @param task
+	 * @return the amount of hours worked on a project.
+	 * @throws WorkerMissingTask 
+	 */	
+	public int timeSpentOnTask(Task task) throws WorkerMissingTask
+	{
+		int hoursWorked = 0; 
+		int taskID = task.getTaskID();
+		Task[] tasks;
+		for (int workWeekIndex = 0; workWeekIndex<getWorkWeeks().size();workWeekIndex++)
+		{
+			tasks = getWorkWeeks().get(workWeekIndex).getAssignments();
+			for (int i = 0; i<tasks.length;i++)
+			{
+				if (tasks[i].getTaskID() == taskID)
+					hoursWorked += getWorkWeeks().get(workWeekIndex).getWorkTime(i);
+			}
+		}		
+		return hoursWorked;
+		
 	}
 }

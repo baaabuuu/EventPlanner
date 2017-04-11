@@ -31,7 +31,7 @@ public class projectTest {
 	{
 		String taskName = "testTask";
 		int[] completionDate = {2017, 3, 27};
-		Task testTask = new Task(taskName, "This is a test task for testing purposes", null,completionDate);
+		Task testTask = new Task(taskName, "This is a test task for testing purposes", null,completionDate, project);
 		project.addTask(testTask);
 		List<Task> projectTasks = project.getTaskbyName(taskName);
 		assertEquals(1,projectTasks.size());

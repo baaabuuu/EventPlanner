@@ -21,6 +21,8 @@ public class CompanyProjects {
 	}
 	/**
 	 * removes a project from the company database using a specific object.
+	 * THIS SHOULD NEVER BE CALLED ON A PROJECT THAT HAS BEEN WORKED
+	 * It would result in a project being deleted making it hard for a user to find something they've worked previously on.
 	 * @author s160902
 	 * @param project
 	 */

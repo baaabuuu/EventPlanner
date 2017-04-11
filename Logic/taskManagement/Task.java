@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import workerLogic.*;
 
@@ -13,10 +14,43 @@ public class Task {
 	private String description;
 	private List<Worker> assignedWorkers = new ArrayList<Worker>();
 	private Calendar deadline;
+	private int taskID;
+	private Project project;
 	
-	
-	Task(String name, String description, List<Worker> assignedWorkers, int[] deadline)
+	/**
+	 * returns the ID number for this task.
+	 * @author s164166
+	 */
+	public int getTaskID()
 	{
+		return taskID;
+	}
+	
+	/**
+	 * Returns the project
+	 * @author s164166
+	 */
+	public Project getProject()
+	{
+		return project;
+	}
+	
+	
+	
+	/**
+	 * Sets the ID for this task.
+	 * @author s164166
+	 * @param id
+	 */
+	public void setID(int id)
+	{
+		taskID=id;
+	}
+	
+	
+	public Task(String name, String description, List<Worker> assignedWorkers, int[] deadline, Project project)
+	{
+		this.project	=	project;
 		this.name = name;
 		this.description = description;
 		this.deadline = new GregorianCalendar(deadline[0],deadline[1],deadline[2]);
@@ -61,12 +95,8 @@ public class Task {
 		assignedWorkers.add(worker);
 	}
 	public void removeWorker(int idToRemove)
-	{
-		for(Worker worker : assignedWorkers)
-		{
-			if(worker.getWorkID() == idToRemove)
-				assignedWorkers.remove(worker);
-		}
+	{		
+		assignedWorkers.removeIf(worker -> worker.getWorkID() == idToRemove);
 	}
 	/**
 	 * Returns a list of all workers assigned to the task.
