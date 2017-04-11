@@ -25,7 +25,6 @@ public class Task {
 	{
 		return taskID;
 	}
-	
 	/**
 	 * Returns the project
 	 * @author s164166
@@ -34,9 +33,6 @@ public class Task {
 	{
 		return project;
 	}
-	
-	
-	
 	/**
 	 * Sets the ID for this task.
 	 * @author s164166
@@ -46,8 +42,6 @@ public class Task {
 	{
 		taskID=id;
 	}
-	
-	
 	public Task(String name, String description, List<Worker> assignedWorkers, int[] deadline, Project project)
 	{
 		this.project	=	project;
@@ -56,7 +50,6 @@ public class Task {
 		this.deadline = new GregorianCalendar(deadline[0],deadline[1],deadline[2]);
 		if(assignedWorkers != null)
 			this.assignedWorkers = assignedWorkers;
-		
 	}
 	public String getName()
 	{
@@ -102,7 +95,18 @@ public class Task {
 	 * Returns a list of all workers assigned to the task.
 	 * @author s160902
 	 */
-	public List<Worker> getAllAssignedWorkers(){
+	public List<Worker> getAssignedWorkers(){
 		return this.assignedWorkers;
+	}
+	/**
+	 * Returns total workTime of all who have worked on this task.
+	 * @author s160902
+	 */
+	public int getWorkTime() throws WorkerMissingTask
+	{
+		int totalWorkTime = 0;
+		for(int i = 0; i < getAssignedWorkers().size(); i++)
+			totalWorkTime += getAssignedWorkers().get(i).timeSpentOnTask(this);
+		return totalWorkTime;
 	}
 }

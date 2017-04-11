@@ -56,7 +56,7 @@ public class Project {
 	{
 		name = newName;
 	}
-	public List<Task> getallTasks()
+	public List<Task> getTasks()
 	{
 		return tasks;
 	}
@@ -105,5 +105,16 @@ public class Project {
 	public void setLeader(Worker newLeader)
 	{
 		this.leader = newLeader;
+	}
+	/**
+	 * Returns total workTime of all tasks in this project.
+	 * @author s160902
+	 */
+	public int getWorkTime() throws WorkerMissingTask
+	{
+		int totalWorkTime = 0;
+		for(int i = 0; i < getTasks().size(); i++)
+			totalWorkTime += getTasks().get(i).getWorkTime();
+		return totalWorkTime;
 	}
 }

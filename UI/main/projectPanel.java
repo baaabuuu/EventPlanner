@@ -23,6 +23,7 @@ import javax.swing.event.ListSelectionListener;
 
 import companyDatabase.CompanyProjects;
 import taskManagement.Project;
+import workerLogic.WorkerMissingTask;
 
 public class projectPanel extends JPanel implements KeyListener, ListSelectionListener {
 	
@@ -172,11 +173,14 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 	 * @author s160902
 	 */
 	private void updProjectList(){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Project project;
 		for(int i = 0; i < CompanyProjects.getAllProjects().size(); i++){
+			project = CompanyProjects.getAllProjects().get(i);
 			listModel.addElement(
-					"<html>Project: "+CompanyProjects.getAllProjects().get(i).getName()+
-					"<br/>Deadline:"+ CompanyProjects.getAllProjects().get(i).getDeadline()+
-					"<br/>Leader: "+CompanyProjects.getAllProjects().get(i).getLeader().getName()+"</html>");
+					"<html>Project: "+project.getName()+
+					"<br/>Deadline:"+ format.format(project.getDeadline())+
+					"<br/>Leader: "+project.getLeader().getName()+"</html>");
 		}
 		listModel.addElement("<html>/--------------\\<br/>ADD NEW PROJECT<br/>/---------------\\</html>");
 	}
@@ -193,19 +197,16 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 			Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
 			
 			textProjectName.setText(project.getName());
-			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-			textEndWeek.setText(format1.format(project.getDeadline()));
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			textEndWeek.setText(format.format(project.getDeadline()));
 			textProjectLeader.setText(project.getLeader().getName());
-			int total = 0;
-			for(int i = 0; i < project.getallTasks().size(); i++){
-				for(int j = 0; j < project.getTaskbyIndex(i).getAllAssignedWorkers().size(); j++){
-					
-				}
+			try {
+				textWorkTime.setText(String.valueOf(((double) project.getWorkTime())/2));
+			} catch (WorkerMissingTask e1) {
+				e1.printStackTrace();
 			}
 			
-			//textWorkTime.setText(project.get);
-			
-			//workTime, projectCompletion
+			//projectCompletion
 			
 		}
 	}

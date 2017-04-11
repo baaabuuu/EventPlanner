@@ -41,7 +41,6 @@ public class Worker
 	{
 		return name;
 	}
-
 	/**
 	 * sets the name of the worker, can throw an error in case of blank name.
 	 * @author s164166
@@ -157,28 +156,34 @@ public class Worker
 	{
 		return fired;
 	}
-	
 	/**
 	 *  This function takes a task and returns all half hours spent on this specific task.
+	 * @author s164166
 	 * @param task
 	 * @return the amount of hours worked on a project.
 	 * @throws WorkerMissingTask 
 	 */	
 	public int timeSpentOnTask(Task task) throws WorkerMissingTask
 	{
-		int hoursWorked = 0; 
+		int totalWorkTime = 0; 
 		int taskID = task.getTaskID();
 		Task[] tasks;
+		ArrayList<Task> helpedTasks;
 		for (int workWeekIndex = 0; workWeekIndex<getWorkWeeks().size();workWeekIndex++)
 		{
 			tasks = getWorkWeeks().get(workWeekIndex).getAssignments();
 			for (int i = 0; i<tasks.length;i++)
 			{
 				if (tasks[i].getTaskID() == taskID)
-					hoursWorked += getWorkWeeks().get(workWeekIndex).getWorkTime(i);
+					totalWorkTime += getWorkWeeks().get(workWeekIndex).getWorkTime(i);
+			}
+			helpedTasks = getWorkWeeks().get(workWeekIndex).getHelpedTasks();
+			for (int i = 0; i<helpedTasks.size();i++)
+			{
+				if (helpedTasks.get(i).getTaskID() == taskID)
+					totalWorkTime += getWorkWeeks().get(workWeekIndex).getHelpedTasksTime().get(i);
 			}
 		}		
-		return hoursWorked;
-		
+		return totalWorkTime;
 	}
 }
