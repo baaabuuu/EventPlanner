@@ -3,6 +3,8 @@ package main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
@@ -25,9 +27,10 @@ import companyDatabase.CompanyProjects;
 import taskManagement.Project;
 import workerLogic.WorkerMissingTask;
 
-public class projectPanel extends JPanel implements KeyListener, ListSelectionListener {
+public class projectPanel extends JPanel implements ActionListener, KeyListener, ListSelectionListener {
 	
 	private static final long serialVersionUID = 1L;
+	private contentPanel contentPanel;
 	public DefaultListModel<String> listModel;
 	public JList<String> projectList;
 	public JScrollPane projectScroll, projectDescScroll;
@@ -39,8 +42,10 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 	/**
 	 * Contains UI related to project.
 	 * @author s160902
+	 * @param taskPanel 
 	 */
-	public projectPanel() {
+	public projectPanel(contentPanel contentPanel) {
+		this.contentPanel = contentPanel;
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setPreferredSize(new Dimension(300, 600));
@@ -60,11 +65,6 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 		projectList.setLayoutOrientation(JList.VERTICAL);
 		projectList.addListSelectionListener(this);
 		projectList.addKeyListener(this);
-		
-		listModel.addElement("<html>Project: soft_1 <br/>deadline: 24/03 <br/>By: luvHTML<3</html>");
-		listModel.addElement("<html>Project: soft_1 <br/>deadline: 24/03 <br/>By: luvHTML<3</html>");
-		listModel.addElement("<html>Project: soft_1 <br/>deadline: 24/03 <br/>By: luvHTML<3</html>");
-		listModel.addElement("<html>------------------------<br/>Add new project<br/>------------------------</html>");
 		
 		projectScroll = new JScrollPane(projectList);
 		projectScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -130,10 +130,12 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 		btnAddLeader.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnAddLeader.setBounds(170, 145, 57, 20);
 		add(btnAddLeader);
+		btnAddLeader.setActionCommand("addLeader");
 		
 		btnDelLeader = new JButton("DEL");
 		btnDelLeader.setBounds(233, 145, 57, 20);
 		add(btnDelLeader);
+		btnDelLeader.setActionCommand("deleteLeader");
 		
 		lblWorkTime = new JLabel("Total worktime spent");
 		lblWorkTime.setBounds(170, 170, 120, 20);
@@ -162,52 +164,110 @@ public class projectPanel extends JPanel implements KeyListener, ListSelectionLi
 		btnProjectSave = new JButton("Save project");
 		btnProjectSave.setBounds(10, 535, 135, 23);
 		add(btnProjectSave);
+		btnProjectSave.setActionCommand("saveProject");
 		
 		btnDelProject = new JButton("Delete project");
 		btnDelProject.setBounds(155, 535, 135, 23);
 		add(btnDelProject);
+		btnDelProject.setActionCommand("deleteProject");
+		
+		updProjectList();
 		
 	}
 	/**
 	 * Updates the project list.
 	 * @author s160902
 	 */
-	private void updProjectList(){
+	public void updProjectList(){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Project project;
 		for(int i = 0; i < CompanyProjects.getAllProjects().size(); i++){
 			project = CompanyProjects.getAllProjects().get(i);
 			listModel.addElement(
-					"<html>Project: "+project.getName()+
-					"<br/>Deadline:"+ format.format(project.getDeadline())+
-					"<br/>Leader: "+project.getLeader().getName()+"</html>");
+					"<html>Project : "+project.getName()+
+					"<br/>Deadline :"+ format.format(project.getDeadline())+
+					"<br/>Leader   : "+project.getLeader().getName()+"</html>");
 		}
-		listModel.addElement("<html>/--------------\\<br/>ADD NEW PROJECT<br/>/---------------\\</html>");
+		listModel.addElement("<html>-----------------------------<br/>ADD NEW PROJECT<br/>-----------------------------</html>");
+	}
+	/**
+	 * Clears project textFields and textAreas.
+	 * @author s160902
+	 */
+	public void clearProjectContent(){
+		textAreaProjectDesc.setText("");
+		textProjectName.setText("");
+		textEndWeek.setText("");
+		textProjectLeader.setText("");
+		textWorkTime.setText("");
+		textProjectCompletion.setText("");
 	}
 	
-	public void valueChanged(ListSelectionEvent e) {}
+	public void valueChanged(ListSelectionEvent e) {
+		/**
+		 * Updates when enter is pressed while focused on projectList.
+		 * @author s160902
+		 */
+		
+		// && e.getKeyCode() == KeyEvent.VK_ENTER
+		if(e.getSource() == projectList){
+			System.out.println("list says hello!");
+			
+			this.contentPanel.getTaskPanel().clearTaskList();
+			this.contentPanel.getTaskPanel().clearTaskContent();
+			clearProjectContent();
+			
+			if(listModel.size()>1 && projectList.getSelectedIndex() < listModel.size()){
+				Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
+				
+				textProjectName.setText(project.getName());
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				textEndWeek.setText(format.format(project.getDeadline()));
+				textProjectLeader.setText(project.getLeader().getName());
+				try {
+					textWorkTime.setText(String.valueOf(1.0*project.getWorkTime()/2));
+				} catch (WorkerMissingTask e1) {
+					e1.printStackTrace();
+				}
+				textProjectCompletion.setText(project.getStatus());
+			}
+		}
+	}
 	public void keyPressed(KeyEvent e) {}
 	/**
 	 * Manages actions by key released.
 	 * @author s160902
 	 */
 	public void keyReleased(KeyEvent e) {
-		if(e.getSource() == projectList && e.getKeyCode() == KeyEvent.VK_ENTER){
-			System.out.println("projectList says HI!");
-			Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
-			
-			textProjectName.setText(project.getName());
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			textEndWeek.setText(format.format(project.getDeadline()));
-			textProjectLeader.setText(project.getLeader().getName());
-			try {
-				textWorkTime.setText(String.valueOf(1.0*project.getWorkTime()/2));
-			} catch (WorkerMissingTask e1) {
-				e1.printStackTrace();
-			}
-			//projectCompletion
-		}
+		
 	}
 	public void keyTyped(KeyEvent e) {}
-
+	/**
+	 * Manages actions by buttons pressed.
+	 * @author s160902
+	 */
+	public void actionPerformed(ActionEvent e) {
+		 if ("saveProject".equals(e.getActionCommand())) {
+			 
+			 
+			 
+		 }
+		 if ("deleteProject".equals(e.getActionCommand())) {
+			 
+		 }
+		 if ("addLeader".equals(e.getActionCommand())) {
+			 
+		 }
+		 if ("deleteLeader".equals(e.getActionCommand())) {
+			 
+		 }
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

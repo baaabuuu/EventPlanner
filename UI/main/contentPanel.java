@@ -24,15 +24,22 @@ public class contentPanel extends JPanel {
 		setPreferredSize(new Dimension(900, 600));
 		setLayout(new BorderLayout(0, 0));
 		
-		projectPanel = new projectPanel();
+		projectPanel = new projectPanel(this);
 		add(projectPanel,BorderLayout.LINE_START);
 		
-		taskPanel = new taskPanel();
+		taskPanel = new taskPanel(this);
 		add(taskPanel,BorderLayout.CENTER);
 		
-		workerPanel = new workerPanel();
+		workerPanel = new workerPanel(this);
 		add(workerPanel,BorderLayout.LINE_END);
 	}
-	
-	
+	public projectPanel getProjectPanel(){
+		return this.projectPanel;
+	}
+	public taskPanel getTaskPanel(){
+		return this.taskPanel;
+	}
+	public workerPanel getWorkerPanel(){
+		return this.workerPanel;
+	}
 }

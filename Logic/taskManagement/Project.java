@@ -117,4 +117,17 @@ public class Project {
 			totalWorkTime += getTasks().get(i).getWorkTime();
 		return totalWorkTime;
 	}
+	/**
+	 * Returns String showing how many tasks is completed out of how many there are.
+	 * @author s160902
+	 */
+	public String getStatus()
+	{
+		int totalCompletion = 0;
+		for(int i = 0; i < getTasks().size(); i++){
+			if(getTasks().get(i).getStatus())
+				totalCompletion++;
+		}
+		return totalCompletion + "/" + getTasks().size();
+	}
 }

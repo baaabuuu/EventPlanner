@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 public class workerPanel extends JPanel implements KeyListener, ListSelectionListener {
 	
 	private static final long serialVersionUID = 1L;
+	private contentPanel contentPanel;
 	public DefaultListModel<String> listModel;
 	public JList<String> workerList;
 	public JScrollPane workerScroll;
@@ -31,7 +32,8 @@ public class workerPanel extends JPanel implements KeyListener, ListSelectionLis
 	 * Contains UI related to worker.
 	 * @author s160902
 	 */
-	public workerPanel() {
+	public workerPanel(contentPanel contentPanel) {
+		this.contentPanel = contentPanel;
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setPreferredSize(new Dimension(300, 600));
