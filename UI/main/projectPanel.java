@@ -217,8 +217,6 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 		 */
 		if(e.getSource() == projectList){
 			if (!e.getValueIsAdjusting()) {//This line prevents double events
-				System.out.println("list says hello!");
-				
 				this.contentPanel.getTaskPanel().clearTaskList();
 				this.contentPanel.getTaskPanel().clearTaskContent();
 				clearProjectContent();
@@ -250,7 +248,6 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	 */
 	public void actionPerformed(ActionEvent e) {
 		 if ("saveProject".equals(e.getActionCommand())) {
-			 
 			 if(projectList.getSelectedIndex() < CompanyProjects.getAllProjects().size()){
 				 Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
 				 project.setName(textProjectName.getText());

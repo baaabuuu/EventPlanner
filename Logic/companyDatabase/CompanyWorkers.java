@@ -23,7 +23,6 @@ public class CompanyWorkers {
 		Worker newWorker = new Worker(name);
 		addWorker(newWorker);
 	}
-	
 	/**
 	 * Adds a worker to the company database.
 	 * @author s164166
@@ -52,7 +51,6 @@ public class CompanyWorkers {
 	{
 		companyWorkers.remove(index);
 	}
-	
 	/**
 	 * gets a specific worker by their index number.
 	 * @author s164166
@@ -62,7 +60,6 @@ public class CompanyWorkers {
 	{
 		return companyWorkers.get(index);
 	}
-	
 	/**
 	 * Returns a list of workers that can work.
 	 * @author s164166
