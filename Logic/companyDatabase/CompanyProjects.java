@@ -39,7 +39,6 @@ public class CompanyProjects {
 	{
 		companyProjects.remove(index);
 	}
-	
 	/**
 	 * gets a specific project by their index number.
 	 * @author s160902

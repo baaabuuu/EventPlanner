@@ -24,13 +24,17 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import companyDatabase.CompanyProjects;
+import companyDatabase.CompanyWorkers;
 import taskManagement.Project;
+import workerLogic.Worker;
 import workerLogic.WorkerMissingTask;
 
 public class projectPanel extends JPanel implements ActionListener, KeyListener, ListSelectionListener {
 	
 	private static final long serialVersionUID = 1L;
 	private contentPanel contentPanel;
+	private Worker tempLeader;
+	
 	public DefaultListModel<String> listModel;
 	public JList<String> projectList;
 	public JScrollPane projectScroll, projectDescScroll;
@@ -202,45 +206,43 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 		textWorkTime.setText("");
 		textProjectCompletion.setText("");
 	}
-	
+	/**
+	 * Updates when enter is pressed while focused on projectList.
+	 * @author s160902
+	 */
 	public void valueChanged(ListSelectionEvent e) {
 		/**
-		 * Updates when enter is pressed while focused on projectList.
+		 * Updates when a value changes in projectList.
 		 * @author s160902
 		 */
-		
-		// && e.getKeyCode() == KeyEvent.VK_ENTER
 		if(e.getSource() == projectList){
-			System.out.println("list says hello!");
-			
-			this.contentPanel.getTaskPanel().clearTaskList();
-			this.contentPanel.getTaskPanel().clearTaskContent();
-			clearProjectContent();
-			
-			if(listModel.size()>1 && projectList.getSelectedIndex() < listModel.size()){
-				Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
+			if (!e.getValueIsAdjusting()) {//This line prevents double events
+				System.out.println("list says hello!");
 				
-				textProjectName.setText(project.getName());
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				textEndWeek.setText(format.format(project.getDeadline()));
-				textProjectLeader.setText(project.getLeader().getName());
-				try {
-					textWorkTime.setText(String.valueOf(1.0*project.getWorkTime()/2));
-				} catch (WorkerMissingTask e1) {
-					e1.printStackTrace();
+				this.contentPanel.getTaskPanel().clearTaskList();
+				this.contentPanel.getTaskPanel().clearTaskContent();
+				clearProjectContent();
+				
+				if(listModel.size()>1 && projectList.getSelectedIndex() < listModel.size()){
+					Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
+					
+					textProjectName.setText(project.getName());
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					textEndWeek.setText(format.format(project.getDeadline()));
+					textProjectLeader.setText(project.getLeader().getName());
+					this.tempLeader = project.getLeader();
+					try {
+						textWorkTime.setText(String.valueOf(1.0*project.getWorkTime()/2));
+					} catch (WorkerMissingTask e1) {
+						e1.printStackTrace();
+					}
+					textProjectCompletion.setText(project.getStatus());
 				}
-				textProjectCompletion.setText(project.getStatus());
 			}
 		}
 	}
 	public void keyPressed(KeyEvent e) {}
-	/**
-	 * Manages actions by key released.
-	 * @author s160902
-	 */
-	public void keyReleased(KeyEvent e) {
-		
-	}
+	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
 	/**
 	 * Manages actions by buttons pressed.
@@ -249,17 +251,29 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	public void actionPerformed(ActionEvent e) {
 		 if ("saveProject".equals(e.getActionCommand())) {
 			 
-			 
-			 
+			 if(projectList.getSelectedIndex() < CompanyProjects.getAllProjects().size()){
+				 Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
+				 project.setName(textProjectName.getText());
+				 project.setLeader(tempLeader);
+				 //Deadline
+			 }else{
+				 CompanyProjects.addNewProject(textProjectName.getText());
+				 Project project = CompanyProjects.getAllProjects().get(CompanyProjects.getAllProjects().size()-1);
+				 project.setLeader(tempLeader);
+				//Deadline
+			 }
 		 }
 		 if ("deleteProject".equals(e.getActionCommand())) {
-			 
+			 if(projectList.getSelectedIndex() < CompanyProjects.getAllProjects().size())
+				 CompanyProjects.removeProject(projectList.getSelectedIndex());
 		 }
 		 if ("addLeader".equals(e.getActionCommand())) {
-			 
+			 this.tempLeader = CompanyWorkers.getWorker(contentPanel.getWorkerPanel().workerList.getSelectedIndex());
+			 textProjectLeader.setText(tempLeader.getName());
 		 }
 		 if ("deleteLeader".equals(e.getActionCommand())) {
-			 
+			 this.tempLeader = null;
+			 textProjectLeader.setText("");
 		 }
 	}
 	
