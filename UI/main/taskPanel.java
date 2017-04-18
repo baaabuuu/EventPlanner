@@ -123,13 +123,13 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 		lblTaskDeadline.setBounds(170, 55, 120, 20);
 		add(lblTaskDeadline);
 		
-		lblEndWeek = new JLabel("End of week:");
-		lblEndWeek.setBounds(170, 75, 80, 20);
+		lblEndWeek = new JLabel("Date:");
+		lblEndWeek.setBounds(170, 75, 40, 20);
 		add(lblEndWeek);
 		
 		textEndWeek = new JTextField();
 		textEndWeek.setColumns(10);
-		textEndWeek.setBounds(250, 75, 40, 20);
+		textEndWeek.setBounds(215, 75, 75, 20);
 		add(textEndWeek);
 		
 		lblAssignedWorkers = new JLabel("Assigned workers");

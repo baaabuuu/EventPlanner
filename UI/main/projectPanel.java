@@ -112,13 +112,13 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 		lblProjectDeadline.setBounds(170, 55, 120, 20);
 		add(lblProjectDeadline);
 		
-		lblEndWeek = new JLabel("End of week:");
+		lblEndWeek = new JLabel("Date:");
 		lblEndWeek.setBounds(170, 75, 80, 20);
 		add(lblEndWeek);
 		
 		textEndWeek = new JTextField();
 		textEndWeek.setColumns(10);
-		textEndWeek.setBounds(250, 75, 40, 20);
+		textEndWeek.setBounds(215, 75, 75, 20);
 		add(textEndWeek);
 		
 		lblProjectLeader = new JLabel("Project leader");
