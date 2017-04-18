@@ -183,6 +183,7 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	 * @author s160902
 	 */
 	public void updProjectList(){
+		listModel.clear();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Project project;
 		for(int i = 0; i < CompanyProjects.getAllProjects().size(); i++){

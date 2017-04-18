@@ -35,10 +35,10 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 	public JList<String> taskedWorkerList;
 	public JScrollPane taskedWorkerScroll, taskDescScroll;
 	public JLabel lblTaskDesc, lblTaskSelect, lblTaskName, lblTaskDeadline, lblEndWeek,
-	lblAssignedWorkers, lblAssistedTime, lblTotalWorktimeSpent, lblWorkHours, lblTaskCompletion;
+	lblAssignedWorkers, lblAssistedTime, lblTotalWorktimeSpent, lblHours, lblTaskCompletion;
 	public JTextArea textAreaTaskDesc;
-	public JTextField textField, textTaskName, textEndWeek, textField_1;
-	private JComboBox<String> comboAssignedWorkers, comboBox, comboBox_1;
+	public JTextField textField, textTaskName, textEndWeek, textWorkTime;
+	private JComboBox<String> comboAssignedWorkers, comboAssistedWorkTime, comboTaskCompletion;
 	private JButton btnAddWorker, btnDelWorker, btnSaveTask, btnDelTask;
 	/**
 	 * Contains UI related to task.
@@ -137,9 +137,9 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		btnDelWorker.setBounds(233, 145, 57, 20);
 		add(btnDelWorker);
 		
-		comboBox = new JComboBox<String>();
-		comboBox.setBounds(170, 190, 120, 20);
-		add(comboBox);
+		comboAssistedWorkTime = new JComboBox<String>();
+		comboAssistedWorkTime.setBounds(170, 190, 120, 20);
+		add(comboAssistedWorkTime);
 		
 		lblAssistedTime = new JLabel("Assisted work time");
 		lblAssistedTime.setBounds(170, 170, 120, 20);
@@ -149,23 +149,23 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		lblTotalWorktimeSpent.setBounds(170, 215, 120, 20);
 		add(lblTotalWorktimeSpent);
 		
-		lblWorkHours = new JLabel("Hours:");
-		lblWorkHours.setBounds(170, 234, 40, 20);
-		add(lblWorkHours);
+		lblHours = new JLabel("Hours:");
+		lblHours.setBounds(170, 234, 40, 20);
+		add(lblHours);
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
-		textField_1.setBounds(215, 234, 75, 20);
-		add(textField_1);
+		textWorkTime = new JTextField();
+		textWorkTime.setEditable(false);
+		textWorkTime.setColumns(10);
+		textWorkTime.setBounds(215, 234, 75, 20);
+		add(textWorkTime);
 		
 		lblTaskCompletion = new JLabel("Task completion");
 		lblTaskCompletion.setBounds(170, 260, 120, 20);
 		add(lblTaskCompletion);
 		
-		comboBox_1 = new JComboBox<String>();
-		comboBox_1.setBounds(170, 280, 120, 20);
-		add(comboBox_1);
+		comboTaskCompletion = new JComboBox<String>();
+		comboTaskCompletion.setBounds(170, 280, 120, 20);
+		add(comboTaskCompletion);
 		
 		btnSaveTask = new JButton("Save task");
 		btnSaveTask.setBounds(10, 535, 135, 23);
@@ -177,7 +177,12 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		
 	}
 	public void clearTaskContent(){
-		
+		textAreaTaskDesc.setText("");
+		textTaskName.setText("");
+		textEndWeek.setText("");
+		//textTaskLeader.setText("");
+		textWorkTime.setText("");
+		comboTaskCompletion.removeAllItems();
 	}
 	public void clearTaskList(){
 		
