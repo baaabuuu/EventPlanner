@@ -2,6 +2,7 @@ package taskManagement;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ public class Task {
 	private boolean finished = false;
 	private String description;
 	private List<Worker> assignedWorkers = new ArrayList<Worker>();
+	private List<Worker> assistingWorkers = new ArrayList<Worker>();
 	private Calendar deadline;
 	private int taskID;
 	private Project project;
@@ -67,9 +69,9 @@ public class Task {
 	{
 		finished = !finished;
 	}
-	public void setDeadline(int[] newDeadline)
+	public void setDeadline(Date date)
 	{
-		deadline = new GregorianCalendar(newDeadline[0],newDeadline[1],newDeadline[2]);
+		deadline.setTime(date);
 	}
 	public Calendar getDeadline()
 	{
@@ -97,6 +99,36 @@ public class Task {
 	 */
 	public List<Worker> getAssignedWorkers(){
 		return this.assignedWorkers;
+	}
+	/**
+	 * Sets the assignedWorkers list to a given list.
+	 * @author s160902
+	 */
+	public void setAssignedWorkers(List<Worker> assignedWorkers){
+		this.assignedWorkers = assignedWorkers;
+	}
+	/**
+	 * Sets the assistingWorkers list to a given list.
+	 * @author s160902
+	 */
+	public void setAssistingWorkers(List<Worker> assistingWorkers){
+		this.assistingWorkers = assistingWorkers;
+	}
+	public void addAssistingWorker(Worker worker)
+	{
+		assistingWorkers.add(worker);
+	}
+	public void removeAssistingWorker(int idToRemove)
+	{		
+		assistingWorkers.removeIf(worker -> worker.getWorkID() == idToRemove);
+		
+	}
+	/**
+	 * Returns a list of all workers assigned to the task.
+	 * @author s160902
+	 */
+	public List<Worker> getAssistingWorkers(){
+		return this.assistingWorkers;
 	}
 	/**
 	 * Returns total workTime of all who have worked on this task.

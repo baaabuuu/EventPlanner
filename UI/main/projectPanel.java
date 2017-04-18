@@ -34,6 +34,7 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	private static final long serialVersionUID = 1L;
 	private contentPanel contentPanel;
 	private Worker tempLeader;
+	private Project selectedProject;
 	
 	public DefaultListModel<String> listModel;
 	public JList<String> projectList;
@@ -196,6 +197,13 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 		listModel.addElement("<html>-----------------------------<br/>ADD NEW PROJECT<br/>-----------------------------</html>");
 	}
 	/**
+	 * Returns the current selected project.
+	 * @author s160902
+	 */
+	public Project getSelectedProject(){
+		return this.selectedProject;
+	}
+	/**
 	 * Clears project textFields and textAreas.
 	 * @author s160902
 	 */
@@ -221,21 +229,22 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 				this.contentPanel.getTaskPanel().clearTaskList();
 				this.contentPanel.getTaskPanel().clearTaskContent();
 				clearProjectContent();
+				selectedProject = null;
 				
 				if(listModel.size()>1 && projectList.getSelectedIndex() < listModel.size()){
-					Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
+					selectedProject = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
 					
-					textProjectName.setText(project.getName());
+					textProjectName.setText(selectedProject.getName());
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-					textEndWeek.setText(format.format(project.getDeadline()));
-					textProjectLeader.setText(project.getLeader().getName());
-					this.tempLeader = project.getLeader();
+					textEndWeek.setText(format.format(selectedProject.getDeadline()));
+					textProjectLeader.setText(selectedProject.getLeader().getName());
+					this.tempLeader = selectedProject.getLeader();
 					try {
-						textWorkTime.setText(String.valueOf(1.0*project.getWorkTime()/2));
+						textWorkTime.setText(String.valueOf(1.0*selectedProject.getWorkTime()/2));
 					} catch (WorkerMissingTask e1) {
 						e1.printStackTrace();
 					}
-					textProjectCompletion.setText(project.getStatus());
+					textProjectCompletion.setText(selectedProject.getStatus());
 				}
 			}
 		}
