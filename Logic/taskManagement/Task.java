@@ -52,6 +52,18 @@ public class Task {
 		this.description = description;
 		this.deadline = new GregorianCalendar(deadline[0],deadline[1],deadline[2]);
 	}
+	
+	public Task(String name, String description, List<Worker> assistingWorkers,
+			List<Worker> tempAssistingWorkers, Date date, Project project)
+	{
+		this.project	=	project;
+		this.name = name;
+		this.description = description;
+		this.deadline.setTime(date);
+		this.assignedWorkers = assistingWorkers;
+		this.assistingWorkers = tempAssistingWorkers;
+	}
+	
 
 	public String getName()
 	{
