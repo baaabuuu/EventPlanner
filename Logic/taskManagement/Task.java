@@ -44,12 +44,13 @@ public class Task {
 	{
 		taskID=id;
 	}
-	public Task(String name, String description, List<Worker> assignedWorkers, int[] deadline, Project project)
+	public Task(String name, String description, List<Worker> assignedWorkers, List<Worker> assistingWorkers
+			, Date date, Project project)
 	{
 		this.project	=	project;
 		this.name = name;
 		this.description = description;
-		this.deadline = new GregorianCalendar(deadline[0],deadline[1],deadline[2]);
+		this.deadline.setTime(date);
 		if(assignedWorkers != null)
 			this.assignedWorkers = assignedWorkers;
 	}

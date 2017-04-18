@@ -54,7 +54,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	public JLabel lblTaskDesc, lblTaskSelect, lblTaskName, lblTaskDeadline, lblEndWeek,
 	lblAssignedWorkers, lblAssistedTime, lblTotalWorktimeSpent, lblHours, lblTaskCompletion;
 	public JTextArea textAreaTaskDesc;
-	public JTextField textField, textTaskName, textEndWeek, textWorkTime;
+	public JTextField textTaskName, textEndWeek, textWorkTime;
 	private JComboBox<String> comboAssignedWorkers, comboAssistedWorkTime, comboTaskCompletion;
 	private JButton btnAddWorker, btnDelWorker, btnSaveTask, btnDelTask;
 	/**
@@ -198,7 +198,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	public void clearTaskContent(){
 		textAreaTaskDesc.setText("");
 		textTaskName.setText("");
-		textEndWeek.setText("");
+		textEndWeek.setText("yyyy-MM-dd");
 		comboModelAssignedWorkers = new DefaultComboBoxModel<String>();
 		comboModelAssistingWorkers = new DefaultComboBoxModel<String>();
 		comboModelTaskCompletion = new DefaultComboBoxModel<String>();
@@ -210,7 +210,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 * @author s160902
 	 */
 	public void updateWorkerComboBox(){
-		ArrayList<String> workNames = (ArrayList<String>) selectedTask.getAssignedWorkers().stream()
+		ArrayList<String> workNames = (ArrayList<String>) tempWorkers.stream()
 		.map(Worker::getWorkName).collect(Collectors.toList());
 		
 		comboModelAssignedWorkers = new DefaultComboBoxModel<String>((String[]) workNames.toArray());
@@ -220,7 +220,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 * @author s160902
 	 */
 	public void updateAssistingComboBox(){
-		ArrayList<String> workNames = (ArrayList<String>) selectedTask.getAssistingWorkers().stream()
+		ArrayList<String> workNames = (ArrayList<String>) tempAssistingWorkers.stream()
 				.map(Worker::getWorkName).collect(Collectors.toList());
 		
 		comboModelAssistingWorkers = new DefaultComboBoxModel<String>((String[]) workNames.toArray());
@@ -288,12 +288,12 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 						e1.printStackTrace();
 					}
 					
+					tempWorkers = selectedTask.getAssignedWorkers();
+					tempAssistingWorkers = selectedTask.getAssistingWorkers();
+					
 					updateWorkerComboBox();
 					updateAssistingComboBox();
 					updateCompletionComboBox();
-					
-					tempWorkers = selectedTask.getAssignedWorkers();
-					tempAssistingWorkers = selectedTask.getAssistingWorkers();
 				}
 			}
 		}
@@ -319,15 +319,31 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 					 selectedTask.changeCompletion();
 				 
 			 }else{
-				 //CompanyProjects.addNewProject(textProjectName.getText());
-				 //Project project = CompanyProjects.getAllProjects().get(CompanyProjects.getAllProjects().size()-1);
-				 //Project.setLeader(tempLeader);
-				//Deadline
+				 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					Task task = new Task(textTaskName.getText(), textAreaTaskDesc.getText(), tempWorkers,
+							 tempAssistingWorkers, format.parse(textEndWeek.getText()), contentPanel.projectPanel.getSelectedProject());
+					
+					contentPanel.projectPanel.getSelectedProject().addTask(task);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			 }
 		 }
 		 if ("deleteTask".equals(e.getActionCommand())) {
 			 if(taskList.getSelectedIndex() < CompanyProjects.getAllProjects().size())
 				 CompanyProjects.removeProject(taskList.getSelectedIndex());
-		 }	
+		 }
+		 if ("addWorker".equals(e.getActionCommand())) {
+			 if(!tempWorkers.contains(contentPanel.workerPanel.workerList.getSelectedIndex()))
+				 tempWorkers.add(CompanyWorkers.getWorker(contentPanel.workerPanel.workerList.getSelectedIndex()));
+			 
+			 updateAssistingComboBox();
+		 }
+		 if ("delWorker".equals(e.getActionCommand())) {
+			 tempWorkers.remove(comboAssignedWorkers.getSelectedIndex());
+			 updateWorkerComboBox();
+		 }
 	}
 }
