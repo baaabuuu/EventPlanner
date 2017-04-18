@@ -41,7 +41,12 @@ public class Task {
 	{
 		taskID=id;
 	}
+<<<<<<< HEAD
 	public Task(String name, String description, int[] deadline, Project project)
+=======
+	//s164147
+	public Task(String name, String description, List<Worker> assignedWorkers, int[] deadline, Project project)
+>>>>>>> refs/heads/ErikUserInterface
 	{
 		this.project	=	project;
 		this.name = name;
