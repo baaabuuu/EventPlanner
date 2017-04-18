@@ -265,12 +265,12 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 					"<br/>Status   : "+status+"</html>");
 		}
 	}
-	
+	/**
+	 * Updates when a value changes in a list.
+	 * @author s160902
+	 */
 	public void valueChanged(ListSelectionEvent e) {
-		/**
-		 * Updates when a value changes in taskList.
-		 * @author s160902
-		 */
+		
 		if(e.getSource() == taskList){
 			if (!e.getValueIsAdjusting()) {//This line prevents double events
 				clearTaskContent();
@@ -301,6 +301,10 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	public void keyPressed(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
+	/**
+	 * Manages actions by buttons pressed.
+	 * @author s160902
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if ("saveTask".equals(e.getActionCommand())) {
 			 if(taskList.getSelectedIndex() < CompanyProjects.getAllProjects().size()){
