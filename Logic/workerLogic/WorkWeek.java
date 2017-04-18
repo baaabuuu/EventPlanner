@@ -9,11 +9,12 @@ import taskManagement.Task;
  */
 public class WorkWeek
 {
-	private int[]				workTime		=	new int[settings.maxAssignments];
-	private Task[]				assignments		=	new Task[settings.maxAssignments];
-	private ArrayList<Task>		helpedTasks		=	new ArrayList<Task>();
-	private ArrayList<Integer>	helpedTasksTime	=	new ArrayList<Integer>();
-	private boolean				isBussy			=	false;
+	private int[]				workTime			=	new int[settings.maxAssignments];
+	private Task[]				assignments			=	new Task[settings.maxAssignments];
+	private ArrayList<Task>		helpedTasks			=	new ArrayList<Task>();
+	private ArrayList<Integer>	helpedTasksTime		=	new ArrayList<Integer>();
+	private int[][]				timeWorkedOnTask;
+	private boolean				isBussy				=	false;
 	
 	/**
 	 * Creates a workweek object
@@ -98,6 +99,7 @@ public class WorkWeek
 	{
 		if (assignments[index] == null)
 			throw new WorkerMissingTask("Could not update task time");
+		timeWorkedOnTask[settings.getDay()][index] += time;
 		workTime[index]	+=	time;
 	}
 	/**
