@@ -141,7 +141,7 @@ public class WorkWeek
 		return count;	
 	}
 	/**
-	 * 
+	 * Checks whether a user has been fired or not.
 	 * @param worker
 	 * @return
 	 * @author s160902

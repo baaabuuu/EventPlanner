@@ -7,6 +7,7 @@ public class SettingsTesting
 {
 	
 	//Test whether days can be advanced
+	// Author s164166
 	@Test
 	public void advanceDays()
 	{
@@ -15,6 +16,7 @@ public class SettingsTesting
 		assertTrue(startDay<Settings.getDay());
 	}
 	//Test whether weeks can be advanced, and if a week is advanced by 7 days, days should be equal to 1
+	// Author s164166
 	@Test
 	public void checkThisWeekAgain()
 	{
