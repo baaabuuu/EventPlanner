@@ -30,6 +30,7 @@ import taskManagement.Task;
 import workerLogic.Worker;
 import workerLogic.WorkerMissingTask;
 import companyDatabase.CompanyWorkers;
+import javax.swing.JTextPane;
 
 public class workerPanel extends JPanel implements ActionListener, KeyListener, ListSelectionListener {
 	
@@ -107,6 +108,23 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		textField.setColumns(10);
 		textField.setBounds(170, 75, 120, 20);
 		add(textField);
+		
+		JLabel lblNewLabel_1 = new JLabel("Add Assisted");
+		lblNewLabel_1.setBounds(170, 132, 120, 20);
+		add(lblNewLabel_1);
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(172, 152, 116, 20);
+		add(textPane);
+		
+		JButton button_2 = new JButton("Add");
+		button_2.setFont(new Font("Dialog", Font.PLAIN, 11));
+		button_2.setBounds(170, 184, 57, 20);
+		add(button_2);
+		
+		JButton button_3 = new JButton("DEL");
+		button_3.setBounds(233, 184, 57, 20);
+		add(button_3);
 
 	}
 	//S164147
