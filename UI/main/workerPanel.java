@@ -2,6 +2,8 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -18,9 +20,13 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.Font;
+
 import javax.swing.JTextField;
 
-public class workerPanel extends JPanel implements KeyListener, ListSelectionListener {
+import workerLogic.Worker;
+import companyDatabase.CompanyWorkers;
+
+public class workerPanel extends JPanel implements ActionListener, KeyListener, ListSelectionListener {
 	
 	private static final long serialVersionUID = 1L;
 	private contentPanel contentPanel;
@@ -93,9 +99,32 @@ public class workerPanel extends JPanel implements KeyListener, ListSelectionLis
 		add(textField);
 
 	}
-	
-	public void valueChanged(ListSelectionEvent e) {}
+	public void updateWorkerList()
+	{
+		for(Worker worker : CompanyWorkers.getAllWorkers()){
+			listModel.addElement(worker.getName());
+		}
+			
+	}
+	public void valueChanged(ListSelectionEvent e) {
+		
+		CompanyWorkers.getAllWorkers().get(workerList.getSelectedIndex());
+		
+	}
 	public void keyPressed(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
+	public void actionPerformed(ActionEvent e) {
+		//Check which button has been pressed
+		if (e.equals("Add"))
+		{
+			
+			
+		}
+		if(e.equals("Del"))
+		{
+			
+		}
+
+	}
 }
