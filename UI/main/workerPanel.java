@@ -67,9 +67,6 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		workerList.addListSelectionListener(this);
 		workerList.addKeyListener(this);
 		
-		listModel.addElement("<html>Project: soft_1 <br/>deadline: 24/03 <br/>By: luvHTML<3</html>");
-		listModel.addElement("<html>Project: soft_2 <br/>deadline: 14/08 <br/>By: workIsLife</html>");
-		
 		workerScroll = new JScrollPane(workerList);
 		workerScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		workerScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
