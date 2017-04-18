@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -20,9 +22,11 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.JTextField;
 
+import taskManagement.Task;
 import workerLogic.Worker;
 import companyDatabase.CompanyWorkers;
 
@@ -33,6 +37,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 	public DefaultListModel<String> listModel;
 	public JList<String> workerList;
 	public JScrollPane workerScroll;
+	public DefaultComboBoxModel<String> taskList;
 	private JTextField textField;
 	/**
 	 * Contains UI related to worker.
@@ -107,8 +112,18 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 			
 	}
 	public void valueChanged(ListSelectionEvent e) {
+
+		String[] taskNames = {"Select Worker"};
 		
-		CompanyWorkers.getAllWorkers().get(workerList.getSelectedIndex());
+
+		for(Task task : CompanyWorkers.getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().getAssignments())
+		{
+			int i = 0;
+			taskNames[i] = task.getName();
+			i++;
+		}
+		
+		taskList = new DefaultComboBoxModel<String>(taskNames);
 		
 	}
 	public void keyPressed(KeyEvent e) {}
