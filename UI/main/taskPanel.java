@@ -195,6 +195,10 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 		btnDelTask.setActionCommand("deleteTask");
 		
 	}
+	/**
+	 * Clears task content.
+	 * @author s160902
+	 */
 	public void clearTaskContent(){
 		textAreaTaskDesc.setText("");
 		textTaskName.setText("");
@@ -264,19 +268,20 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 					"<br/>Deadline : "+ format.format(task.getDeadline())+
 					"<br/>Status   : "+status+"</html>");
 		}
+		listModelTask.addElement("<html>-----------------------------<br/>ADD NEW TASK<br/>-----------------------------</html>");
 	}
-	
+	/**
+	 * Updates when a value changes in a list.
+	 * @author s160902
+	 */
 	public void valueChanged(ListSelectionEvent e) {
-		/**
-		 * Updates when a value changes in taskList.
-		 * @author s160902
-		 */
+		
 		if(e.getSource() == taskList){
 			if (!e.getValueIsAdjusting()) {//This line prevents double events
 				clearTaskContent();
 				selectedTask = null;
 				
-				if(listModelTask.size()>1 && taskList.getSelectedIndex() < listModelTask.size()){
+				if(listModelTask.size()>1 && taskList.getSelectedIndex() < listModelTask.size()-1){
 					selectedTask = contentPanel.projectPanel.getSelectedProject().getTaskbyIndex(taskList.getSelectedIndex());
 					
 					textTaskName.setText(selectedTask.getName());
@@ -301,6 +306,10 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	public void keyPressed(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
+	/**
+	 * Updates when a button is pressed.
+	 * @author s160902
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if ("saveTask".equals(e.getActionCommand())) {
 			 if(taskList.getSelectedIndex() < CompanyProjects.getAllProjects().size()){
@@ -313,22 +322,25 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 					 // TODO Auto-generated catch block
 					 e1.printStackTrace();
 				 }
-				 
 				 if(selectedTask.getStatus() == true && comboTaskCompletion.getSelectedIndex() == 0 ||
 						 selectedTask.getStatus() == false && comboTaskCompletion.getSelectedIndex() == 1)
 					 selectedTask.changeCompletion();
 				 
 			 }else{
+				 Task task = new Task(contentPanel.projectPanel.getSelectedProject());
 				 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				try {
-					Task task = new Task(textTaskName.getText(), textAreaTaskDesc.getText(), tempWorkers,
-							 tempAssistingWorkers, format.parse(textEndWeek.getText()), contentPanel.projectPanel.getSelectedProject());
-					
-					contentPanel.projectPanel.getSelectedProject().addTask(task);
+				 
+				 selectedTask.setName(textTaskName.getText());
+				 selectedTask.setDescription(textAreaTaskDesc.getText());
+				 selectedTask.setAssignedWorkers(tempWorkers);
+				 selectedTask.setAssistingWorkers(tempAssistingWorkers);
+				 try {
+					selectedTask.setDeadline(format.parse(textEndWeek.getText()));
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				
 			 }
 		 }
 		 if ("deleteTask".equals(e.getActionCommand())) {

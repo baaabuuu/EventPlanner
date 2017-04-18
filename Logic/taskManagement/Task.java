@@ -52,7 +52,9 @@ public class Task {
 		this.description = description;
 		this.deadline = new GregorianCalendar(deadline[0],deadline[1],deadline[2]);
 	}
-	
+	public Task(Project project){
+		this.project	=	project;
+	}
 	public Task(String name, String description, List<Worker> assistingWorkers,
 			List<Worker> tempAssistingWorkers, Date date, Project project)
 	{
@@ -82,9 +84,9 @@ public class Task {
 		finished = !finished;
 	}
 	
-	public void setDeadline(int[] newDeadline)
+	public void setDeadline(Date date)
 	{
-		deadline = new GregorianCalendar(newDeadline[0],newDeadline[1],newDeadline[2]);
+		deadline.setTime(date);;
 	}
 	
 	public Calendar getDeadline()

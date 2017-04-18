@@ -216,14 +216,10 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 		textProjectCompletion.setText("");
 	}
 	/**
-	 * Updates when enter is pressed while focused on projectList.
+	 * Updates when a value changes in a list.
 	 * @author s160902
 	 */
 	public void valueChanged(ListSelectionEvent e) {
-		/**
-		 * Updates when a value changes in projectList.
-		 * @author s160902
-		 */
 		if(e.getSource() == projectList){
 			if (!e.getValueIsAdjusting()) {//This line prevents double events
 				this.contentPanel.getTaskPanel().clearTaskList();
