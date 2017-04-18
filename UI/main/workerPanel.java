@@ -28,16 +28,21 @@ import javax.swing.JTextField;
 
 import taskManagement.Task;
 import workerLogic.Worker;
+import workerLogic.WorkerMissingTask;
 import companyDatabase.CompanyWorkers;
 
 public class workerPanel extends JPanel implements ActionListener, KeyListener, ListSelectionListener {
 	
+	
+	
 	private static final long serialVersionUID = 1L;
 	private contentPanel contentPanel;
+	Task[] currentWeekTasks;
 	public DefaultListModel<String> listModel;
 	public JList<String> workerList;
 	public JScrollPane workerScroll;
 	public DefaultComboBoxModel<String> taskList;
+	public JComboBox comboBox;
 	private JTextField textField;
 	/**
 	 * Contains UI related to worker.
@@ -81,7 +86,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		lblCurrentWork.setBounds(170, 10, 120, 20);
 		add(lblCurrentWork);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setBounds(170, 30, 120, 20);
 		add(comboBox);
 		
@@ -104,6 +109,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		add(textField);
 
 	}
+	//S164147
 	public void updateWorkerList()
 	{
 		for(Worker worker : CompanyWorkers.getAllWorkers()){
@@ -113,17 +119,23 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 	}
 	public void valueChanged(ListSelectionEvent e) {
 
-		String[] taskNames = {"Select Worker"};
+		
+		if(!e.getValueIsAdjusting())
+		{
+			Task[] currentWeekTasks = CompanyWorkers.getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().getAssignments();
+			String[] taskNames = {"Select Worker"};
 		
 
-		for(Task task : CompanyWorkers.getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().getAssignments())
-		{
-			int i = 0;
-			taskNames[i] = task.getName();
-			i++;
-		}
+			for(Task task : currentWeekTasks)
+			{
+				int i = 0;
+				taskNames[i] = task.getName();
+				i++;
+			}
 		
-		taskList = new DefaultComboBoxModel<String>(taskNames);
+			taskList = new DefaultComboBoxModel<String>(taskNames);
+		}
+
 		
 	}
 	public void keyPressed(KeyEvent e) {}
@@ -133,11 +145,26 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		//Check which button has been pressed
 		if (e.equals("Add"))
 		{
-			
+			try {
+				CompanyWorkers.getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboBox.getSelectedIndex(), Integer.parseInt(textField.getText()));
+			} catch (NumberFormatException e1) {
+				e1.printStackTrace();
+				System.out.println("Please insert integer.");
+			} catch (WorkerMissingTask e1) {
+				e1.printStackTrace();
+			}
 			
 		}
 		if(e.equals("Del"))
 		{
+			try {
+				CompanyWorkers.getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboBox.getSelectedIndex(), -(Integer.parseInt(textField.getText())));
+			} catch (NumberFormatException e1) {
+				e1.printStackTrace();
+				System.out.println("Please insert integer.");
+			} catch (WorkerMissingTask e1) {
+				e1.printStackTrace();
+			}
 			
 		}
 
