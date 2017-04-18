@@ -42,14 +42,12 @@ public class Task {
 	{
 		taskID=id;
 	}
-	public Task(String name, String description, List<Worker> assignedWorkers, int[] deadline, Project project)
+	public Task(String name, String description, int[] deadline, Project project)
 	{
 		this.project	=	project;
 		this.name = name;
 		this.description = description;
 		this.deadline = new GregorianCalendar(deadline[0],deadline[1],deadline[2]);
-		if(assignedWorkers != null)
-			this.assignedWorkers = assignedWorkers;
 	}
 	public String getName()
 	{
@@ -96,7 +94,7 @@ public class Task {
 	 * @author s160902
 	 */
 	public List<Worker> getAssignedWorkers(){
-		return this.assignedWorkers;
+		return assignedWorkers;
 	}
 	/**
 	 * Returns total workTime of all who have worked on this task.

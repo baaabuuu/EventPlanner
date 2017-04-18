@@ -65,18 +65,19 @@ public class CompanyWorkers {
 	 * @author s164166
 	 * @return the workers than can work on a task at the moment
 	 */
-	public static List<Worker> getElligbleWorkers()
-	{
-		return companyWorkers.stream().filter(Worker -> Worker.isAvailableCurrWeek()).collect(Collectors.toList());		
+	public static ArrayList<Worker> getEligibleWorkers()
+	{	
+		return (ArrayList<Worker>) companyWorkers.stream().filter(Worker -> Worker.isAvailableCurrWeek()).collect(Collectors.toList());		
 	}
 	/**
-	 * Returns a list of workers.
+	 * Returns a list of workers that are not fired.
+	 * "You're fired." - Donald J. Trump, President of the United States of America.
 	 * @author s164166
 	 * @return the workers than can work on a task at the moment
 	 */
 	public static List<Worker> getAllWorkers()
 	{
-		return companyWorkers;		
+		return (ArrayList<Worker>) companyWorkers.stream().filter(Worker -> !Worker.isFired()).collect(Collectors.toList());		
 	}
 
 }

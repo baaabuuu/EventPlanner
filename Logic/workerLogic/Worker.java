@@ -23,6 +23,7 @@ public class Worker
 	{
 		setName(NAME);
 		setWorkName(NAME);
+		workWeek.add(new WorkWeek());
 	}
 	/**
 	 * Fires a worker, their work hours can still be access in the database but they cannot be assigned to projects anymore.
@@ -115,7 +116,7 @@ public class Worker
 	 */
 	public WorkWeek getXweek(int index)
 	{
-		if (getWorkWeeks().size() < settings.getWeekNumber() + index)
+		if (getWorkWeeks().size() <= settings.getWeekNumber() + index)
 			fillMissingWorkWeeks(index);
 		return getWorkWeeks().get(settings.getWeekNumber() + index);
 	}
@@ -145,7 +146,7 @@ public class Worker
 	 */
 	private void fillMissingWorkWeeks(int index)
 	{
-		for (int i = getWorkWeeks().size(); i <= index; i++)
+		for (int i = getWorkWeeks().size(); i <= index+1; i++)
 			getWorkWeeks().add(new WorkWeek());
 	}
 	/**

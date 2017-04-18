@@ -16,6 +16,12 @@ public class WorkWeek
 	private boolean				isBussy			=	false;
 	
 	/**
+	 * Creates a workweek object
+	 * @author s164166
+	 */
+	public WorkWeek(){}
+	
+	/**
 	 * Denotes whether the user is sick or perhaps having a vacation this week.
 	 * Once this trigger, the user is unable to work for the remainder of this week.
 	 * @author s160902
@@ -98,17 +104,17 @@ public class WorkWeek
 	 * Adds a task to the worker.
 	 * @author s164166
 	 * @param newTask
-	 * @return true/false WorkerMissingTask
 	 */
-	public boolean updAssignments(Task newTask)
+	public void updAssignments(Task newTask)
 	{
-		for (Task task : assignments)
-			if (task == null)
+		for (int i = 0; i<settings.maxAssignments;i++)
+		{
+			if (assignments[i] == null)
 			{
-				task = newTask;
-				return true;
+				assignments[i] = newTask;
+				break;
 			}
-		return false;
+		}
 	}
 	/**
 	 * an array consisting of the current assignments, it has a max size of 20.
@@ -147,7 +153,7 @@ public class WorkWeek
 	 * @return whether or whether not the user can take on more tasks currently.
 	 */
 	public boolean isLegalThisweek(Worker worker)
-	{
-		return isBussy || worker.isFired() ? false : getCurrTaskAmm()<Settings.settings.maxAssignments;
+	{		
+		return !isBussy && !worker.isFired() && (getCurrTaskAmm() < Settings.settings.maxAssignments);
 	}
 }
