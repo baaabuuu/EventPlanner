@@ -1,4 +1,4 @@
-package logicTesting;
+package workerLogic;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static  org.junit.Assert.assertFalse;
@@ -9,8 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import companyDatabase.CompanyWorkers;
 import taskManagement.Task;
-import workerLogic.Worker;
-import workerLogic.WorkerNameError;
 
 public class WorkerLogicTests 
 {

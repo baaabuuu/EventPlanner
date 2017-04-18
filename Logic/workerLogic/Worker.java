@@ -3,7 +3,7 @@ package workerLogic;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import Settings.settings;
+import Settings.Settings;
 import taskManagement.Project;
 import taskManagement.Task;
 
@@ -106,7 +106,7 @@ public class Worker
 	 */
 	public WorkWeek getCurrWeek()
 	{
-		return getWorkWeeks().get(settings.getWeekNumber());
+		return getWorkWeeks().get(Settings.getWeekNumber());
 	}
 	/**
 	 * Returns the x week from the current time point.
@@ -116,9 +116,9 @@ public class Worker
 	 */
 	public WorkWeek getXweek(int index)
 	{
-		if (getWorkWeeks().size() <= settings.getWeekNumber() + index)
+		if (getWorkWeeks().size() <= Settings.getWeekNumber() + index)
 			fillMissingWorkWeeks(index);
-		return getWorkWeeks().get(settings.getWeekNumber() + index);
+		return getWorkWeeks().get(Settings.getWeekNumber() + index);
 	}
 	/**
 	 * Checks whether the worker is available this week.

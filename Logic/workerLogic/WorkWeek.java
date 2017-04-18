@@ -1,7 +1,7 @@
 package workerLogic;
 
 import java.util.ArrayList;
-import Settings.settings;
+import Settings.Settings;
 import taskManagement.Task;
 /**
  * Used to contain data for a WorkWeek for a user.
@@ -9,8 +9,8 @@ import taskManagement.Task;
  */
 public class WorkWeek
 {
-	private int[]				workTime			=	new int[settings.maxAssignments];
-	private Task[]				assignments			=	new Task[settings.maxAssignments];
+	private int[]				workTime			=	new int[Settings.maxAssignments];
+	private Task[]				assignments			=	new Task[Settings.maxAssignments];
 	private ArrayList<Task>		helpedTasks			=	new ArrayList<Task>();
 	private ArrayList<Integer>	helpedTasksTime		=	new ArrayList<Integer>();
 	private int[][]				timeWorkedOnTask;
@@ -99,7 +99,7 @@ public class WorkWeek
 	{
 		if (assignments[index] == null)
 			throw new WorkerMissingTask("Could not update task time");
-		timeWorkedOnTask[settings.getDay()][index] += time;
+		timeWorkedOnTask[Settings.getDay()][index] += time;
 		workTime[index]	+=	time;
 	}
 	/**
@@ -109,7 +109,7 @@ public class WorkWeek
 	 */
 	public void updAssignments(Task newTask)
 	{
-		for (int i = 0; i<settings.maxAssignments;i++)
+		for (int i = 0; i<Settings.maxAssignments;i++)
 		{
 			if (assignments[i] == null)
 			{
@@ -156,6 +156,6 @@ public class WorkWeek
 	 */
 	public boolean isLegalThisweek(Worker worker)
 	{		
-		return !isBussy && !worker.isFired() && (getCurrTaskAmm() < Settings.settings.maxAssignments);
+		return !isBussy && !worker.isFired() && (getCurrTaskAmm() < Settings.maxAssignments);
 	}
 }
