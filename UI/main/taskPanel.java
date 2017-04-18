@@ -2,11 +2,19 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -21,24 +29,33 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import companyDatabase.CompanyProjects;
+import companyDatabase.CompanyWorkers;
+import taskManagement.Project;
 import taskManagement.Task;
+import workerLogic.Worker;
+import workerLogic.WorkerMissingTask;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.Font;
 
-public class taskPanel extends JPanel implements KeyListener, ListSelectionListener {
+public class taskPanel extends JPanel implements ActionListener, KeyListener, ListSelectionListener {
 	
 	private static final long serialVersionUID = 1L;
 	private contentPanel contentPanel;
-	public DefaultListModel<String> listModelTask, listModelTaskedWorker;
-	public JList<String> taskedWorkerList;
-	public JScrollPane taskedWorkerScroll, taskDescScroll;
+	private Task selectedTask;
+	private List<Worker> tempWorkers;
+	private List<Worker> tempAssistingWorkers;
+	
+	public DefaultListModel<String> listModelTask;
+	public DefaultComboBoxModel<String> comboModelAssignedWorkers, comboModelAssistingWorkers, comboModelTaskCompletion;
+	public JList<String> taskList;
+	public JScrollPane taskScroll, taskDescScroll;
 	public JLabel lblTaskDesc, lblTaskSelect, lblTaskName, lblTaskDeadline, lblEndWeek,
-	lblAssignedWorkers, lblAssistedTime, lblTotalWorktimeSpent, lblWorkHours, lblTaskCompletion;
+	lblAssignedWorkers, lblAssistedTime, lblTotalWorktimeSpent, lblHours, lblTaskCompletion;
 	public JTextArea textAreaTaskDesc;
-	public JTextField textField, textTaskName, textEndWeek, textField_1;
-	private JComboBox<String> comboAssignedWorkers, comboBox, comboBox_1;
+	public JTextField textTaskName, textEndWeek, textWorkTime;
+	private JComboBox<String> comboAssignedWorkers, comboAssistedWorkTime, comboTaskCompletion;
 	private JButton btnAddWorker, btnDelWorker, btnSaveTask, btnDelTask;
 	/**
 	 * Contains UI related to task.
@@ -57,28 +74,23 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		
 		listModelTask = new DefaultListModel<String>();
 		
-		listModelTask.addElement("<html>Project: soft_1 <br/>deadline: 24/03 <br/>By: luvHTML<3</html>");
-		listModelTask.addElement("<html>Project: soft_2 <br/>deadline: 14/08 <br/>By: workIsLife</html>");
+		taskList = new JList<String>(listModelTask);
+		taskList.setForeground(Color.white);
+		taskList.setBackground(Color.darkGray);
+		taskList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		taskList.setVisibleRowCount(-1);
+		taskList.setLayoutOrientation(JList.VERTICAL);
+		taskList.addListSelectionListener(this);
+		taskList.addKeyListener(this);
 		
-		listModelTaskedWorker = new DefaultListModel<String>();
-		
-		taskedWorkerList = new JList<String>(listModelTaskedWorker);
-		taskedWorkerList.setForeground(Color.white);
-		taskedWorkerList.setBackground(Color.darkGray);
-		taskedWorkerList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		taskedWorkerList.setVisibleRowCount(-1);
-		taskedWorkerList.setLayoutOrientation(JList.VERTICAL);
-		taskedWorkerList.addListSelectionListener(this);
-		taskedWorkerList.addKeyListener(this);
-		
-		taskedWorkerScroll = new JScrollPane(taskedWorkerList);
-		taskedWorkerScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		taskedWorkerScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		taskedWorkerScroll.setOpaque(false);
-		taskedWorkerScroll.getViewport().setOpaque(false);
-		taskedWorkerScroll.setBounds(10, 30, 150, 270);
-		taskedWorkerScroll.setBackground(new Color(219, 142, 27));
-		add(taskedWorkerScroll);
+		taskScroll = new JScrollPane(taskList);
+		taskScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		taskScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		taskScroll.setOpaque(false);
+		taskScroll.getViewport().setOpaque(false);
+		taskScroll.setBounds(10, 30, 150, 270);
+		taskScroll.setBackground(new Color(219, 142, 27));
+		add(taskScroll);
 		
 		lblTaskDesc = new JLabel("Task description");
 		lblTaskDesc.setBounds(10, 310, 100, 20);
@@ -124,7 +136,8 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		lblAssignedWorkers.setBounds(170, 100, 120, 20);
 		add(lblAssignedWorkers);
 		
-		comboAssignedWorkers = new JComboBox<String>();
+		comboModelAssignedWorkers = new DefaultComboBoxModel<String>();
+		comboAssignedWorkers = new JComboBox<String>(comboModelAssignedWorkers);
 		comboAssignedWorkers.setBounds(170, 120, 120, 20);
 		add(comboAssignedWorkers);
 		
@@ -132,14 +145,17 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		btnAddWorker.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnAddWorker.setBounds(170, 145, 57, 20);
 		add(btnAddWorker);
+		btnAddWorker.setActionCommand("addWorker");
 		
 		btnDelWorker = new JButton("DEL");
 		btnDelWorker.setBounds(233, 145, 57, 20);
 		add(btnDelWorker);
+		btnDelWorker.setActionCommand("delWorker");
 		
-		comboBox = new JComboBox<String>();
-		comboBox.setBounds(170, 190, 120, 20);
-		add(comboBox);
+		comboModelAssistingWorkers = new DefaultComboBoxModel<String>();
+		comboAssistedWorkTime = new JComboBox<String>(comboModelAssistingWorkers);
+		comboAssistedWorkTime.setBounds(170, 190, 120, 20);
+		add(comboAssistedWorkTime);
 		
 		lblAssistedTime = new JLabel("Assisted work time");
 		lblAssistedTime.setBounds(170, 170, 120, 20);
@@ -149,40 +165,90 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		lblTotalWorktimeSpent.setBounds(170, 215, 120, 20);
 		add(lblTotalWorktimeSpent);
 		
-		lblWorkHours = new JLabel("Hours:");
-		lblWorkHours.setBounds(170, 234, 40, 20);
-		add(lblWorkHours);
+		lblHours = new JLabel("Hours:");
+		lblHours.setBounds(170, 234, 40, 20);
+		add(lblHours);
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
-		textField_1.setBounds(215, 234, 75, 20);
-		add(textField_1);
+		textWorkTime = new JTextField();
+		textWorkTime.setEditable(false);
+		textWorkTime.setColumns(10);
+		textWorkTime.setBounds(215, 234, 75, 20);
+		add(textWorkTime);
 		
 		lblTaskCompletion = new JLabel("Task completion");
 		lblTaskCompletion.setBounds(170, 260, 120, 20);
 		add(lblTaskCompletion);
 		
-		comboBox_1 = new JComboBox<String>();
-		comboBox_1.setBounds(170, 280, 120, 20);
-		add(comboBox_1);
+		comboModelTaskCompletion = new DefaultComboBoxModel<String>();
+		comboTaskCompletion = new JComboBox<String>(comboModelTaskCompletion);
+		comboTaskCompletion.setBounds(170, 280, 120, 20);
+		add(comboTaskCompletion);
 		
 		btnSaveTask = new JButton("Save task");
 		btnSaveTask.setBounds(10, 535, 135, 23);
 		add(btnSaveTask);
+		btnSaveTask.setActionCommand("saveTask");
 		
 		btnDelTask = new JButton("Delete task");
 		btnDelTask.setBounds(155, 535, 135, 23);
 		add(btnDelTask);
+		btnDelTask.setActionCommand("deleteTask");
 		
 	}
 	public void clearTaskContent(){
-		
+		textAreaTaskDesc.setText("");
+		textTaskName.setText("");
+		textEndWeek.setText("yyyy-MM-dd");
+		comboModelAssignedWorkers = new DefaultComboBoxModel<String>();
+		comboModelAssistingWorkers = new DefaultComboBoxModel<String>();
+		comboModelTaskCompletion = new DefaultComboBoxModel<String>();
+		textWorkTime.setText("");
+		comboTaskCompletion.removeAllItems();
 	}
+	/**
+	 * Updates comboAssignedWorkers comboBox.
+	 * @author s160902
+	 */
+	public void updateWorkerComboBox(){
+		ArrayList<String> workNames = (ArrayList<String>) tempWorkers.stream()
+		.map(Worker::getWorkName).collect(Collectors.toList());
+		
+		comboModelAssignedWorkers = new DefaultComboBoxModel<String>((String[]) workNames.toArray());
+	}
+	/**
+	 * Updates comboAssistedWorkTime comboBox.
+	 * @author s160902
+	 */
+	public void updateAssistingComboBox(){
+		ArrayList<String> workNames = (ArrayList<String>) tempAssistingWorkers.stream()
+				.map(Worker::getWorkName).collect(Collectors.toList());
+		
+		comboModelAssistingWorkers = new DefaultComboBoxModel<String>((String[]) workNames.toArray());
+	}
+	/**
+	 * Updates comboTaskCompletion comboBox.
+	 * @author s160902
+	 */
+	public void updateCompletionComboBox(){
+		comboModelAssistingWorkers.addElement("Incomplete");
+		comboModelAssistingWorkers.addElement("Complete");
+		
+		if(selectedTask.getStatus())
+			comboAssistedWorkTime.setSelectedIndex(1);
+	}
+	/**
+	 * Clears the task list.
+	 * @author s160902
+	 */
 	public void clearTaskList(){
-		
+		listModelTask.clear();
 	}
+	/**
+	 * Updates the task list.
+	 * @author s160902
+	 */
 	public void updateTaskList(List<Task> tasks){
+		listModelTask.clear();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Task task;
 		String status;
@@ -200,8 +266,84 @@ public class taskPanel extends JPanel implements KeyListener, ListSelectionListe
 		}
 	}
 	
-	public void valueChanged(ListSelectionEvent e) {}
+	public void valueChanged(ListSelectionEvent e) {
+		/**
+		 * Updates when a value changes in taskList.
+		 * @author s160902
+		 */
+		if(e.getSource() == taskList){
+			if (!e.getValueIsAdjusting()) {//This line prevents double events
+				clearTaskContent();
+				selectedTask = null;
+				
+				if(listModelTask.size()>1 && taskList.getSelectedIndex() < listModelTask.size()){
+					selectedTask = contentPanel.projectPanel.getSelectedProject().getTaskbyIndex(taskList.getSelectedIndex());
+					
+					textTaskName.setText(selectedTask.getName());
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					textEndWeek.setText(format.format(selectedTask.getDeadline()));
+					try {
+						textWorkTime.setText(String.valueOf(1.0*selectedTask.getWorkTime()/2));
+					} catch (WorkerMissingTask e1) {
+						e1.printStackTrace();
+					}
+					
+					tempWorkers = selectedTask.getAssignedWorkers();
+					tempAssistingWorkers = selectedTask.getAssistingWorkers();
+					
+					updateWorkerComboBox();
+					updateAssistingComboBox();
+					updateCompletionComboBox();
+				}
+			}
+		}
+	}
 	public void keyPressed(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
+	public void actionPerformed(ActionEvent e) {
+		if ("saveTask".equals(e.getActionCommand())) {
+			 if(taskList.getSelectedIndex() < CompanyProjects.getAllProjects().size()){
+				 
+				 selectedTask.setName(textTaskName.getText());
+				 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				 try {
+					selectedTask.setDeadline(format.parse(textEndWeek.getText()));
+				 } catch (ParseException e1) {
+					 // TODO Auto-generated catch block
+					 e1.printStackTrace();
+				 }
+				 
+				 if(selectedTask.getStatus() == true && comboTaskCompletion.getSelectedIndex() == 0 ||
+						 selectedTask.getStatus() == false && comboTaskCompletion.getSelectedIndex() == 1)
+					 selectedTask.changeCompletion();
+				 
+			 }else{
+				 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					Task task = new Task(textTaskName.getText(), textAreaTaskDesc.getText(), tempWorkers,
+							 tempAssistingWorkers, format.parse(textEndWeek.getText()), contentPanel.projectPanel.getSelectedProject());
+					
+					contentPanel.projectPanel.getSelectedProject().addTask(task);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			 }
+		 }
+		 if ("deleteTask".equals(e.getActionCommand())) {
+			 if(taskList.getSelectedIndex() < CompanyProjects.getAllProjects().size())
+				 CompanyProjects.removeProject(taskList.getSelectedIndex());
+		 }
+		 if ("addWorker".equals(e.getActionCommand())) {
+			 if(!tempWorkers.contains(contentPanel.workerPanel.workerList.getSelectedIndex()))
+				 tempWorkers.add(CompanyWorkers.getWorker(contentPanel.workerPanel.workerList.getSelectedIndex()));
+			 
+			 updateAssistingComboBox();
+		 }
+		 if ("delWorker".equals(e.getActionCommand())) {
+			 tempWorkers.remove(comboAssignedWorkers.getSelectedIndex());
+			 updateWorkerComboBox();
+		 }
+	}
 }
