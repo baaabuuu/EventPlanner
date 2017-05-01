@@ -25,7 +25,6 @@ public class Project {
 		return projectID;
 	}
 	
-	
 	public Project(List<Worker> workers, String name, int[] deadline)
 	{
 		this.name = name;
@@ -59,6 +58,11 @@ public class Project {
 	public List<Task> getTasks()
 	{
 		return tasks;
+	}
+	public List<Worker> getWorkers()
+	{
+		return workers;
+		
 	}
 	public List<Task> getTaskbyName(String searchTerm)
 	{
