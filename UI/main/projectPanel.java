@@ -279,12 +279,4 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 			 textProjectLeader.setText("");
 		 }
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 }
