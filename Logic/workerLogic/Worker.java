@@ -1,10 +1,8 @@
 package workerLogic;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
-import Settings.Settings;
-import taskManagement.Project;
+import application.Settings;
 import taskManagement.Task;
 
 public class Worker 
@@ -24,7 +22,6 @@ public class Worker
 	public Worker(String NAME, Settings settings) throws WorkerNameError
 	{
 		setName(NAME);
-		setWorkName(NAME);
 		this.settings	=	settings;
 		workWeek.add(new WorkWeek(settings));
 	}
@@ -50,11 +47,12 @@ public class Worker
 	 * @author s164166
 	 * @return
 	 */
-	private void setName(String name) throws WorkerNameError
+	public void setName(String name) throws WorkerNameError
 	{
 		if (name.isEmpty())
-			throw new WorkerNameError("Name was empty.");
+			throw new WorkerNameError("Names cannot be empty strings.");
 		this.name = name;
+		setWorkName(name);
 	}
 	/**
 	 * returns the work name of the worker

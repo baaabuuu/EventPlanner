@@ -1,7 +1,8 @@
 package workerLogic;
 
 import java.util.ArrayList;
-import Settings.Settings;
+
+import application.Settings;
 import taskManagement.Task;
 /**
  * Used to contain data for a WorkWeek for a user.

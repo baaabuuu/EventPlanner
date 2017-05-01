@@ -1,36 +1,94 @@
 package whiteBoxTests;
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static  org.junit.Assert.assertFalse;
-import static  org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import companyDatabase.CompanyWorkers;
+import org.junit.rules.ExpectedException;
+
+
+import application.ProjectPlanningApp;
+import application.Settings;
+import taskManagement.Project;
 import taskManagement.Task;
 import workerLogic.Worker;
 import workerLogic.WorkerNameError;
 
 public class WorkerLogicTests 
 {
-	//Setup to ensure our tests work properly
-	@Before
-	public void setUp()
+	Project project;
+	ProjectPlanningApp database;
+	Task task;
+	Worker worker;
+	Settings settings;
+	
+	@Rule //s164166
+    public ExpectedException thrown = ExpectedException.none();
+	
+	@Before //s164166
+	public void setup() throws WorkerNameError
 	{
-		//Adds a lot of workers to the list.
-		try {
-		   CompanyWorkers.addWorker(new Worker("Jeff"));
-		   CompanyWorkers.addWorker(new Worker("Bridgett"));
-		   CompanyWorkers.addWorker(new Worker("Adam"));
-		   CompanyWorkers.addWorker(new Worker("dip"));
-		   CompanyWorkers.addWorker(new Worker("Keplan"));
-		   CompanyWorkers.addWorker(new Worker("Jeff"));
-		} catch (WorkerNameError e) {
-			e.printStackTrace();
-		}
+		settings	=	 new Settings();
+		worker = new Worker("Testname",settings);
 	}
 	
+	//Worker Creation. s164166
+	@Test
+	public void createWorkers() throws WorkerNameError
+	{
+		worker = new Worker("Testname",settings);
+		assertEquals("Name is equal to Testname",worker.getName(),"Testname");
+		assertEquals("Work name is equal to ",worker.getWorkName(),"Test");
+		assertNotNull(worker.getCurrWeek());
+	}
+	
+	//In case a name is empty it should fail. s164166
+	@Test
+	public void createWorkerException() throws WorkerNameError
+	{
+		thrown.expect(WorkerNameError.class);
+        //you can test the exception message like s164166
+        thrown.expectMessage("Names cannot be empty strings.");
+		worker = new Worker("",settings);
+	}
+	
+	//In case a name is empty it should fail. s164166
+	@Test
+	public void setNameException() throws WorkerNameError
+	{
+		thrown.expect(WorkerNameError.class);
+	    //you can test the exception message like
+	    thrown.expectMessage("Names cannot be empty strings.");
+	    worker = new Worker("Yes",settings);
+		worker.setName("");
+	}
+	//Check that setname and gamename works without throwing exception if proper rules are followed. s164166
+	@Test
+	public void setName() throws WorkerNameError
+	{
+		worker = new Worker("Test_Worker",settings);
+		assertEquals("Name has not changed test",worker.getName(),"Test_Worker");
+		assertEquals("Work name has not changed test",worker.getWorkName(),"Test");
+		worker.setName("NewName");
+		assertEquals("Name has changed test",worker.getName(),"NewName");
+		assertEquals("Work name has changed test",worker.getWorkName(),"NewN");
+	}
+	@Test
+	public void changeID() throws WorkerNameError
+	{		
+		assertEquals("Worker ID should be 0",worker.getWorkID(),0);
+		worker.setWorkID(1);
+		assertEquals("Worker ID should be 1",worker.getWorkID(),1);
+	}
+
+	
+	
+	
+	
+
+	
+	/**	
 	//Test whether or whether not the worker is available this week
 	@Test
 	public void checkThisWeekAgain()
@@ -79,5 +137,5 @@ public class WorkerLogicTests
 		assertFalse(worker.isAvailableCurrWeek());
 		assertFalse(worker.isAvailableXweek(2));
 	}
-	
+	**/
 }

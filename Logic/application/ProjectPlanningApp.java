@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import Settings.Settings;
 import taskManagement.Project;
 import workerLogic.Worker;
 import workerLogic.WorkerNameError;
