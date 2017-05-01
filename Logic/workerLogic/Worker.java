@@ -191,5 +191,6 @@ public class Worker
 		}
 		System.out.println(totalWorkTime);
 		return totalWorkTime;
-	}
+	} 
+	//Code has been merged and "fixed"
 }
