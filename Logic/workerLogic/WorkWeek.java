@@ -9,18 +9,26 @@ import taskManagement.Task;
  */
 public class WorkWeek
 {
-	private int[]				workTime			=	new int[Settings.maxAssignments];
-	private Task[]				assignments			=	new Task[Settings.maxAssignments];
+	private int[]				workTime;
+	private Task[]				assignments;
 	private ArrayList<Task>		helpedTasks			=	new ArrayList<Task>();
 	private ArrayList<Integer>	helpedTasksTime		=	new ArrayList<Integer>();
 	private int[][]				timeWorkedOnTask;
 	private boolean				isBussy				=	false;
-	
+	private Settings			settings			=	new Settings();
+
+		
 	/**
 	 * Creates a workweek object
 	 * @author s164166
+	 * @param settings 
 	 */
-	public WorkWeek(){}
+	public WorkWeek(Settings settings)
+	{
+		workTime	=	new int[settings.getMaxAssignments()];
+		assignments	=	new Task[settings.getMaxAssignments()];
+		timeWorkedOnTask = new int[8][settings.getMaxAssignments()];
+	}
 	
 	/**
 	 * Denotes whether the user is sick or perhaps having a vacation this week.
@@ -99,7 +107,7 @@ public class WorkWeek
 	{
 		if (assignments[index] == null)
 			throw new WorkerMissingTask("Could not update task time");
-		timeWorkedOnTask[Settings.getDay()][index] += time;
+		timeWorkedOnTask[settings.getDay()][index] += time;
 		workTime[index]	+=	time;
 	}
 	/**
@@ -109,14 +117,12 @@ public class WorkWeek
 	 */
 	public void updAssignments(Task newTask)
 	{
-		for (int i = 0; i<Settings.maxAssignments;i++)
-		{
+		for (int i = 0; i<settings.getMaxAssignments();i++)
 			if (assignments[i] == null)
 			{
 				assignments[i] = newTask;
 				break;
 			}
-		}
 	}
 	/**
 	 * an array consisting of the current assignments, it has a max size of 20.
@@ -156,6 +162,6 @@ public class WorkWeek
 	 */
 	public boolean isLegalThisweek(Worker worker)
 	{		
-		return !isBussy && !worker.isFired() && (getCurrTaskAmm() < Settings.maxAssignments);
+		return !isBussy && !worker.isFired() && (getCurrTaskAmm() < settings.getMaxAssignments());
 	}
 }

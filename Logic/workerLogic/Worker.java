@@ -13,17 +13,20 @@ public class Worker
 	private int 				workID;
 	private ArrayList<WorkWeek> workWeek = new ArrayList<WorkWeek>();
 	private boolean				fired	 = false;
+	private Settings			settings;
 	
 	/**
 	 * Constructs a worker object with a set name.
+	 * @param settings 
 	 * @param Worker Name
 	 * @throws WorkerNameError
 	 */
-	public Worker(String NAME) throws WorkerNameError
+	public Worker(String NAME, Settings settings) throws WorkerNameError
 	{
 		setName(NAME);
 		setWorkName(NAME);
-		workWeek.add(new WorkWeek());
+		this.settings	=	settings;
+		workWeek.add(new WorkWeek(settings));
 	}
 	/**
 	 * Fires a worker, their work hours can still be access in the database but they cannot be assigned to projects anymore.
@@ -106,7 +109,7 @@ public class Worker
 	 */
 	public WorkWeek getCurrWeek()
 	{
-		return getWorkWeeks().get(Settings.getWeekNumber());
+		return getWorkWeeks().get(settings.getWeekNumber());
 	}
 	/**
 	 * Returns the x week from the current time point.
@@ -116,9 +119,9 @@ public class Worker
 	 */
 	public WorkWeek getXweek(int index)
 	{
-		if (getWorkWeeks().size() <= Settings.getWeekNumber() + index)
+		if (getWorkWeeks().size() <= settings.getWeekNumber() + index)
 			fillMissingWorkWeeks(index);
-		return getWorkWeeks().get(Settings.getWeekNumber() + index);
+		return getWorkWeeks().get(settings.getWeekNumber() + index);
 	}
 	/**
 	 * Checks whether the worker is available this week.
@@ -147,7 +150,7 @@ public class Worker
 	private void fillMissingWorkWeeks(int index)
 	{
 		for (int i = getWorkWeeks().size(); i <= index+1; i++)
-			getWorkWeeks().add(new WorkWeek());
+			getWorkWeeks().add(new WorkWeek(settings));
 	}
 	/**
 	 * Checks whether the worker is fired or not.
@@ -173,6 +176,7 @@ public class Worker
 		for (int workWeekIndex = 0; workWeekIndex<getWorkWeeks().size();workWeekIndex++)
 		{
 			tasks = getWorkWeeks().get(workWeekIndex).getAssignments();
+			System.out.println(tasks);
 			for (int i = 0; i<tasks.length;i++)
 			{
 				if (tasks[i].getTaskID() == taskID)
@@ -184,7 +188,8 @@ public class Worker
 				if (helpedTasks.get(i).getTaskID() == taskID)
 					totalWorkTime += getWorkWeeks().get(workWeekIndex).getHelpedTasksTime().get(i);
 			}
-		}		
+		}
+		System.out.println(totalWorkTime);
 		return totalWorkTime;
 	}
 }

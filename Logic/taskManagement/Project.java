@@ -33,19 +33,39 @@ public class Project {
 		if(workers != null)
 			this.workers = workers;
 	}
+	
+	/**
+	 * Removes a worker either using an index or a worker object.
+	 * @param worker
+	 */
+	public void removeWorker(Worker worker)
+	{
+		workers.remove(worker);
+	}
+	/**
+	 * Removes a worker either using an index or a worker object.
+	 * @param worker
+	 */
+	public void removeWorker(int index)
+	{
+		workers.remove(index);
+	}
+	
 	public void addWorker(Worker worker)
 	{
 		workers.add(worker);
 	}
-	public List<Worker> getWorkerbyID(int searchTerm)
+	/**
+	 * Returns a worker by their ID
+	 * @param ID
+	 * @return null or a worker if found
+	 */
+	public Worker getWorkerByID(int id)
 	{
-		List<Worker> foundWorkers = new ArrayList<Worker>();
 		for(Worker worker : workers)
-		{
-			if(worker.getWorkID() == searchTerm)
-				foundWorkers.add(worker);
-		}
-		return foundWorkers;
+			if(worker.getWorkID() == id)
+				return worker;
+		return null;
 	}
 	
 	public String getName()
@@ -60,32 +80,56 @@ public class Project {
 	{
 		return tasks;
 	}
-	public List<Task> getTaskbyName(String searchTerm)
-	{
-		List<Task> foundTasks = new ArrayList<Task>();
-		for(Task task : tasks)
-		{
-			if(task.getName().equals(searchTerm))
-				foundTasks.add(task);
-		}
-		return foundTasks;
-	}
+	
 	/**
-	 * Returns a task from the tasks list by its index.
-	 * @author s160902
+	 * Returns a task from the tasks list by its index or name.
+	 * @author s160902 && s164166
 	 */
-	public Task getTaskbyIndex(int index)
+	public Task getTask(int index)
 	{
 		return this.tasks.get(index);
 	}
+	
+	public Task getTask(String name)
+	{
+		for(Task task : tasks)
+			if(task.getName().equals(name))
+				return task;
+		return null;
+	}
+	
+	
+	
+	/**
+	 * Removes a task from the list, can either use an index or a task object.
+	 * @param index
+	 * @author s164166
+	 */
+	public void removeTask(int index)
+	{
+		tasks.remove(index);
+	}
+	/**
+	 * Removes a task from the list, can either use an index or a task object.
+	 * @param task
+	 * @author s164166
+	 */
+	public void removeTask(Task task)
+	{
+		tasks.remove(task);
+	}	
+	
+	
 	public void addTask(Task task) {
 		tasks.add(task);
 		
 	}
+	
 	public void setDeadline(int[] newDeadline)
 	{
 		deadline = new GregorianCalendar(newDeadline[0],newDeadline[1],newDeadline[2]);
 	}
+	
 	public Calendar getDeadline()
 	{
 		return deadline;
@@ -129,5 +173,13 @@ public class Project {
 				totalCompletion++;
 		}
 		return totalCompletion + "/" + getTasks().size();
+	}
+	/**
+	 * Returns a list containing all the workers
+	 * @author s160902
+	 */
+	public List<Worker> getWorkers()
+	{
+		return workers;
 	}
 }

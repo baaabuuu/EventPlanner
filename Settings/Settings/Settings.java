@@ -10,17 +10,17 @@ import java.util.GregorianCalendar;
  */
 public class Settings 
 {
-	public final static int 	maxAssignments		=	20;
-	public final static String 	applicationName		=	"Work Planner";
-	public final static	Date 	startupDate 		=	new GregorianCalendar(2017, Calendar.APRIL, 10).getTime();
-	private 	 static	int		weekNumber			=	0;
-	private		 static int		day 				=	1;
+	public final int 	maxAssignments		=	20;
+	public final String applicationName		=	"Work Planner";
+	public final Date 	startupDate 		=	new GregorianCalendar(2017, Calendar.APRIL, 10).getTime();
+	private 	 int	weekNumber			=	0;
+	private		 int	day 				=	1;
 	
 	/**
 	 * Added so we can advance weeks, 
 	 * @author s164166
 	 */
-	public static void updateWeek()
+	public void updateWeek()
 	{
 		weekNumber++;
 	}
@@ -29,7 +29,7 @@ public class Settings
 	 * Added so we can advance days, 
 	 * @author s164166
 	 */
-	public static void updateDay()
+	public void updateDay()
 	{
 		if (day == 6)
 			updateWeek();
@@ -40,7 +40,7 @@ public class Settings
 	 * returns the current day of the week, 1 = monday etc.
 	 * @author s164166
 	 */
-	public static int getDay()
+	public int getDay()
 	{
 		return day;
 	}
@@ -49,9 +49,13 @@ public class Settings
 	 * Returns the current day.
 	 * @author s164166
 	 */
-	public static int getWeekNumber()
+	public int getWeekNumber()
 	{
 		return weekNumber;
+	}
+
+	public int getMaxAssignments() {
+		return maxAssignments;
 	}
 }
 

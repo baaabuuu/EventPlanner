@@ -35,7 +35,6 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	private contentPanel contentPanel;
 	private Worker tempLeader;
 	private Project selectedProject;
-	
 	public DefaultListModel<String> listModel;
 	public JList<String> projectList;
 	public JScrollPane projectScroll, projectDescScroll;
@@ -254,7 +253,7 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	 */
 	public void actionPerformed(ActionEvent e) {
 		 if ("saveProject".equals(e.getActionCommand())) {
-			 if(projectList.getSelectedIndex() < CompanyProjects.getAllProjects().size()){
+			 if(projectList.getSelectedIndex() < contentPanel.getAllProjects().size()){
 				 Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
 				 project.setName(textProjectName.getText());
 				 project.setLeader(tempLeader);

@@ -6,11 +6,14 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import application.ProjectPlanningApp;
+
 import java.awt.BorderLayout;
 
 
 public class contentPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private ProjectPlanningApp projectPlanningApp;
 	projectPanel projectPanel;
 	taskPanel taskPanel;
 	workerPanel workerPanel;
