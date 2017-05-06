@@ -11,7 +11,6 @@ import workerLogic.WorkerNameError;
 
 public class ProjectPlanningApp {
 	
-	
 	private Settings 			settings		= new Settings();
 	private ArrayList<Worker>	companyWorkers	= new ArrayList<Worker>();
 	private ArrayList<Project>	companyProjects = new ArrayList<Project>();
@@ -28,7 +27,7 @@ public class ProjectPlanningApp {
 	}
 	/**
 	 * removes a project from the company database using a specific object.
-	 * THIS SHOULD NEVER BE CALLED ON A PROJECT THAT HAS BEEN WORKED
+	 * THIS SHOULD NEVER BE CALLED ON A PROJECT THAT HAS BEEN WORKED ON.
 	 * It would result in a project being deleted making it hard for a user to find something they've worked previously on.
 	 * @author s160902
 	 * @param project
@@ -67,7 +66,7 @@ public class ProjectPlanningApp {
 	/**
 	 * Adds a worker to the company database.
 	 * @author s164166
-	 * @param worker
+	 * @param name
 	 */
 	public void addNewWorker(String name) throws WorkerNameError
 	{
@@ -75,6 +74,18 @@ public class ProjectPlanningApp {
 		worker.setWorkID(companyWorkers.size());
 		companyWorkers.add(worker);
 	}
+	
+	/**
+	 * Adds a worker to the company database.
+	 * @author s164166
+	 * @param worker
+	 */
+	public void addNewWorker(Worker worker) throws WorkerNameError
+	{
+		worker.setWorkID(companyWorkers.size());
+		companyWorkers.add(worker);
+	}
+	
 	/**
 	 * removes a worker from the company database using a specific object.
 	 * @author s164166

@@ -10,6 +10,7 @@ import static org.mockito.Mockito.*;
 import application.Settings;
 import taskManagement.Task;
 import workerLogic.Worker;
+import workerLogic.WorkerMissingTask;
 import workerLogic.WorkerNameError;
 
 public class WorkerTests 
@@ -108,5 +109,14 @@ public class WorkerTests
 		worker.fireWorker();
 		assertFalse("Check that the worker is not available this week after being fired",worker.isAvailableCurrWeek());
 		assertFalse("Check that the worker is not available 2 weeks after being fired",worker.isAvailableXweek(2));
+	}
+	
+	//Test the timeSpentOnAtask
+	@Test
+	public void timeSpentOnTaskTest() throws WorkerMissingTask
+	{
+		worker.getCurrWeek().updAssignments(task);
+		worker.getCurrWeek().updWorkTime(0, 2);		
+		assertEquals("Checking that 2 hours has been worked on the task", worker.timeSpentOnTask(task),2);
 	}
 }

@@ -11,18 +11,16 @@ import workerLogic.*;
 
 //S164147
 public class Project {
-	private List<Worker> workers = new ArrayList<Worker>();
 	private List<Task> tasks = new ArrayList<Task>();
 	private String name;
-	private Calendar deadline;
+	private Calendar deadline = new GregorianCalendar();
 	private Worker leader;
 	private int projectID;
 	
 	public Project(String name, Date date, Worker leader) {
-		this.name = name;
-		this.deadline = new GregorianCalendar();
-		this.deadline.setTime(date);
-		this.leader = leader;
+		setName(name);
+		setDeadline(date);
+		setLeader(leader);
 	}
 	public void setID(int id)
 	{
@@ -32,39 +30,6 @@ public class Project {
 	public int getID()
 	{
 		return projectID;
-	}
-	/**
-	 * Removes a worker either using an index or a worker object.
-	 * @param worker
-	 */
-	public void removeWorker(Worker worker)
-	{
-		workers.remove(worker);
-	}
-	/**
-	 * Removes a worker either using an index or a worker object.
-	 * @param worker
-	 */
-	public void removeWorker(int index)
-	{
-		workers.remove(index);
-	}
-	
-	public void addWorker(Worker worker)
-	{
-		workers.add(worker);
-	}
-	/**
-	 * Returns a worker by their ID
-	 * @param ID
-	 * @return null or a worker if found
-	 */
-	public Worker getWorkerByID(int id)
-	{
-		for(Worker worker : workers)
-			if(worker.getWorkID() == id)
-				return worker;
-		return null;
 	}
 	
 	public String getName()
@@ -86,7 +51,9 @@ public class Project {
 	 */
 	public Task getTask(int index)
 	{
-		return this.tasks.get(index);
+		if (index<tasks.size() && index>=0)
+			return this.tasks.get(index);
+		return null;
 	}
 	/**
 	 * Returns a task from the tasks list by its index or name.
@@ -99,8 +66,6 @@ public class Project {
 				return task;
 		return null;
 	}
-	
-	
 	
 	/**
 	 * Removes a task from the list, can either use an index or a task object.
@@ -124,7 +89,6 @@ public class Project {
 	
 	public void addTask(Task task) {
 		tasks.add(task);
-		
 	}
 	
 	public void setDeadline(int[] newDeadline)
@@ -156,15 +120,15 @@ public class Project {
 	 */
 	public Worker getLeader()
 	{
-		return this.leader;
+		return leader;
 	}
 	/**
 	 * Updates the project leader.
-	 * @author s160902
+	 * @author s160902 && s164166
 	 */
 	public void setLeader(Worker newLeader)
 	{
-		this.leader = newLeader;
+		leader = newLeader;
 	}
 	/**
 	 * Returns total workTime of all tasks in this project.
@@ -189,13 +153,5 @@ public class Project {
 				totalCompletion++;
 		}
 		return totalCompletion + "/" + getTasks().size();
-	}
-	/**
-	 * Returns a list containing all the workers
-	 * @author s160902
-	 */
-	public List<Worker> getWorkers()
-	{
-		return workers;
 	}
 }

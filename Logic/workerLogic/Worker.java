@@ -173,9 +173,12 @@ public class Worker
 		ArrayList<Task> helpedTasks;
 		for (int workWeekIndex = 0; workWeekIndex<getWorkWeeks().size();workWeekIndex++)
 		{
+			
 			tasks = getWorkWeeks().get(workWeekIndex).getAssignments();
 			for (int i = 0; i<tasks.length;i++)
 			{
+				if (tasks[i] == null)
+					break;
 				if (tasks[i].getTaskID() == taskID)
 					totalWorkTime += getWorkWeeks().get(workWeekIndex).getWorkTime(i);
 			}
