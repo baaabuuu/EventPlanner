@@ -23,8 +23,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import companyDatabase.CompanyProjects;
-import companyDatabase.CompanyWorkers;
 import taskManagement.Project;
 import workerLogic.Worker;
 import workerLogic.WorkerMissingTask;
@@ -186,8 +184,8 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 		listModel.clear();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Project project;
-		for(int i = 0; i < CompanyProjects.getAllProjects().size(); i++){
-			project = CompanyProjects.getAllProjects().get(i);
+		for(int i = 0; i < contentPanel.getApp().getAllProjects().size(); i++){
+			project = contentPanel.getApp().getAllProjects().get(i);
 			listModel.addElement(
 					"<html>Project : "+project.getName()+
 					"<br/>Deadline :"+ format.format(project.getDeadline())+
@@ -227,7 +225,7 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 				selectedProject = null;
 				
 				if(listModel.size()>1 && projectList.getSelectedIndex() < listModel.size()){
-					selectedProject = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
+					selectedProject = contentPanel.getApp().getAllProjects().get(projectList.getSelectedIndex());
 					
 					textProjectName.setText(selectedProject.getName());
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -253,24 +251,24 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	 */
 	public void actionPerformed(ActionEvent e) {
 		 if ("saveProject".equals(e.getActionCommand())) {
-			 if(projectList.getSelectedIndex() < contentPanel.getAllProjects().size()){
-				 Project project = CompanyProjects.getAllProjects().get(projectList.getSelectedIndex());
+			 if(projectList.getSelectedIndex() < contentPanel.app.getAllProjects().size()){
+				 Project project = contentPanel.getApp().getAllProjects().get(projectList.getSelectedIndex());
 				 project.setName(textProjectName.getText());
 				 project.setLeader(tempLeader);
 				 //Deadline
 			 }else{
-				 CompanyProjects.addNewProject(textProjectName.getText());
-				 Project project = CompanyProjects.getAllProjects().get(CompanyProjects.getAllProjects().size()-1);
+				 contentPanel.getApp().addNewProject(null, textProjectName.getText(), null);
+				 Project project = contentPanel.getApp().getAllProjects().get(contentPanel.getApp().getAllProjects().size()-1);
 				 project.setLeader(tempLeader);
 				//Deadline
 			 }
 		 }
 		 if ("deleteProject".equals(e.getActionCommand())) {
-			 if(projectList.getSelectedIndex() < CompanyProjects.getAllProjects().size())
-				 CompanyProjects.removeProject(projectList.getSelectedIndex());
+			 if(projectList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size())
+				 contentPanel.getApp().removeProject(projectList.getSelectedIndex());
 		 }
 		 if ("addLeader".equals(e.getActionCommand())) {
-			 this.tempLeader = CompanyWorkers.getWorker(contentPanel.getWorkerPanel().workerList.getSelectedIndex());
+			 this.tempLeader = contentPanel.getApp().getWorker(contentPanel.getWorkerPanel().workerList.getSelectedIndex());
 			 textProjectLeader.setText(tempLeader.getName());
 		 }
 		 if ("deleteLeader".equals(e.getActionCommand())) {
