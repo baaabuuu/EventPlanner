@@ -41,26 +41,53 @@ public class WorkWeekTest {
 	
 	//s164166
 	@Test
-	public void getWorkTask() throws WorkerMissingTask
+	public void getWorkTaskErrork() throws WorkerMissingTask
 	{
 		thrown.expect(WorkerMissingTask.class);
 		week.getWorkTask(0);
+	}
+	//s164166
+	@Test
+	public void getWorkTaskNoError() throws WorkerMissingTask
+	{
 		week.updAssignments(task);
 		assertNotNull("We have added a new thing, therefor it will not return null",week.getWorkTask(0));
 	}
 	
 	//s164166
 	@Test
-	public void getUpdWorkTime() throws WorkerMissingTask
+	public void getWorkTimeExpception() throws WorkerMissingTask
 	{
 		thrown.expect(WorkerMissingTask.class);
 		week.getWorkTime(0);
+	}
+	
+	//s164166
+	@Test
+	public void updWorkTimeException() throws WorkerMissingTask
+	{
 		thrown.expect(WorkerMissingTask.class);
 		week.updWorkTime(0, 2);
+	}
+		
+	//s164166
+	@Test
+	public void updWorkTimeNoException() throws WorkerMissingTask
+	{
 		week.updAssignments(task);
 		week.updWorkTime(0, 2);
 		assertEquals("Time spent 2 hours",week.getWorkTime(0),2);
 	}
+	
+	//s164166
+	@Test
+	public void getWorkTimeNoException() throws WorkerMissingTask
+	{
+		week.updAssignments(task);
+		week.getWorkTime(0);
+		assertEquals("Time spent 2 hours",week.getWorkTime(0),0);
+	}
+	
 	//s164166
 	@Test
 	public void isLegalThisWeekTrue()
@@ -104,7 +131,7 @@ public class WorkWeekTest {
 	
 	//s164166
 	@Test
-	public void filledSchedule()
+	public void NotLegalThisWeekfilledSchedule()
 	{
 		when(worker.isFired()).thenReturn(false);
 		for (int i = 0; i<20;i++)

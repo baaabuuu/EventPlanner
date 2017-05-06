@@ -149,16 +149,7 @@ public class WorkWeek
 				count++;
 		return count;	
 	}
-	/**
-	 * Checks whether a user has been fired or not.
-	 * @param worker
-	 * @return
-	 * @author s160902
-	 */
-	public boolean isFired(Worker worker)
-	{
-		return worker.isFired();
-	}
+
 	/**
 	 * @author s164166
 	 * @return whether or whether not the user can take on more tasks currently.

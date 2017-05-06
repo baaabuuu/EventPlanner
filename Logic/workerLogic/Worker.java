@@ -187,8 +187,6 @@ public class Worker
 					totalWorkTime += getWorkWeeks().get(workWeekIndex).getHelpedTasksTime().get(i);
 			}
 		}
-		System.out.println(totalWorkTime);
 		return totalWorkTime;
 	} 
-	//Code has been merged and "fixed"
 }

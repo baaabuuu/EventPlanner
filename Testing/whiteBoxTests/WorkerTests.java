@@ -1,4 +1,5 @@
 package whiteBoxTests;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -19,6 +20,13 @@ public class WorkerTests
 
 	@Rule //s164166
     public ExpectedException thrown = ExpectedException.none();
+	
+	@Before
+	public void setup() throws WorkerNameError
+	{
+		worker = new Worker("Testname",settings);
+	}
+	
 	
 	//Worker Creation. s164166
 	@Test
@@ -49,15 +57,16 @@ public class WorkerTests
 	
 	//Check that setname works without throwing exception if proper rules are followed. s164166
 	@Test
-	public void setName() throws WorkerNameError
+	public void setNameMorethan4Chars() throws WorkerNameError
 	{
-		worker = new Worker("Test_Worker",settings);
-		assertEquals("Name has not changed test",worker.getName(),"Test_Worker");
-		assertEquals("Work name has not changed",worker.getWorkName(),"Test");
 		worker.setName("NewName");
 		assertEquals("Name has changed NewName",worker.getName(),"NewName");
 		assertEquals("Work name has changed New",worker.getWorkName(),"NewN");
-		//Checking what occurs when the name is less than 4 letters
+	}
+	//Check that setname works without throwing exception if proper rules are followed. s164166
+	@Test
+	public void setNameLessthanOrEqualTo4Chars() throws WorkerNameError
+	{
 		worker.setName("Eva");
 		assertEquals("Name has changed test",worker.getName(),"Eva");
 		assertEquals("Work name has changed test",worker.getWorkName(),"Eva");
@@ -65,10 +74,9 @@ public class WorkerTests
 	
 	//Test whether or whether not the worker is available this week s164166
 	@Test
-	public void checkAvailableWeek() throws WorkerNameError
+	public void checkAvailableWeek()
 	{
 		when(settings.getMaxAssignments()).thenReturn(20);
-		worker = new Worker("Testname",settings);
 		assertTrue("Check that the worker is availabile in the current week",worker.isAvailableCurrWeek());
 		for (int i = 0; i < 20; i++)
 		{
@@ -79,10 +87,9 @@ public class WorkerTests
 	
 	//Test whether or whether not the worker is available next week s164166
 	@Test
-	public void checkMultipleWeeks() throws WorkerNameError
+	public void checkMultipleWeeks()
 	{
 		when(settings.getMaxAssignments()).thenReturn(20);
-		worker = new Worker("Testname",settings);
 		assertTrue("Check that the worker is availble in 1 week",worker.isAvailableXweek(1));
 		assertTrue("Check that the worker is availble in 2 weeks",worker.isAvailableXweek(2));
 		assertTrue("Check that the worker is availble in 100 weeks",worker.isAvailableXweek(100));
@@ -97,11 +104,10 @@ public class WorkerTests
 		assertFalse("Check that the worker is not availabile in 100 weeks from now",worker.isAvailableXweek(100));
 	}
 
-	//Test whether a worker can be fired. s164166
+	//Test whether a worker can be fired, and if they are fired they are not available in the next couple of weeks s164166
 	@Test
-	public void fireWorker() throws WorkerNameError
+	public void fireWorker()
 	{
-		worker = new Worker("Testname",settings);
 		worker.fireWorker();
 		assertFalse("Check that the worker is not available this week after being fired",worker.isAvailableCurrWeek());
 		assertFalse("Check that the worker is not available 2 weeks after being fired",worker.isAvailableXweek(2));
