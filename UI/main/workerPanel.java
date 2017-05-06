@@ -27,26 +27,24 @@ import javax.swing.JTextField;
 import taskManagement.Task;
 import workerLogic.Worker;
 import workerLogic.WorkerMissingTask;
-import javax.swing.JTextPane;
 
 public class workerPanel extends JPanel implements ActionListener, KeyListener, ListSelectionListener {
-	
-	
-	
 	private static final long serialVersionUID = 1L;
 	private contentPanel contentPanel;
 	Task[] currentWeekTasks;
-	public DefaultListModel<String> listModel;
-	public JList<String> workerList;
-	public JScrollPane workerScroll;
-	public DefaultComboBoxModel<String> taskList;
-	public JComboBox<String> comboBox;
-	private JTextField textField;
+	DefaultListModel<String> listModel;
+	JList<String> workerList;
+	JScrollPane workerScroll;
+	DefaultComboBoxModel<String> taskList;
+	JComboBox<String> comboBox;
+	JTextField textTime, textAssTime;
+	JButton btnRemAssTime, btnAddAssTime, btnRemTime, btnAddTime;
+	JLabel lblAddAssTime, lblTime, lblCurrentWork, lblWorkerSelection;
 	/**
 	 * Contains UI related to worker.
 	 * @author s160902
 	 */
-	public workerPanel(contentPanel contentPanel) {
+	workerPanel(contentPanel contentPanel) {
 		this.contentPanel = contentPanel;
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -73,11 +71,11 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		workerScroll.setBackground(new Color(219, 142, 27));
 		add(workerScroll);
 		
-		JLabel lblWorkerSelection = new JLabel("Worker Selection");
+		lblWorkerSelection = new JLabel("Worker Selection");
 		lblWorkerSelection.setBounds(10, 10, 100, 20);
 		add(lblWorkerSelection);
 		
-		JLabel lblCurrentWork = new JLabel("Current weeks work");
+		lblCurrentWork = new JLabel("Current weeks work");
 		lblCurrentWork.setBounds(170, 10, 120, 20);
 		add(lblCurrentWork);
 		
@@ -85,100 +83,89 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		comboBox.setBounds(170, 30, 120, 20);
 		add(comboBox);
 		
-		JLabel lblNewLabel = new JLabel("Add time to task");
-		lblNewLabel.setBounds(170, 55, 120, 20);
-		add(lblNewLabel);
+		lblTime = new JLabel("Add time to task");
+		lblTime.setBounds(170, 55, 120, 20);
+		add(lblTime);
 		
-		JButton button = new JButton("Add");
-		button.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		button.setBounds(170, 100, 57, 20);
-		add(button);
+		btnAddTime = new JButton("Add");
+		btnAddTime.addActionListener(this);
+		btnAddTime.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnAddTime.setBounds(170, 100, 57, 20);
+		add(btnAddTime);
 		
-		JButton button_1 = new JButton("DEL");
-		button_1.setBounds(233, 100, 57, 20);
-		add(button_1);
+		btnRemTime = new JButton("DEL");
+		btnRemTime.addActionListener(this);
+		btnRemTime.setBounds(233, 100, 57, 20);
+		add(btnRemTime);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(170, 75, 120, 20);
-		add(textField);
+		textTime = new JTextField();
+		textTime.setColumns(10);
+		textTime.setBounds(170, 75, 120, 20);
+		add(textTime);
 		
-		JLabel lblNewLabel_1 = new JLabel("Add Assisted");
-		lblNewLabel_1.setBounds(170, 132, 120, 20);
-		add(lblNewLabel_1);
+		lblAddAssTime = new JLabel("Add Assisted");
+		lblAddAssTime.setBounds(170, 132, 120, 20);
+		add(lblAddAssTime);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(172, 152, 116, 20);
-		add(textPane);
+		textAssTime = new JTextField();
+		textAssTime.setBounds(172, 152, 116, 20);
+		add(textAssTime);
 		
-		JButton button_2 = new JButton("Add");
-		button_2.setFont(new Font("Dialog", Font.PLAIN, 11));
-		button_2.setBounds(170, 184, 57, 20);
-		add(button_2);
+		btnAddAssTime = new JButton("Add");
+		btnAddAssTime.addActionListener(this);
+		btnAddAssTime.setFont(new Font("Dialog", Font.PLAIN, 11));
+		btnAddAssTime.setBounds(170, 184, 57, 20);
+		add(btnAddAssTime);
 		
-		JButton button_3 = new JButton("DEL");
-		button_3.setBounds(233, 184, 57, 20);
-		add(button_3);
+		btnRemAssTime = new JButton("DEL");
+		btnRemAssTime.addActionListener(this);
+		btnRemAssTime.setBounds(233, 184, 57, 20);
+		add(btnRemAssTime);
 
 	}
 	//S164147
-	public void updateWorkerList()
-	{
+	public void updateWorkerList() {
 		for(Worker worker : contentPanel.getApp().getAllWorkers()){
 			listModel.addElement(worker.getName());
 		}
-			
 	}
 	public void valueChanged(ListSelectionEvent e) {
-
-		
-		if(!e.getValueIsAdjusting())
-		{
+		if(!e.getValueIsAdjusting()) {
 			Task[] currentWeekTasks = contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().getAssignments();
 			String[] taskNames = {"Select Worker"};
-		
-
-			for(Task task : currentWeekTasks)
-			{
+			for(Task task : currentWeekTasks) {
 				int i = 0;
 				taskNames[i] = task.getName();
 				i++;
 			}
-		
 			taskList = new DefaultComboBoxModel<String>(taskNames);
 		}
-
-		
 	}
+	//Unused keyEvents
 	public void keyPressed(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
 	public void actionPerformed(ActionEvent e) {
 		//Check which button has been pressed
-		if (e.equals("Add"))
-		{
+		if (e.getSource() == btnAddTime) {
 			try {
-				contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboBox.getSelectedIndex(), Integer.parseInt(textField.getText()));
+				contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboBox.getSelectedIndex(), Integer.parseInt(textTime.getText()));
 			} catch (NumberFormatException e1) {
 				e1.printStackTrace();
 				System.out.println("Please insert integer.");
 			} catch (WorkerMissingTask e1) {
 				e1.printStackTrace();
 			}
-			
 		}
-		if(e.equals("Del"))
-		{
+		if(e.getSource() == btnRemTime) {
 			try {
-				contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboBox.getSelectedIndex(), -(Integer.parseInt(textField.getText())));
+				contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboBox.getSelectedIndex(), -(Integer.parseInt(textTime.getText())));
 			} catch (NumberFormatException e1) {
 				e1.printStackTrace();
 				System.out.println("Please insert integer.");
 			} catch (WorkerMissingTask e1) {
 				e1.printStackTrace();
 			}
-			
 		}
-
 	}
 }

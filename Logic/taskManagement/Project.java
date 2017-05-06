@@ -18,6 +18,12 @@ public class Project {
 	private Worker leader;
 	private int projectID;
 	
+	public Project(String name, Date date, Worker leader) {
+		this.name = name;
+		this.deadline = new GregorianCalendar();
+		this.deadline.setTime(date);
+		this.leader = leader;
+	}
 	public void setID(int id)
 	{
 		projectID=id;
@@ -27,16 +33,6 @@ public class Project {
 	{
 		return projectID;
 	}
-	
-	
-	public Project(List<Worker> workers, String name, int[] deadline)
-	{
-		this.name = name;
-		this.deadline = new GregorianCalendar(deadline[0],deadline[1],deadline[2]);
-		if(workers != null)
-			this.workers = workers;
-	}
-	
 	/**
 	 * Removes a worker either using an index or a worker object.
 	 * @param worker
@@ -135,11 +131,23 @@ public class Project {
 	{
 		deadline = new GregorianCalendar(newDeadline[0],newDeadline[1],newDeadline[2]);
 	}
+<<<<<<< HEAD
 	public void setDeadline(TimeZone date)
 	{
 		deadline = new GregorianCalendar(date);
 	}
 	
+=======
+	/**
+	 * .
+	 * @author s160902
+	 */
+	public void setDeadline(Date date)
+	{
+		deadline = new GregorianCalendar();
+		deadline.setTime(date);
+	}
+>>>>>>> refs/heads/UIWorking
 	public Calendar getDeadline()
 	{
 		return deadline;

@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,9 +20,9 @@ public class ProjectPlanningApp {
 	 * Adds a new project
 	 * @author s160902
 	 */
-	public  void addNewProject(List<Worker> workers, String name, int[] deadline)
+	public  void addNewProject(String name, Date date, Worker leader)
 	{
-		Project project = new Project(workers,name,deadline);
+		Project project = new Project(name, date, leader);
 		project.setID(companyProjects.size());
 		companyProjects.add(project);
 	}

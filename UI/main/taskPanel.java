@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -26,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import taskManagement.Project;
 import taskManagement.Task;
 import workerLogic.Worker;
 import workerLogic.WorkerMissingTask;
@@ -42,16 +45,16 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	private List<Worker> tempWorkers;
 	private List<Worker> tempAssistingWorkers;
 	
-	public DefaultListModel<String> listModelTask;
-	public DefaultComboBoxModel<String> comboModelAssignedWorkers, comboModelAssistingWorkers, comboModelTaskCompletion;
-	public JList<String> taskList;
-	public JScrollPane taskScroll, taskDescScroll;
-	public JLabel lblTaskDesc, lblTaskSelect, lblTaskName, lblTaskDeadline, lblEndWeek,
+	DefaultListModel<String> listModelTask;
+	DefaultComboBoxModel<String> comboModelAssignedWorkers, comboModelAssistingWorkers, comboModelTaskCompletion;
+	JList<String> taskList;
+	JScrollPane taskScroll, taskDescScroll;
+	JLabel lblTaskDesc, lblTaskSelect, lblTaskName, lblTaskDeadline, lblEndWeek,
 	lblAssignedWorkers, lblAssistedTime, lblTotalWorktimeSpent, lblHours, lblTaskCompletion;
-	public JTextArea textAreaTaskDesc;
-	public JTextField textTaskName, textEndWeek, textWorkTime;
-	private JComboBox<String> comboAssignedWorkers, comboAssistedWorkTime, comboTaskCompletion;
-	private JButton btnAddWorker, btnDelWorker, btnSaveTask, btnDelTask;
+	JTextArea textAreaTaskDesc;
+	JTextField textTaskName, textEndWeek, textWorkTime;
+	JComboBox<String> comboAssignedWorkers, comboAssistedWorkTime, comboTaskCompletion;
+	JButton btnAddWorker, btnDelWorker, btnSaveTask, btnDelTask;
 	/**
 	 * Contains UI related to task.
 	 * @author s160902
@@ -122,7 +125,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 		lblEndWeek.setBounds(170, 75, 40, 20);
 		add(lblEndWeek);
 		
-		textEndWeek = new JTextField();
+		textEndWeek = new JTextField("yyyy-MM-dd");
 		textEndWeek.setColumns(10);
 		textEndWeek.setBounds(215, 75, 75, 20);
 		add(textEndWeek);
@@ -137,15 +140,15 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 		add(comboAssignedWorkers);
 		
 		btnAddWorker = new JButton("Add");
+		btnAddWorker.addActionListener(this);
 		btnAddWorker.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnAddWorker.setBounds(170, 145, 57, 20);
 		add(btnAddWorker);
-		btnAddWorker.setActionCommand("addWorker");
 		
 		btnDelWorker = new JButton("DEL");
+		btnDelWorker.addActionListener(this);
 		btnDelWorker.setBounds(233, 145, 57, 20);
 		add(btnDelWorker);
-		btnDelWorker.setActionCommand("delWorker");
 		
 		comboModelAssistingWorkers = new DefaultComboBoxModel<String>();
 		comboAssistedWorkTime = new JComboBox<String>(comboModelAssistingWorkers);
@@ -180,21 +183,21 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 		add(comboTaskCompletion);
 		
 		btnSaveTask = new JButton("Save task");
+		btnSaveTask.addActionListener(this);
 		btnSaveTask.setBounds(10, 535, 135, 23);
 		add(btnSaveTask);
-		btnSaveTask.setActionCommand("saveTask");
 		
 		btnDelTask = new JButton("Delete task");
+		btnDelTask.addActionListener(this);
 		btnDelTask.setBounds(155, 535, 135, 23);
 		add(btnDelTask);
-		btnDelTask.setActionCommand("deleteTask");
 		
 	}
 	/**
 	 * Clears task content.
 	 * @author s160902
 	 */
-	public void clearTaskContent(){
+	public void clearTaskContent() {
 		textAreaTaskDesc.setText("");
 		textTaskName.setText("");
 		textEndWeek.setText("yyyy-MM-dd");
@@ -208,7 +211,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 * Updates comboAssignedWorkers comboBox.
 	 * @author s160902
 	 */
-	public void updateWorkerComboBox(){
+	public void updateWorkerComboBox() {
 		ArrayList<String> workNames = (ArrayList<String>) tempWorkers.stream()
 		.map(Worker::getWorkName).collect(Collectors.toList());
 		
@@ -218,7 +221,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 * Updates comboAssistedWorkTime comboBox.
 	 * @author s160902
 	 */
-	public void updateAssistingComboBox(){
+	public void updateAssistingComboBox() {
 		ArrayList<String> workNames = (ArrayList<String>) tempAssistingWorkers.stream()
 				.map(Worker::getWorkName).collect(Collectors.toList());
 		
@@ -228,7 +231,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 * Updates comboTaskCompletion comboBox.
 	 * @author s160902
 	 */
-	public void updateCompletionComboBox(){
+	public void updateCompletionComboBox() {
 		comboModelAssistingWorkers.addElement("Incomplete");
 		comboModelAssistingWorkers.addElement("Complete");
 		
@@ -239,16 +242,15 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 * Clears the task list.
 	 * @author s160902
 	 */
-	public void clearTaskList(){
+	public void clearTaskList() {
 		listModelTask.clear();
 	}
 	/**
 	 * Updates the task list.
 	 * @author s160902
 	 */
-	public void updateTaskList(List<Task> tasks){
+	public void updateTaskList(List<Task> tasks) {
 		listModelTask.clear();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Task task;
 		String status;
 		for(int i = 0; i < tasks.size();i++){
@@ -260,7 +262,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 			
 			listModelTask.addElement(
 					"<html>Task    : "+task.getName()+
-					"<br/>Deadline : "+ format.format(task.getDeadline())+
+					"<br/>Deadline : "+ contentPanel.getDateFormat().format(task.getDeadline())+
 					"<br/>Status   : "+status+"</html>");
 		}
 		listModelTask.addElement("<html>-----------------------------<br/>ADD NEW TASK<br/>-----------------------------</html>");
@@ -287,7 +289,6 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 					} catch (WorkerMissingTask e1) {
 						e1.printStackTrace();
 					}
-					
 					tempWorkers = selectedTask.getAssignedWorkers();
 					tempAssistingWorkers = selectedTask.getAssistingWorkers();
 					
@@ -298,6 +299,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 			}
 		}
 	}
+	//Unused keyEvents
 	public void keyPressed(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {}
 	public void keyTyped(KeyEvent e) {}
@@ -306,48 +308,43 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 * @author s160902
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if ("saveTask".equals(e.getActionCommand())) {
-			 if(taskList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size()){
+		if (e.getSource() == btnSaveTask) {
+			 if(taskList.getSelectedIndex() < contentPanel.getProjectPanel().getSelectedProject().getTasks().size()){
 				 
 				 selectedTask.setName(textTaskName.getText());
-				 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				 try {
-					selectedTask.setDeadline(format.parse(textEndWeek.getText()));
+					selectedTask.setDeadline(contentPanel.getDateFormat().parse(textEndWeek.getText()));
 				 } catch (ParseException e1) {
-					 // TODO Auto-generated catch block
-					 e1.printStackTrace();
+					 JOptionPane.showMessageDialog(contentPanel, "Date wasn't saved, type in the date correctly.");
 				 }
 				 if(selectedTask.getStatus() == true && comboTaskCompletion.getSelectedIndex() == 0 ||
 						 selectedTask.getStatus() == false && comboTaskCompletion.getSelectedIndex() == 1)
 					 selectedTask.changeCompletion();
-				 
 			 }else{
-				 Task task = new Task(contentPanel.projectPanel.getSelectedProject());
-				 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				 
-				 task.setName(textTaskName.getText());
-				 task.setDescription(textAreaTaskDesc.getText());
-				 task.setAssignedWorkers(tempWorkers);
 				 task.setAssistingWorkers(tempAssistingWorkers);
 				 try {
-					selectedTask.setDeadline(format.parse(textEndWeek.getText()));
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
+					selectedTask.setDeadline(contentPanel.getDateFormat().parse(textEndWeek.getText()));
+				 } catch (ParseException e1) {
+					JOptionPane.showMessageDialog(contentPanel, "Date wasn't saved, type in the date correctly.");
+				 }
+				 Task task = new Task(textTaskName.getText(), textAreaTaskDesc.getText(), tempWorkers,
+						 date, contentPanel.projectPanel.getSelectedProject());
+				 contentPanel.getProjectPanel().getSelectedProject().addTask(task);
+				 
+				 
 			 }
 		 }
-		 if ("deleteTask".equals(e.getActionCommand())) {
+		 if (e.getSource() == btnDelTask) {
 			 if(taskList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size())
-				 contentPanel.getApp().removeProject(taskList.getSelectedIndex());
+				 contentPanel.getProjectPanel().getSelectedProject().removeTask(taskList.getSelectedIndex());
 		 }
-		 if ("addWorker".equals(e.getActionCommand())) {
+		 if (e.getSource() == btnAddWorker) {
 			 if(!tempWorkers.contains(contentPanel.workerPanel.workerList.getSelectedIndex()))
 				 tempWorkers.add(contentPanel.getApp().getWorker(contentPanel.workerPanel.workerList.getSelectedIndex()));
+			 
 			 updateAssistingComboBox();
 		 }
-		 if ("delWorker".equals(e.getActionCommand())) {
+		 if (e.getSource() == btnDelWorker && comboAssignedWorkers.getSelectedIndex() != -1) {
 			 tempWorkers.remove(comboAssignedWorkers.getSelectedIndex());
 			 updateWorkerComboBox();
 		 }
