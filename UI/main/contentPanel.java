@@ -2,6 +2,7 @@ package main;
 
 
 import java.awt.Dimension;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -17,12 +18,14 @@ public class contentPanel extends JPanel {
 	taskPanel taskPanel;
 	workerPanel workerPanel;
 	ProjectPlanningApp app;
+	SimpleDateFormat dateFormat;
 	/**
 	 * Creates 3 sections each containing its own JPanel.
 	 * @author s160902
 	 */
 	public contentPanel(ProjectPlanningApp app) {
 		this.app = app;
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setPreferredSize(new Dimension(900, 600));
@@ -48,5 +51,8 @@ public class contentPanel extends JPanel {
 	}
 	public ProjectPlanningApp getApp(){
 		return this.app;
+	}
+	public SimpleDateFormat getDateFormat(){
+		return this.dateFormat;
 	}
 }
