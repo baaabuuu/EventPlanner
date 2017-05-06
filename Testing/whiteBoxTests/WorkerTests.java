@@ -75,7 +75,7 @@ public class WorkerTests
 		assertTrue("Check that the worker is availabile in the current week",worker.isAvailableCurrWeek());
 	}
 	
-	//Test whether or whether not the worker is available next week
+	//Test whether or whether not the worker is available next week s164166
 	@Test
 	public void checkNextWeek() throws WorkerNameError
 	{
@@ -85,7 +85,7 @@ public class WorkerTests
 		assertTrue(worker.isAvailableXweek(100));
 	}
 
-	//Test whether a worker can be fired.
+	//Test whether a worker can be fired. s164166
 	@Test
 	public void fireWorker() throws WorkerNameError
 	{
