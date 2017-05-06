@@ -321,17 +321,17 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 						 selectedTask.getStatus() == false && comboTaskCompletion.getSelectedIndex() == 1)
 					 selectedTask.changeCompletion();
 			 }else{
-				 task.setAssistingWorkers(tempAssistingWorkers);
+				 Date date = null;
 				 try {
-					selectedTask.setDeadline(contentPanel.getDateFormat().parse(textEndWeek.getText()));
+					date = contentPanel.getDateFormat().parse(textEndWeek.getText());
 				 } catch (ParseException e1) {
-					JOptionPane.showMessageDialog(contentPanel, "Date wasn't saved, type in the date correctly.");
+					JOptionPane.showMessageDialog(contentPanel, "Task wasn't saved, type in the date correctly.");
 				 }
-				 Task task = new Task(textTaskName.getText(), textAreaTaskDesc.getText(), tempWorkers,
-						 date, contentPanel.projectPanel.getSelectedProject());
-				 contentPanel.getProjectPanel().getSelectedProject().addTask(task);
-				 
-				 
+				 if(date != null) {
+					 Task task = new Task(textTaskName.getText(), textAreaTaskDesc.getText(), tempWorkers, tempAssistingWorkers,
+							 date, contentPanel.projectPanel.getSelectedProject());
+					 contentPanel.getProjectPanel().getSelectedProject().addTask(task);
+				 }
 			 }
 		 }
 		 if (e.getSource() == btnDelTask) {
