@@ -17,8 +17,8 @@ public class TaskTest {
 	//s164147
 	Project project;
 	ProjectPlanningApp database;
-	Task task = mock(Task.class);
-	Worker leader = mock(Worker.class);
+	Task task;
+	Worker worker = mock(Worker.class);
 	
 	//s164166 && S164147
 	@Before
@@ -28,7 +28,19 @@ public class TaskTest {
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 8);
-		project =	new Project("Test Project",cal.getTime(),leader);
-	}	
+		task = new Task("Test","Test",cal.getTime(),null);
+	}
+	
+	@Test //s164166
+	public void noWorkTime() throws WorkerMissingTask
+	{
+		assertEquals("No work Time",task.getWorkTime(),0);
+		when(worker.timeSpentOnTask(task)).thenReturn(5);
+		task.addWorker(worker);
+		assertEquals("No work Time",task.getWorkTime(),5);
+	}
+	
+	
+	
 	
 }

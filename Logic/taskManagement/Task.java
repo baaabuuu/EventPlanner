@@ -53,21 +53,7 @@ public class Task {
 		this.deadline = new GregorianCalendar();
 		this.deadline.setTime(date);
 	}
-	public Task(Project project){
-		this.project	=	project;
-	}
-	public Task(String name, String description, List<Worker> assignedWorkers,
-			List<Worker> assistingWorkers, Date date, Project project)
-	{
-		this.project	=	project;
-		this.name = name;
-		this.description = description;
-		this.deadline = new GregorianCalendar();
-		this.deadline.setTime(date);
-		this.assignedWorkers = assignedWorkers;
-		this.assistingWorkers = assistingWorkers;
-	}
-	
+
 	public String getName()
 	{
 		return name;
@@ -104,7 +90,8 @@ public class Task {
 	}
 	public void addWorker(Worker worker)
 	{
-		assignedWorkers.add(worker);
+		if (!assignedWorkers.contains(worker))
+			assignedWorkers.add(worker);
 	}
 	public void removeWorker(int idToRemove)
 	{		
@@ -124,15 +111,7 @@ public class Task {
 	public void setAssignedWorkers(List<Worker> assignedWorkers){
 		this.assignedWorkers = assignedWorkers;
 	}
-	/**
-	 * Sets the assistingWorkers list to a given list.
-	 * @author s160902
-	 */
-	public void removeAssistingWorker(int idToRemove)
-	{		
-		assistingWorkers.removeIf(worker -> worker.getWorkID() == idToRemove);
-		
-	}
+
 	/**
 	 * Returns a list of all workers assigned to the task.
 	 * @author s160902
@@ -140,6 +119,7 @@ public class Task {
 	public List<Worker> getAssistingWorkers(){
 		return this.assistingWorkers;
 	}
+	
 	/**
 	 * Returns total workTime of all who have worked on this task.
 	 * @author s160902
@@ -147,18 +127,12 @@ public class Task {
 	public int getWorkTime() throws WorkerMissingTask
 	{
 		int totalWorkTime = 0;
-		for(int i = 0; i < getAssignedWorkers().size(); i++)
-			totalWorkTime += getAssignedWorkers().get(i).timeSpentOnTask(this);
+		if (getAssignedWorkers().size()>0)
+			for(int i = 0; i < getAssignedWorkers().size(); i++)
+				totalWorkTime += getAssignedWorkers().get(i).timeSpentOnTask(this);
 		return totalWorkTime;
 	}
 
-	/**
-	 * Sets the assistingWorkers list to a given list.
-	 * @author s160902
-	 */
-	public void setAssistingWorkers(List<Worker> assistingWorkers){
-		this.assistingWorkers = assistingWorkers;
-	}
 	public void addAssistingWorker(Worker worker)
 	{
 		assistingWorkers.add(worker);

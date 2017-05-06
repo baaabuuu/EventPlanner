@@ -13,9 +13,9 @@ public class WorkWeek
 	private Settings			settings;
 	private int[]				workTime;
 	private Task[]				assignments;
+	private int[][]				timeWorkedOnTask;
 	private ArrayList<Task>		helpedTasks			=	new ArrayList<Task>();
 	private ArrayList<Integer>	helpedTasksTime		=	new ArrayList<Integer>();
-	private int[][]				timeWorkedOnTask;
 	private boolean				isBussy				=	false;
 
 		
