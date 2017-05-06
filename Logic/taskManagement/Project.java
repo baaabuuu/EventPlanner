@@ -89,7 +89,10 @@ public class Project {
 	{
 		return this.tasks.get(index);
 	}
-	
+	/**
+	 * Returns a task from the tasks list by its index or name.
+	 * @author s160902 && s164166
+	 */
 	public Task getTask(String name)
 	{
 		for(Task task : tasks)
