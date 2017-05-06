@@ -31,6 +31,8 @@ import workerLogic.WorkerMissingTask;
 public class workerPanel extends JPanel implements ActionListener, KeyListener, ListSelectionListener {
 	private static final long serialVersionUID = 1L;
 	private contentPanel contentPanel;
+	private Worker selectedWorker;
+	
 	Task[] currentWeekTasks;
 	DefaultListModel<String> listModel;
 	JList<String> workerList;
@@ -124,6 +126,9 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		
 		updateWorkerList();
 	}
+	public Worker getSelectedWorker(){
+		return selectedWorker;
+	}
 	//S164147
 	public void updateWorkerList() {
 		for(Worker worker : contentPanel.getApp().getAllWorkers()){
@@ -132,6 +137,9 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 	}
 	public void valueChanged(ListSelectionEvent e) {
 		if(!e.getValueIsAdjusting()) {
+			selectedWorker = contentPanel.getApp().getWorker(workerList.getSelectedIndex());
+			System.out.println(selectedWorker.getName());
+			
 			Task[] currentWeekTasks = contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().getAssignments();
 			String[] taskNames = {"Select Worker"};
 			if(currentWeekTasks[0] != null){

@@ -147,8 +147,10 @@ public class Task {
 	public int getWorkTime() throws WorkerMissingTask
 	{
 		int totalWorkTime = 0;
-		for(int i = 0; i < getAssignedWorkers().size(); i++)
-			totalWorkTime += getAssignedWorkers().get(i).timeSpentOnTask(this);
+		if(getAssignedWorkers() != null && getAssignedWorkers().size() > 0){
+			for(int i = 0; i < getAssignedWorkers().size(); i++)
+				totalWorkTime += getAssignedWorkers().get(i).timeSpentOnTask(this);
+		}
 		return totalWorkTime;
 	}
 

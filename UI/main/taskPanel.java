@@ -42,8 +42,8 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	private static final long serialVersionUID = 1L;
 	private contentPanel contentPanel;
 	private Task selectedTask;
-	private List<Worker> tempWorkers;
-	private List<Worker> tempAssistingWorkers;
+	private List<Worker> tempWorkers = new ArrayList();
+	private List<Worker> tempAssistingWorkers  = new ArrayList();;
 	
 	DefaultListModel<String> listModelTask;
 	DefaultComboBoxModel<String> comboModelAssignedWorkers, comboModelAssistingWorkers, comboModelTaskCompletion;
@@ -219,20 +219,24 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 * @author s160902
 	 */
 	public void updateWorkerComboBox() {
-		ArrayList<String> workNames = (ArrayList<String>) tempWorkers.stream()
-		.map(Worker::getWorkName).collect(Collectors.toList());
-		
-		comboModelAssignedWorkers = new DefaultComboBoxModel<String>((String[]) workNames.toArray());
+		if(tempWorkers != null) {
+			String[] workNames = (String[]) tempWorkers.stream()
+					.map(Worker::getWorkName).toArray(String[]::new);
+					
+					comboModelAssignedWorkers = new DefaultComboBoxModel<String>(workNames);
+		}
 	}
 	/**
 	 * Updates comboAssistedWorkTime comboBox.
 	 * @author s160902
 	 */
 	public void updateAssistingComboBox() {
-		ArrayList<String> workNames = (ArrayList<String>) tempAssistingWorkers.stream()
-				.map(Worker::getWorkName).collect(Collectors.toList());
-		
-		comboModelAssistingWorkers = new DefaultComboBoxModel<String>((String[]) workNames.toArray());
+		if(tempAssistingWorkers != null) {
+			ArrayList<String> workNames = (ArrayList<String>) tempAssistingWorkers.stream()
+					.map(Worker::getWorkName).collect(Collectors.toList());
+			
+			comboModelAssistingWorkers = new DefaultComboBoxModel<String>((String[]) workNames.toArray());
+		}
 	}
 	/**
 	 * Updates comboTaskCompletion comboBox.
@@ -285,11 +289,13 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 				selectedTask = null;
 				
 				if(taskList.getSelectedIndex() != -1 && listModelTask.size()>1 &&
-						taskList.getSelectedIndex() < listModelTask.size()){
+						taskList.getSelectedIndex() < contentPanel.projectPanel.getSelectedProject().getTasks().size())
+				{
 					selectedTask = contentPanel.projectPanel.getSelectedProject().getTask(taskList.getSelectedIndex());
 					
 					textTaskName.setText(selectedTask.getName());
-					textEndWeek.setText(contentPanel.getDateFormat().format(selectedTask.getDeadline()));
+					textEndWeek.setText(contentPanel.getDateFormat().format(selectedTask.getDeadline().getTime()));
+					
 					try {
 						textWorkTime.setText(String.valueOf(1.0*selectedTask.getWorkTime()/2));
 					} catch (WorkerMissingTask e1) {
@@ -301,7 +307,6 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 					updateWorkerComboBox();
 					updateAssistingComboBox();
 					updateCompletionComboBox();
-					updateTaskList(contentPanel.getProjectPanel().getSelectedProject().getTasks());
 				}
 			}
 		}
@@ -346,11 +351,14 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 			 if(taskList.getSelectedIndex() < contentPanel.getProjectPanel().getSelectedProject().getTasks().size())
 				 contentPanel.getProjectPanel().getSelectedProject().removeTask(taskList.getSelectedIndex());
 		 }
-		 if (e.getSource() == btnAddWorker) {
-			 if(!tempWorkers.contains(contentPanel.workerPanel.workerList.getSelectedIndex()))
-				 tempWorkers.add(contentPanel.getApp().getWorker(contentPanel.workerPanel.workerList.getSelectedIndex()));
-			 
-			 updateAssistingComboBox();
+		 if (e.getSource() == btnAddWorker && contentPanel.getWorkerPanel().workerList.getSelectedIndex() != -1) {
+			 if(tempWorkers == null || !tempWorkers.contains(contentPanel.getWorkerPanel().getSelectedWorker()))
+			 {
+				 // check if worker already has 20 assignments and give him this assignment.
+				 tempWorkers.add(contentPanel.getWorkerPanel().getSelectedWorker());
+				 
+				 updateWorkerComboBox();
+			 }
 		 }
 		 if (e.getSource() == btnDelWorker && comboAssignedWorkers.getSelectedIndex() != -1) {
 			 tempWorkers.remove(comboAssignedWorkers.getSelectedIndex());
