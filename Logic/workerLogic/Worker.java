@@ -70,7 +70,7 @@ public class Worker
 	 */
 	private void setWorkName(String workName)
 	{
-		this.workName = String.format("%4s", workName).substring(0, 4);
+		this.workName = (workName.length()<5) ? workName : String.format("%4s", workName).substring(0, 4) ;
 	}
 	/**
 	 * returns the workID of the worker.

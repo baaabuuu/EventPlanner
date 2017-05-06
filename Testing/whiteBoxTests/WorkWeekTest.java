@@ -1,0 +1,114 @@
+package whiteBoxTests;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import workerLogic.*;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import application.Settings;
+import taskManagement.Task;
+
+public class WorkWeekTest {
+	Task task = mock(Task.class);
+	Worker worker = mock(Worker.class);
+	Settings settings = mock(Settings.class);
+	WorkWeek week;
+	
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+	
+	@Before //s164166
+	public  void setup()
+	{
+		when(settings.getMaxAssignments()).thenReturn(20);
+		week = new WorkWeek(settings);
+	}
+	
+	//Create a workweek with a mocked Settings object. s164166
+	@Test
+	public void createWorkWeek()
+	{		
+		week = new WorkWeek(settings);
+		//If this holds true the other variables have the same dimensions proper.
+		assertEquals("Maximum 20 assignments",week.getAssignments().length,20);
+	}
+	
+	//s164166
+	@Test
+	public void getWorkTask() throws WorkerMissingTask
+	{
+		thrown.expect(WorkerMissingTask.class);
+		week.getWorkTask(0);
+		week.updAssignments(task);
+		assertNotNull("We have added a new thing, therefor it will not return null",week.getWorkTask(0));
+	}
+	
+	//s164166
+	@Test
+	public void getUpdWorkTime() throws WorkerMissingTask
+	{
+		thrown.expect(WorkerMissingTask.class);
+		week.getWorkTime(0);
+		thrown.expect(WorkerMissingTask.class);
+		week.updWorkTime(0, 2);
+		week.updAssignments(task);
+		week.updWorkTime(0, 2);
+		assertEquals("Time spent 2 hours",week.getWorkTime(0),2);
+	}
+	//s164166
+	@Test
+	public void isLegalThisWeekTrue()
+	{
+		when(worker.isFired()).thenReturn(false);
+		assertTrue("Works is not fired, week is not bussy, and there are less assignments than the maximum.",week.isLegalThisweek(worker));
+	}
+	//s164166
+	@Test
+	public void isLegalThisWeekFired()
+	{
+		when(worker.isFired()).thenReturn(true);
+		assertFalse("Worker is  fired, project not bussy, less assignments than max",week.isLegalThisweek(worker));
+	}
+	//s164166
+	@Test
+	public void isLegalThisWeekIsBussy()
+	{
+		when(worker.isFired()).thenReturn(false);
+		week.setBussy();
+		assertFalse("Worker is not fired, project bussy, less assignments than max",week.isLegalThisweek(worker));
+	}
+	//s164166
+	@Test
+	public void isLegalThisWeekFiredAndBussy()
+	{
+		when(worker.isFired()).thenReturn(true);
+		week.setBussy();
+		assertFalse("Worker is  fired, project bussy, less assignments",week.isLegalThisweek(worker));
+	}
+	//s164166
+	@Test
+	public void isNotLegalThisWeek()
+	{
+		when(worker.isFired()).thenReturn(true);
+		week.setBussy();
+		for (int i = 0; i<20;i++)
+			week.updAssignments(task);
+		assertFalse("Worker is  fired, project bussy, max assignments reached",week.isLegalThisweek(worker));
+	}
+	
+	//s164166
+	@Test
+	public void filledSchedule()
+	{
+		when(worker.isFired()).thenReturn(false);
+		for (int i = 0; i<20;i++)
+			week.updAssignments(task);
+		assertFalse("Worker is not  fired, project is not bussy, max assignments reached",week.isLegalThisweek(worker));
+	}
+}

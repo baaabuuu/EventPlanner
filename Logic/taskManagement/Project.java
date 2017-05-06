@@ -2,8 +2,11 @@ package taskManagement;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
+
 import workerLogic.*;
 
 //S164147
@@ -131,6 +134,10 @@ public class Project {
 	public void setDeadline(int[] newDeadline)
 	{
 		deadline = new GregorianCalendar(newDeadline[0],newDeadline[1],newDeadline[2]);
+	}
+	public void setDeadline(TimeZone date)
+	{
+		deadline = new GregorianCalendar(date);
 	}
 	
 	public Calendar getDeadline()

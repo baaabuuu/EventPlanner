@@ -10,13 +10,13 @@ import taskManagement.Task;
  */
 public class WorkWeek
 {
+	private Settings			settings;
 	private int[]				workTime;
 	private Task[]				assignments;
 	private ArrayList<Task>		helpedTasks			=	new ArrayList<Task>();
 	private ArrayList<Integer>	helpedTasksTime		=	new ArrayList<Integer>();
 	private int[][]				timeWorkedOnTask;
 	private boolean				isBussy				=	false;
-	private Settings			settings			=	new Settings();
 
 		
 	/**
@@ -26,19 +26,21 @@ public class WorkWeek
 	 */
 	public WorkWeek(Settings settings)
 	{
-		workTime	=	new int[settings.getMaxAssignments()];
-		assignments	=	new Task[settings.getMaxAssignments()];
+		this.settings	 =	settings;
+		workTime		 =	new int[settings.getMaxAssignments()];
+		assignments		 =	new Task[settings.getMaxAssignments()];
 		timeWorkedOnTask = new int[8][settings.getMaxAssignments()];
 	}
 	
 	/**
 	 * Denotes whether the user is sick or perhaps having a vacation this week.
 	 * Once this trigger, the user is unable to work for the remainder of this week.
+	 * If calld again, it will return false and then do scenario 1 once the code is rerun.
 	 * @author s160902
 	 */
 	public void setBussy()
 	{
-		isBussy = true;
+		isBussy = !isBussy;
 	}
 	/**
 	 * Returns a specific task
