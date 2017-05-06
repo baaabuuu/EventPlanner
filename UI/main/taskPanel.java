@@ -9,8 +9,6 @@ import java.awt.event.KeyListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,9 +26,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import companyDatabase.CompanyProjects;
-import companyDatabase.CompanyWorkers;
-import taskManagement.Project;
 import taskManagement.Task;
 import workerLogic.Worker;
 import workerLogic.WorkerMissingTask;
@@ -282,7 +277,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 				selectedTask = null;
 				
 				if(listModelTask.size()>1 && taskList.getSelectedIndex() < listModelTask.size()-1){
-					selectedTask = contentPanel.projectPanel.getSelectedProject().getTaskbyIndex(taskList.getSelectedIndex());
+					selectedTask = contentPanel.projectPanel.getSelectedProject().getTask(taskList.getSelectedIndex());
 					
 					textTaskName.setText(selectedTask.getName());
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -312,7 +307,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if ("saveTask".equals(e.getActionCommand())) {
-			 if(taskList.getSelectedIndex() < CompanyProjects.getAllProjects().size()){
+			 if(taskList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size()){
 				 
 				 selectedTask.setName(textTaskName.getText());
 				 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -330,10 +325,10 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 				 Task task = new Task(contentPanel.projectPanel.getSelectedProject());
 				 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				 
-				 selectedTask.setName(textTaskName.getText());
-				 selectedTask.setDescription(textAreaTaskDesc.getText());
-				 selectedTask.setAssignedWorkers(tempWorkers);
-				 selectedTask.setAssistingWorkers(tempAssistingWorkers);
+				 task.setName(textTaskName.getText());
+				 task.setDescription(textAreaTaskDesc.getText());
+				 task.setAssignedWorkers(tempWorkers);
+				 task.setAssistingWorkers(tempAssistingWorkers);
 				 try {
 					selectedTask.setDeadline(format.parse(textEndWeek.getText()));
 				} catch (ParseException e1) {
@@ -344,13 +339,12 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 			 }
 		 }
 		 if ("deleteTask".equals(e.getActionCommand())) {
-			 if(taskList.getSelectedIndex() < CompanyProjects.getAllProjects().size())
-				 CompanyProjects.removeProject(taskList.getSelectedIndex());
+			 if(taskList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size())
+				 contentPanel.getApp().removeProject(taskList.getSelectedIndex());
 		 }
 		 if ("addWorker".equals(e.getActionCommand())) {
 			 if(!tempWorkers.contains(contentPanel.workerPanel.workerList.getSelectedIndex()))
-				 tempWorkers.add(CompanyWorkers.getWorker(contentPanel.workerPanel.workerList.getSelectedIndex()));
-			 
+				 tempWorkers.add(contentPanel.getApp().getWorker(contentPanel.workerPanel.workerList.getSelectedIndex()));
 			 updateAssistingComboBox();
 		 }
 		 if ("delWorker".equals(e.getActionCommand())) {

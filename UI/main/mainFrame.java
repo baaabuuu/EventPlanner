@@ -2,30 +2,30 @@ package main;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.JList;
-import javax.swing.JLabel;
+import application.ProjectPlanningApp;;
 
 public class mainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	static contentPanel contentPanel;
-	
+	contentPanel contentPanel;
 	/**
 	 * Starts the program.
 	 * @author s160902
 	 */
 	public static void main(String[] args) {
-		mainFrame frame = new mainFrame();
+		ProjectPlanningApp app = new ProjectPlanningApp();
+		
+		mainFrame frame = new mainFrame(app);
 		frame.setVisible(true);
 	}
 	/**
 	 * Creates the frame in which the UI is shown.
 	 * @author s160902
 	 */
-	public mainFrame() {
+	public mainFrame(ProjectPlanningApp app) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 925, 625);
 		
-		contentPanel = new contentPanel();
+		contentPanel = new contentPanel(app);
 		
 		JScrollPane scrollPane = new JScrollPane(contentPanel);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

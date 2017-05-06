@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -22,14 +21,12 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.Font;
-import java.util.ArrayList;
 
 import javax.swing.JTextField;
 
 import taskManagement.Task;
 import workerLogic.Worker;
 import workerLogic.WorkerMissingTask;
-import companyDatabase.CompanyWorkers;
 import javax.swing.JTextPane;
 
 public class workerPanel extends JPanel implements ActionListener, KeyListener, ListSelectionListener {
@@ -43,7 +40,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 	public JList<String> workerList;
 	public JScrollPane workerScroll;
 	public DefaultComboBoxModel<String> taskList;
-	public JComboBox comboBox;
+	public JComboBox<String> comboBox;
 	private JTextField textField;
 	/**
 	 * Contains UI related to worker.
@@ -84,7 +81,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		lblCurrentWork.setBounds(170, 10, 120, 20);
 		add(lblCurrentWork);
 		
-		comboBox = new JComboBox();
+		comboBox = new JComboBox<String>();
 		comboBox.setBounds(170, 30, 120, 20);
 		add(comboBox);
 		
@@ -127,7 +124,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 	//S164147
 	public void updateWorkerList()
 	{
-		for(Worker worker : CompanyWorkers.getAllWorkers()){
+		for(Worker worker : contentPanel.getApp().getAllWorkers()){
 			listModel.addElement(worker.getName());
 		}
 			
@@ -137,7 +134,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		
 		if(!e.getValueIsAdjusting())
 		{
-			Task[] currentWeekTasks = CompanyWorkers.getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().getAssignments();
+			Task[] currentWeekTasks = contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().getAssignments();
 			String[] taskNames = {"Select Worker"};
 		
 
@@ -161,7 +158,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		if (e.equals("Add"))
 		{
 			try {
-				CompanyWorkers.getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboBox.getSelectedIndex(), Integer.parseInt(textField.getText()));
+				contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboBox.getSelectedIndex(), Integer.parseInt(textField.getText()));
 			} catch (NumberFormatException e1) {
 				e1.printStackTrace();
 				System.out.println("Please insert integer.");
@@ -173,7 +170,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		if(e.equals("Del"))
 		{
 			try {
-				CompanyWorkers.getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboBox.getSelectedIndex(), -(Integer.parseInt(textField.getText())));
+				contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboBox.getSelectedIndex(), -(Integer.parseInt(textField.getText())));
 			} catch (NumberFormatException e1) {
 				e1.printStackTrace();
 				System.out.println("Please insert integer.");

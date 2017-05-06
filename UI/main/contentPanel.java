@@ -13,16 +13,17 @@ import java.awt.BorderLayout;
 
 public class contentPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private ProjectPlanningApp projectPlanningApp;
 	projectPanel projectPanel;
 	taskPanel taskPanel;
 	workerPanel workerPanel;
-	
+	ProjectPlanningApp app;
 	/**
 	 * Creates 3 sections each containing its own JPanel.
 	 * @author s160902
 	 */
-	public contentPanel() {
+	public contentPanel(ProjectPlanningApp app) {
+		this.app = app;
+		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setPreferredSize(new Dimension(900, 600));
 		setLayout(new BorderLayout(0, 0));
@@ -44,5 +45,8 @@ public class contentPanel extends JPanel {
 	}
 	public workerPanel getWorkerPanel(){
 		return this.workerPanel;
+	}
+	public ProjectPlanningApp getApp(){
+		return this.app;
 	}
 }
