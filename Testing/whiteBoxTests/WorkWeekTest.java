@@ -29,16 +29,7 @@ public class WorkWeekTest {
 		when(settings.getMaxAssignments()).thenReturn(20);
 		week = new WorkWeek(settings);
 	}
-	
-	//Create a workweek with a mocked Settings object. s164166
-	@Test
-	public void createWorkWeek()
-	{		
-		week = new WorkWeek(settings);
-		//If this holds true the other variables have the same dimensions proper.
-		assertEquals("Maximum 20 assignments",week.getAssignments().length,20);
-	}
-	
+		
 	//s164166
 	@Test
 	public void getWorkTaskErrork() throws WorkerMissingTask

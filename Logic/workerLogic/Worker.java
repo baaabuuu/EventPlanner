@@ -174,7 +174,6 @@ public class Worker
 		for (int workWeekIndex = 0; workWeekIndex<getWorkWeeks().size();workWeekIndex++)
 		{
 			tasks = getWorkWeeks().get(workWeekIndex).getAssignments();
-			System.out.println(tasks);
 			for (int i = 0; i<tasks.length;i++)
 			{
 				if (tasks[i].getTaskID() == taskID)

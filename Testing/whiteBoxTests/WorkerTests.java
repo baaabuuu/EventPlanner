@@ -24,18 +24,16 @@ public class WorkerTests
 	@Before
 	public void setup() throws WorkerNameError
 	{
+		when(settings.getMaxAssignments()).thenReturn(20);
 		worker = new Worker("Testname",settings);
 	}
 	
-	
-	//Worker Creation. s164166
+	//Worker Creation with the exception thrown. s164166
 	@Test
-	public void createWorkers() throws WorkerNameError
+	public void createWorkersError() throws WorkerNameError
 	{
-		worker = new Worker("Testname",settings);
-		assertEquals("Name is equal to Testname",worker.getName(),"Testname");
-		assertEquals("Work name is equal to ",worker.getWorkName(),"Test");
-		assertNotNull(worker.getCurrWeek());
+		thrown.expect(WorkerNameError.class);
+		worker = new Worker("",settings);
 	}
 	
 	//In case a name is empty it should fail. s164166
@@ -89,7 +87,6 @@ public class WorkerTests
 	@Test
 	public void checkMultipleWeeks()
 	{
-		when(settings.getMaxAssignments()).thenReturn(20);
 		assertTrue("Check that the worker is availble in 1 week",worker.isAvailableXweek(1));
 		assertTrue("Check that the worker is availble in 2 weeks",worker.isAvailableXweek(2));
 		assertTrue("Check that the worker is availble in 100 weeks",worker.isAvailableXweek(100));

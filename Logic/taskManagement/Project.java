@@ -131,13 +131,11 @@ public class Project {
 	{
 		deadline = new GregorianCalendar(newDeadline[0],newDeadline[1],newDeadline[2]);
 	}
-<<<<<<< HEAD
 	public void setDeadline(TimeZone date)
 	{
 		deadline = new GregorianCalendar(date);
 	}
 	
-=======
 	/**
 	 * .
 	 * @author s160902
@@ -147,7 +145,7 @@ public class Project {
 		deadline = new GregorianCalendar();
 		deadline.setTime(date);
 	}
->>>>>>> refs/heads/UIWorking
+
 	public Calendar getDeadline()
 	{
 		return deadline;
