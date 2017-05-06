@@ -121,7 +121,8 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		btnRemAssTime.addActionListener(this);
 		btnRemAssTime.setBounds(233, 184, 57, 20);
 		add(btnRemAssTime);
-
+		
+		updateWorkerList();
 	}
 	//S164147
 	public void updateWorkerList() {
@@ -133,12 +134,14 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		if(!e.getValueIsAdjusting()) {
 			Task[] currentWeekTasks = contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().getAssignments();
 			String[] taskNames = {"Select Worker"};
-			for(Task task : currentWeekTasks) {
-				int i = 0;
-				taskNames[i] = task.getName();
-				i++;
+			if(currentWeekTasks[0] != null){
+				for(Task task : currentWeekTasks) {
+					int i = 0;
+					taskNames[i] = task.getName();
+					i++;
+				}
+				taskList = new DefaultComboBoxModel<String>(taskNames);
 			}
-			taskList = new DefaultComboBoxModel<String>(taskNames);
 		}
 	}
 	//Unused keyEvents
@@ -166,6 +169,18 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 			} catch (WorkerMissingTask e1) {
 				e1.printStackTrace();
 			}
+		}
+		if(e.getSource() == btnAddAssTime) {
+			if(contentPanel.getTaskPanel().taskList.getSelectedIndex() != -1) {
+				Task task = contentPanel.getTaskPanel().getSelectedTask();
+				task.addAssistingWorker(contentPanel.getApp().getWorker(workerList.getSelectedIndex()));
+				
+				int time = Integer.parseInt(textAssTime.getText())*2;
+				contentPanel.getApp().getWorker(workerList.getSelectedIndex()).getCurrWeek().uppHelpedTasks(time, task);
+			}
+		}
+		if(e.getSource() == btnRemAssTime) {
+			
 		}
 	}
 }

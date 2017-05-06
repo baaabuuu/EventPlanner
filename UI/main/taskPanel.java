@@ -208,6 +208,13 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 		comboTaskCompletion.removeAllItems();
 	}
 	/**
+	 * Returns currently selected task index.
+	 * @author s160902
+	 */
+	public Task getSelectedTask(){
+		return selectedTask;
+	}
+	/**
 	 * Updates comboAssignedWorkers comboBox.
 	 * @author s160902
 	 */
@@ -262,7 +269,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 			
 			listModelTask.addElement(
 					"<html>Task    : "+task.getName()+
-					"<br/>Deadline : "+ contentPanel.getDateFormat().format(task.getDeadline())+
+					"<br/>Deadline : "+ contentPanel.getDateFormat().format(task.getDeadline().getTime())+
 					"<br/>Status   : "+status+"</html>");
 		}
 		listModelTask.addElement("<html>-----------------------------<br/>ADD NEW TASK<br/>-----------------------------</html>");
@@ -272,18 +279,17 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 * @author s160902
 	 */
 	public void valueChanged(ListSelectionEvent e) {
-		
 		if(e.getSource() == taskList){
 			if (!e.getValueIsAdjusting()) {//This line prevents double events
 				clearTaskContent();
 				selectedTask = null;
 				
-				if(listModelTask.size()>1 && taskList.getSelectedIndex() < listModelTask.size()-1){
+				if(taskList.getSelectedIndex() != -1 && listModelTask.size()>1 &&
+						taskList.getSelectedIndex() < listModelTask.size()){
 					selectedTask = contentPanel.projectPanel.getSelectedProject().getTask(taskList.getSelectedIndex());
 					
 					textTaskName.setText(selectedTask.getName());
-					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-					textEndWeek.setText(format.format(selectedTask.getDeadline()));
+					textEndWeek.setText(contentPanel.getDateFormat().format(selectedTask.getDeadline()));
 					try {
 						textWorkTime.setText(String.valueOf(1.0*selectedTask.getWorkTime()/2));
 					} catch (WorkerMissingTask e1) {
@@ -295,6 +301,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 					updateWorkerComboBox();
 					updateAssistingComboBox();
 					updateCompletionComboBox();
+					updateTaskList(contentPanel.getProjectPanel().getSelectedProject().getTasks());
 				}
 			}
 		}
@@ -309,7 +316,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnSaveTask) {
-			 if(taskList.getSelectedIndex() < contentPanel.getProjectPanel().getSelectedProject().getTasks().size()){
+			 if(taskList.getSelectedIndex() != -1 && taskList.getSelectedIndex() < contentPanel.getProjectPanel().getSelectedProject().getTasks().size()){
 				 
 				 selectedTask.setName(textTaskName.getText());
 				 try {
@@ -333,9 +340,10 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 					 contentPanel.getProjectPanel().getSelectedProject().addTask(task);
 				 }
 			 }
+			 updateTaskList(contentPanel.getProjectPanel().getSelectedProject().getTasks());
 		 }
 		 if (e.getSource() == btnDelTask) {
-			 if(taskList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size())
+			 if(taskList.getSelectedIndex() < contentPanel.getProjectPanel().getSelectedProject().getTasks().size())
 				 contentPanel.getProjectPanel().getSelectedProject().removeTask(taskList.getSelectedIndex());
 		 }
 		 if (e.getSource() == btnAddWorker) {
