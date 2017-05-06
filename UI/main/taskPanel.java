@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -26,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import taskManagement.Project;
 import taskManagement.Task;
 import workerLogic.Worker;
 import workerLogic.WorkerMissingTask;
@@ -309,30 +312,26 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 			 if(taskList.getSelectedIndex() < contentPanel.getProjectPanel().getSelectedProject().getTasks().size()){
 				 
 				 selectedTask.setName(textTaskName.getText());
-				 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				 try {
-					selectedTask.setDeadline(format.parse(textEndWeek.getText()));
+					selectedTask.setDeadline(contentPanel.getDateFormat().parse(textEndWeek.getText()));
 				 } catch (ParseException e1) {
-					 // TODO Auto-generated catch block
-					 e1.printStackTrace();
+					 JOptionPane.showMessageDialog(contentPanel, "Date wasn't saved, type in the date correctly.");
 				 }
 				 if(selectedTask.getStatus() == true && comboTaskCompletion.getSelectedIndex() == 0 ||
 						 selectedTask.getStatus() == false && comboTaskCompletion.getSelectedIndex() == 1)
 					 selectedTask.changeCompletion();
 			 }else{
-				 Task task = new Task(contentPanel.projectPanel.getSelectedProject());
-				 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				 
-				 task.setName(textTaskName.getText());
-				 task.setDescription(textAreaTaskDesc.getText());
-				 task.setAssignedWorkers(tempWorkers);
 				 task.setAssistingWorkers(tempAssistingWorkers);
 				 try {
-					selectedTask.setDeadline(format.parse(textEndWeek.getText()));
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+					selectedTask.setDeadline(contentPanel.getDateFormat().parse(textEndWeek.getText()));
+				 } catch (ParseException e1) {
+					JOptionPane.showMessageDialog(contentPanel, "Date wasn't saved, type in the date correctly.");
+				 }
+				 Task task = new Task(textTaskName.getText(), textAreaTaskDesc.getText(), tempWorkers,
+						 date, contentPanel.projectPanel.getSelectedProject());
+				 contentPanel.getProjectPanel().getSelectedProject().addTask(task);
+				 
+				 
 			 }
 		 }
 		 if (e.getSource() == btnDelTask) {

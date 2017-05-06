@@ -45,28 +45,29 @@ public class Task {
 	}
 
 	//s164147
-	public Task(String name, String description, int[] deadline, Project project)
+	public Task(String name, String description, Date date, Project project)
 	{
 		this.project	=	project;
 		this.name = name;
 		this.description = description;
-		this.deadline = new GregorianCalendar(deadline[0],deadline[1],deadline[2]);
+		this.deadline = new GregorianCalendar();
+		this.deadline.setTime(date);
 	}
 	public Task(Project project){
 		this.project	=	project;
 	}
-	public Task(String name, String description, List<Worker> assistingWorkers,
-			List<Worker> tempAssistingWorkers, Date date, Project project)
+	public Task(String name, String description, List<Worker> assignedWorkers,
+			List<Worker> assistingWorkers, Date date, Project project)
 	{
 		this.project	=	project;
 		this.name = name;
 		this.description = description;
+		this.deadline = new GregorianCalendar();
 		this.deadline.setTime(date);
-		this.assignedWorkers = assistingWorkers;
-		this.assistingWorkers = tempAssistingWorkers;
+		this.assignedWorkers = assignedWorkers;
+		this.assistingWorkers = assistingWorkers;
 	}
 	
-
 	public String getName()
 	{
 		return name;
