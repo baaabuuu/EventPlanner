@@ -5,15 +5,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import taskManagement.Project;
-import workerLogic.Worker;
-import workerLogic.WorkerNameError;
-
 public class ProjectPlanningApp {
 	
-	private Settings 			settings		= new Settings();
-	private ArrayList<Worker>	companyWorkers	= new ArrayList<Worker>();
-	private ArrayList<Project>	companyProjects = new ArrayList<Project>();
+	private Settings 			settings		=	new Settings();
+	private ArrayList<Worker>	companyWorkers	=	new ArrayList<Worker>();
+	private ArrayList<Project>	companyProjects =	new ArrayList<Project>();
+	private int					projectCounter	=	0;
 	
 	/**
 	 * Adds a new project
@@ -22,7 +19,8 @@ public class ProjectPlanningApp {
 	public  void addNewProject(String name, Date date, Worker leader)
 	{
 		Project project = new Project(name, date, leader);
-		project.setID(companyProjects.size());
+		project.setID(projectCounter);
+		projectCounter++;
 		companyProjects.add(project);
 	}
 	/**

@@ -10,9 +10,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import application.ProjectPlanningApp;
-import taskManagement.Task;
-import workerLogic.Worker;
-import workerLogic.WorkerNameError;
+import application.Task;
+import application.Worker;
+import application.WorkerNameError;
 
 public class ProjectplanningAppTests 
 {

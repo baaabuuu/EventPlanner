@@ -1,4 +1,4 @@
-package taskManagement;
+package application;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,7 +7,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import workerLogic.*;
 
 //S164147
 public class Project {
@@ -16,6 +15,7 @@ public class Project {
 	private Calendar deadline = new GregorianCalendar();
 	private Worker leader;
 	private int projectID;
+	private int taskCount;
 	
 	public Project(String name, Date date, Worker leader) {
 		setName(name);
@@ -89,6 +89,8 @@ public class Project {
 	
 	public void addTask(Task task) {
 		tasks.add(task);
+		task.setID(taskCount);
+		taskCount++;
 	}
 	
 	public void setDeadline(int[] newDeadline)

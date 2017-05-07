@@ -28,10 +28,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import taskManagement.Project;
-import taskManagement.Task;
-import workerLogic.Worker;
-import workerLogic.WorkerMissingTask;
+import application.Project;
+import application.Task;
+import application.Worker;
+import application.WorkerMissingTask;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;

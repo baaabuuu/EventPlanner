@@ -8,10 +8,10 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import application.Settings;
-import taskManagement.Task;
-import workerLogic.Worker;
-import workerLogic.WorkerMissingTask;
-import workerLogic.WorkerNameError;
+import application.Task;
+import application.Worker;
+import application.WorkerMissingTask;
+import application.WorkerNameError;
 
 public class WorkerTests 
 {
@@ -28,18 +28,10 @@ public class WorkerTests
 		when(settings.getMaxAssignments()).thenReturn(20);
 		worker = new Worker("Testname",settings);
 	}
-	
-	//Worker Creation with the exception thrown. s164166
-	@Test
-	public void createWorkersError() throws WorkerNameError
-	{
-		thrown.expect(WorkerNameError.class);
-		worker = new Worker("",settings);
-	}
-	
+		
 	//In case a name is empty it should fail. s164166
 	@Test
-	public void createWorkerException() throws WorkerNameError
+	public void createWorkerNameException() throws WorkerNameError
 	{
 		thrown.expect(WorkerNameError.class);
 		worker = new Worker("",settings);
@@ -51,7 +43,7 @@ public class WorkerTests
 	{
 		thrown.expect(WorkerNameError.class);
 	    worker = new Worker("Yes",settings);
-		worker.setName("");
+	    worker.setName("");
 	}
 	
 	//Check that setname works without throwing exception if proper rules are followed. s164166
@@ -115,8 +107,11 @@ public class WorkerTests
 	@Test
 	public void timeSpentOnTaskTest() throws WorkerMissingTask
 	{
-		worker.getCurrWeek().updAssignments(task);
+		worker.getCurrWeek().updAssignments(task);		
 		worker.getCurrWeek().updWorkTime(0, 2);		
 		assertEquals("Checking that 2 hours has been worked on the task", worker.timeSpentOnTask(task),2);
+		worker.getCurrWeek().uppHelpedTasks(10, task);
+		assertEquals("Checking that 12 hours has been worked on the task where 10 has been \"helped\"", worker.timeSpentOnTask(task),12);
+
 	}
 }

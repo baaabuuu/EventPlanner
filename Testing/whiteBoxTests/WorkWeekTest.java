@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import workerLogic.*;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -12,7 +11,10 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import application.Settings;
-import taskManagement.Task;
+import application.Task;
+import application.WorkWeek;
+import application.Worker;
+import application.WorkerMissingTask;
 
 public class WorkWeekTest {
 	Task task = mock(Task.class);
@@ -115,7 +117,7 @@ public class WorkWeekTest {
 	{
 		when(worker.isFired()).thenReturn(true);
 		week.setBussy();
-		for (int i = 0; i<20;i++)
+		for (int i = 0; i<21;i++)
 			week.updAssignments(task);
 		assertFalse("Worker is  fired, project bussy, max assignments reached",week.isLegalThisweek(worker));
 	}

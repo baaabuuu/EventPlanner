@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import org.junit.Test;
 
 import application.Settings;
@@ -26,13 +28,15 @@ public class SettingsTesting
 	{
 		int startDay = settings.getDay();
 		settings.updateDay();
-		assertTrue("Check that 1 dy has been advanced have been advanced",startDay<settings.getDay());
-		int startWeek = settings.getWeekNumber();
-		for (int i = 0; i<6; i++)
+		assertTrue("Check that 1 day has been advanced have been advanced", startDay < settings.getDay());
+		for (int i = 0; i<4; i++)
 		{
 			settings.updateDay();
 		}
+		//advancing form saturday till sunday
+		assertFalse("Check that 1 week has not been advanced",settings.updateDay());
+		//day 7 of the week (sunday, so we advanced from sunday)
+		assertTrue("Check that weeks have been advanced",settings.updateDay());
 		assertEquals("Check That the day index is the same as the start",startDay,settings.getDay());
-		assertTrue("Check that weeks have been advanced",startWeek < settings.getWeekNumber());
 	}
 }

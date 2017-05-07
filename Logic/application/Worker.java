@@ -1,9 +1,6 @@
-package workerLogic;
+package application;
 
 import java.util.ArrayList;
-
-import application.Settings;
-import taskManagement.Task;
 
 public class Worker 
 {

@@ -25,9 +25,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import taskManagement.Project;
-import workerLogic.Worker;
-import workerLogic.WorkerMissingTask;
+import application.Project;
+import application.Worker;
+import application.WorkerMissingTask;
 
 public class projectPanel extends JPanel implements ActionListener, KeyListener, ListSelectionListener {
 	private static final long serialVersionUID = 1L;

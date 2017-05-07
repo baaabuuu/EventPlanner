@@ -10,13 +10,12 @@ import java.util.GregorianCalendar;
  */
 public class Settings 
 {
-	private final int 	maxAssignments		=	20;
-	private final String applicationName	=	"Work Planner";
-	private final Date 	startupDate 		=	new GregorianCalendar(2017, Calendar.APRIL, 10).getTime();
-	private 	 int	weekNumber			=	0;
-	private		 int	day 				=	1;
-	
-	
+	private final int		maxAssignments		=	20;
+	private final String	applicationName		=	"Work Planner";
+	private final Date		startupDate 		=	new GregorianCalendar(2017, Calendar.APRIL, 10).getTime();
+	private 	  int		weekNumber			=	0;
+	private		  int		day 				=	1;
+	private 	  Date		currDate			=	new GregorianCalendar(2017, Calendar.APRIL, 10).getTime();
 	
 	/**
 	 * Returns the startup date of the application
@@ -52,11 +51,13 @@ public class Settings
 	 * Added so we can advance days, 
 	 * @author s164166
 	 */
-	public void updateDay()
+	public boolean updateDay()
 	{
 		if (day == 6)
 			updateWeek();
 		day = (day  % 7) + 1;
+		currDate.setDate(currDate.getDate());
+		return day == 1 ? true : false;
 	}
 	
 	/**
@@ -85,5 +86,6 @@ public class Settings
 	public int getMaxAssignments() {
 		return maxAssignments;
 	}
+	
 }
 

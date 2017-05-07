@@ -1,4 +1,4 @@
-package workerLogic;
+package application;
 /**
  * Used to signify that the name had an error for a specific worker.
  * @author s164166

@@ -1,4 +1,4 @@
-package taskManagement;
+package application;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import workerLogic.*;
 
 public class Task {
 	private String name;
@@ -48,6 +47,7 @@ public class Task {
 	public Task(String name, String description, Date date, Project project)
 	{
 		this.project	=	project;
+		project.addTask(this);
 		this.name = name;
 		this.description = description;
 		this.deadline = new GregorianCalendar();
@@ -88,10 +88,14 @@ public class Task {
 	{
 		description = newDesc;
 	}
+	//s164166
 	public void addWorker(Worker worker)
 	{
 		if (!assignedWorkers.contains(worker))
+		{
 			assignedWorkers.add(worker);
+			worker.getCurrWeek().updAssignments(this);
+		}
 	}
 	public void removeWorker(int idToRemove)
 	{		

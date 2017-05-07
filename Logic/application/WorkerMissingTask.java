@@ -1,4 +1,4 @@
-package workerLogic;
+package application;
 /**
  * Used to signify that a task is missing.
  * @author s164166

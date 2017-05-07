@@ -1,9 +1,6 @@
-package workerLogic;
+package application;
 
 import java.util.ArrayList;
-
-import application.Settings;
-import taskManagement.Task;
 /**
  * Used to contain data for a WorkWeek for a user.
  * @author s164166
@@ -35,12 +32,11 @@ public class WorkWeek
 	/**
 	 * Denotes whether the user is sick or perhaps having a vacation this week.
 	 * Once this trigger, the user is unable to work for the remainder of this week.
-	 * If calld again, it will return false and then do scenario 1 once the code is rerun.
 	 * @author s160902
 	 */
 	public void setBussy()
 	{
-		isBussy = !isBussy;
+		isBussy = true;
 	}
 	/**
 	 * Returns a specific task

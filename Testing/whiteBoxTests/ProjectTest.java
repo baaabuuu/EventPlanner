@@ -3,15 +3,16 @@ package whiteBoxTests;
 import static org.junit.Assert.*;
 
 import java.util.Calendar;
-import workerLogic.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import application.Project;
 import application.ProjectPlanningApp;
-import taskManagement.Project;
-import taskManagement.Task;
+import application.Task;
+import application.Worker;
+import application.WorkerMissingTask;
 
 public class ProjectTest {
 	//s164147

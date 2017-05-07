@@ -17,16 +17,17 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import application.Task;
+import application.Worker;
+import application.WorkerMissingTask;
+
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.Font;
 
 import javax.swing.JTextField;
-
-import taskManagement.Task;
-import workerLogic.Worker;
-import workerLogic.WorkerMissingTask;
 
 public class workerPanel extends JPanel implements ActionListener, KeyListener, ListSelectionListener {
 	private static final long serialVersionUID = 1L;
