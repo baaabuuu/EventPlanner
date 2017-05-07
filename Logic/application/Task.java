@@ -140,7 +140,7 @@ public class Task {
 				totalWorkTime += getAssignedWorkers().get(i).timeSpentOnTaskThisWeek(this);
 		if (getAssistingWorkers().size()>0)
 			for(int i = 0; i < getAssistingWorkers().size(); i++)
-				if (getAssignedWorkers().contains(getAssistingWorkers().get(i)))
+				if (!getAssignedWorkers().contains(getAssistingWorkers().get(i)))
 					totalWorkTime += getAssistingWorkers().get(i).timeSpentOnTaskThisWeek(this);
 	
 		return totalWorkTime + workedTime;

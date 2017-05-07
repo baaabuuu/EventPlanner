@@ -174,6 +174,7 @@ public class ProjectplanningAppTests
 		when(worker.getWeekFromStart(1)).thenReturn(week);
 		
 		when(project.getName()).thenReturn("Test Project");
+		when(project.getID()).thenReturn(20170);
 		when(task.getProject()).thenReturn(project);
 		
 		planningApp.printWorkWeeks(worker, 0, 1, settings);

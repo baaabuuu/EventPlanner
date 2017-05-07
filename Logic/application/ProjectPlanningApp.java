@@ -30,7 +30,6 @@ public class ProjectPlanningApp {
 			for (Worker worker : companyWorkers)
 				if (!worker.isFired())
 					worker.fillMissingWorkWeeks(settings.getWeekNumber());
-
 		}
 	}
 	
@@ -43,7 +42,7 @@ public class ProjectPlanningApp {
 	public  void addNewProject(String name, Date date, Worker leader)
 	{
 		Project project = new Project(name, date, leader);
-		project.setID(projectCounter);
+		project.setID(Integer.valueOf(settings.getCurrDate().get(Calendar.YEAR) + "" + projectCounter));
 		projectCounter++;
 		companyProjects.add(project);
 	}

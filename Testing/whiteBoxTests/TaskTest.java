@@ -53,6 +53,22 @@ public class TaskTest {
 	}
 	
 	@Test //s164166
+	public void workTimeAssisted() throws WorkerMissingTask
+	{
+		assertEquals("No work Time",task.getWorkTime(),0);
+		when(worker.timeSpentOnTaskThisWeek(task)).thenReturn(5);
+		task.addWorker(worker);
+		task.addAssistingWorker(worker);
+		Worker worker2 = mock(Worker.class);
+		task.addAssistingWorker(worker2);
+		when(worker2.timeSpentOnTaskThisWeek(task)).thenReturn(5);
+		
+		
+		assertEquals("10 Hours of work time, 5 in each.",10,task.getWorkTime());
+
+	}
+	
+	@Test //s164166
 	public void addWorkerTets() throws WorkerMissingTask
 	{
 		task.addWorker(worker);
