@@ -1,0 +1,31 @@
+Workname: George#0 Full Name: George
+From: Mon Apr 10 00:00:00 CEST 2017  till: Sun Apr 16 00:00:00 CEST 2017
+Week: 0
+Monday		
+		Task: Task#0. Hours worked: 5.
+		Task: Task#1. Hours worked: 5.
+		Task: Task#2. Hours worked: 0.
+Tuesday		
+		Task: Task#0. Hours worked: 5.
+		Task: Task#1. Hours worked: 4.
+		Task: Task#2. Hours worked: 0.
+Wednessday	
+		Task: Task#0. Hours worked: 0.
+		Task: Task#1. Hours worked: 9191.
+		Task: Task#2. Hours worked: 0.
+Thursday	
+		Task: Task#0. Hours worked: 0.
+		Task: Task#1. Hours worked: 0.
+		Task: Task#2. Hours worked: 0.
+Friday		
+		Task: Task#0. Hours worked: 0.
+		Task: Task#1. Hours worked: 0.
+		Task: Task#2. Hours worked: 0.
+Saturday	
+		Task: Task#0. Hours worked: 0.
+		Task: Task#1. Hours worked: 0.
+		Task: Task#2. Hours worked: 0.
+Sunday		
+		Task: Task#0. Hours worked: 0.
+		Task: Task#1. Hours worked: 0.
+		Task: Task#2. Hours worked: 0.

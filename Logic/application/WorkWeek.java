@@ -114,11 +114,29 @@ public class WorkWeek
 			throw new InvalidTime("You cannot work more than 24 hours a day.");
 		timeWorkedOnTask[settings.getDay()][index] += time;
 		workTime[index]	+=	time;
+		if (workTime[index] < 0)
+			workTime[index]	=	0;
+		if (timeWorkedOnTask[settings.getDay()][index] < 0 )
+			timeWorkedOnTask[settings.getDay()][index]	=	0;
 	}
 	
+	/**
+	 * Returns how much time was worked on a task that day.
+	 * @param day
+	 * @param task
+	 * @return int
+	 */
 	public int getTimeWorkedDay(int day, int task)
 	{
 		return timeWorkedOnTask[day][task];
+	}
+	
+	/**
+	 * 
+	 */
+	public int getHelpedTaskCount()
+	{
+		return helpedTasks.size();
 	}
 	
 	
