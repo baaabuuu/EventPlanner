@@ -129,7 +129,7 @@ public class Task {
 		for(Worker worker : assignedWorkers)
 		{
 			found = false;
-			for (int i = 0; i<20;i++)
+			for (int i = 0; i<worker.getCurrWeek().getCurrTaskAmm();i++)
 				if (worker.getCurrWeek().getWorkTask(i) != null)
 					if (worker.getCurrWeek().getWorkTask(i).equals(this))
 						found = true;
