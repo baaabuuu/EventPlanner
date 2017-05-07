@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +14,21 @@ public class ProjectPlanningApp {
 	private ArrayList<Project>	companyProjects =	new ArrayList<Project>();
 	private int					projectCounter	=	0;
 	private	WorkOutput			outputter		=	new WorkOutput();
+	
+	/**
+	 * Update week
+	 * @throws WorkerMissingTask 
+	 */
+	public void advanceDay() throws WorkerMissingTask
+	{
+		settings.updateDay();
+		if (settings.getDay() == 1)
+			for (Project project : companyProjects)
+				for (Task task : project.getTasks())
+					task.saveLastWeeksTime();
+	}
+	
+	
 	
 	/**
 	 * Adds a new project

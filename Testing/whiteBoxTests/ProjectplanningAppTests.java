@@ -183,7 +183,30 @@ public class ProjectplanningAppTests
 			fail();
 		}
 	}
-	
+	//s164166
+	@Test
+	public void advanceDayTest() throws WorkerMissingTask
+	{
+		ArrayList<Worker> communism = new ArrayList<Worker>();
+		communism.add(worker);
+		when(task.getAssignedWorkers()).thenReturn(communism);
+		planningApp.addNewProject("Test", planningApp.getSettings().getCurrDate().getTime(), worker);
+		task.addWorker(worker);
+		planningApp.getAllProjects().get(0).addTask(task);
+		assertEquals("There is 1 worker assigned to the project", planningApp.getAllProjects().get(0).getTask(0).getAssignedWorkers().size(),1);
+		
+		planningApp.advanceDay();
+		planningApp.advanceDay();
+		planningApp.advanceDay();
+		planningApp.advanceDay();
+		planningApp.advanceDay();
+		planningApp.advanceDay();
+		
+		assertEquals("There is 1 worker assigned to the project", planningApp.getAllProjects().get(0).getTask(0).getAssignedWorkers().size(),1);
+		planningApp.advanceDay();
+		when(task.getAssignedWorkers()).thenReturn(new ArrayList<Worker>());
+		assertEquals("There is 0 workers assigned to the project", planningApp.getAllProjects().get(0).getTask(0).getAssignedWorkers().size(),0);
+	}
 	
 	
 }

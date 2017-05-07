@@ -40,6 +40,7 @@ public class WorkOutput {
 		date2.add(Calendar.DAY_OF_MONTH, 6+7*till);
 		date1.set(Calendar.HOUR_OF_DAY,0);
 		date1.set(Calendar.HOUR_OF_DAY,23);
+		
 		text.add("From: " + date1.getTime() + " "  + " till: " + date2.getTime());
 
 		for (int weekCounter = from; weekCounter < till+1; weekCounter++)
@@ -48,16 +49,15 @@ public class WorkOutput {
 			week = worker.getWeekFromStart(weekCounter);
 			for (int day = 1; day < 8;day++)
 			{
-	
 				if (week.getCurrTaskAmm()	==	0)
 				{
 					text.add("\t--- No projects assigned this week ----");
 					break;
-				}	
+				}
 				text.add(days[day-1] + "\t");
 				for (int task = 0; task < week.getCurrTaskAmm();task++)
 				{
-						text.add("\t\tProject: " + week.getWorkTask(task).getProject().getName() + " Task: " + week.getWorkTask(task).getName() + "#" + week.getWorkTask(task).getTaskID() + ". Hours worked: " + week.getTimeWorkedDay(day,task) +".");
+						text.add("\t\tProject: " + week.getWorkTask(task).getProject().getName() + "#" + week.getWorkTask(task).getProject().getID() + " Task: " + week.getWorkTask(task).getName() + "#" + week.getWorkTask(task).getTaskID() + ". Hours worked: " + week.getTimeWorkedDay(day,task) +".");
 				}
 			}
 			if (week.getHelpedTaskCount() > 0)
@@ -66,7 +66,7 @@ public class WorkOutput {
 				text.add("\t\t----- HELPED TASKS -----");
 				for (int i = 0; i < week.getHelpedTasks().size(); i++)
 				{
-					text.add("\t\tProject: " + week.getHelpedTasks().get(i).getProject().getName() + " Task: " + week.getHelpedTasks().get(i).getName() + "#" + week.getHelpedTasks().get(i).getTaskID() + ". Hours worked: " + week.getHelpedTasksTime().get(i) +".");
+					text.add("\t\tProject: " + week.getHelpedTasks().get(i).getProject().getName() + "#" + week.getHelpedTasks().get(i).getProject().getID() + " Task: " + week.getHelpedTasks().get(i).getName() + "#" + week.getHelpedTasks().get(i).getTaskID() + ". Hours worked: " + week.getHelpedTasksTime().get(i) +".");
 				}
 			}
 			

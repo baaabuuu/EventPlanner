@@ -47,10 +47,11 @@ public class TaskTest {
 	public void workTime() throws WorkerMissingTask
 	{
 		assertEquals("No work Time",task.getWorkTime(),0);
-		when(worker.timeSpentOnTask(task)).thenReturn(5);
+		when(worker.timeSpentOnTaskThisWeek(task)).thenReturn(5);
 		task.addWorker(worker);
-		assertEquals("No work Time",task.getWorkTime(),5);
+		assertEquals("5 Hours of work time",5,task.getWorkTime());
 	}
+	
 	@Test //s164166
 	public void addWorkerTets() throws WorkerMissingTask
 	{

@@ -104,7 +104,7 @@ public class WorkerTests
 		assertFalse("Check that the worker is not available 2 weeks after being fired",worker.isAvailableXweek(2));
 	}
 	
-	//Test the timeSpentOnAtask
+	//Test the timeSpentOnAtask s164166
 	@Test
 	public void timeSpentOnTaskTest() throws WorkerMissingTask, InvalidTime
 	{
@@ -113,6 +113,15 @@ public class WorkerTests
 		assertEquals("Checking that 2 hours has been worked on the task", worker.timeSpentOnTask(task),2);
 		worker.getCurrWeek().uppHelpedTasks(10, task);
 		assertEquals("Checking that 12 hours has been worked on the task where 10 has been \"helped\"", worker.timeSpentOnTask(task),12);
-
+	}
+	//Test the timeSpentOnAtask s164166
+	@Test
+	public void timeSpentThisWeekOnTask() throws WorkerMissingTask, InvalidTime
+	{
+		worker.getCurrWeek().updAssignments(task);		
+		worker.getCurrWeek().updWorkTime(0, 2);		
+		assertEquals("Checking that 2 hours has been worked on the task", worker.timeSpentOnTaskThisWeek(task),2);
+		worker.getCurrWeek().uppHelpedTasks(10, task);
+		assertEquals("Checking that 12 hours has been worked on the task where 10 has been \"helped\"", worker.timeSpentOnTaskThisWeek(task),12);
 	}
 }

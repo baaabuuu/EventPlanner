@@ -13,6 +13,7 @@ public class Task {
 	private String description;
 	private List<Worker> assignedWorkers = new ArrayList<Worker>();
 	private List<Worker> assistingWorkers = new ArrayList<Worker>();
+	private	int		workedTime	=	0;
 	private Calendar deadline;
 	private int taskID;
 	private Project project;
@@ -128,7 +129,7 @@ public class Task {
 	}
 	
 	/**
-	 * Returns total workTime of all who have worked on this task.
+	 * Returns total workTime of all who have worked on this task week.
 	 * @author s160902
 	 */
 	public int getWorkTime() throws WorkerMissingTask
@@ -136,12 +137,33 @@ public class Task {
 		int totalWorkTime = 0;
 		if (getAssignedWorkers().size()>0)
 			for(int i = 0; i < getAssignedWorkers().size(); i++)
-				totalWorkTime += getAssignedWorkers().get(i).timeSpentOnTask(this);
-		return totalWorkTime;
+				totalWorkTime += getAssignedWorkers().get(i).timeSpentOnTaskThisWeek(this);
+		if (getAssistingWorkers().size()>0)
+			for(int i = 0; i < getAssistingWorkers().size(); i++)
+				if (getAssignedWorkers().contains(getAssistingWorkers().get(i)))
+					totalWorkTime += getAssistingWorkers().get(i).timeSpentOnTaskThisWeek(this);
+	
+		return totalWorkTime + workedTime;
 	}
+	
 
+	
 	public void addAssistingWorker(Worker worker)
 	{
 		assistingWorkers.add(worker);
+	}
+	
+	
+	
+	/**
+	 * Should only be called once a week, Removes the workers and saves the time in the workedTime variable.
+	 * @author s164166
+	 * @throws WorkerMissingTask
+	 */
+	public void saveLastWeeksTime() throws WorkerMissingTask
+	{
+		workedTime	= getWorkTime();
+		assignedWorkers.clear();
+		assistingWorkers.clear();
 	}
 }
