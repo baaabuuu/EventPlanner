@@ -2,7 +2,8 @@ package main;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import application.ProjectPlanningApp;;
+import application.ProjectPlanningApp;
+import workerLogic.WorkerNameError;;
 
 public class mainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -13,6 +14,18 @@ public class mainFrame extends JFrame {
 	 */
 	public static void main(String[] args) {
 		ProjectPlanningApp app = new ProjectPlanningApp();
+		
+		//Test
+		
+		try {
+			app.addNewWorker("Hubert");
+			app.addNewWorker("Bob");
+			app.addNewWorker("Jessica");
+			app.addNewWorker("Tylor");
+		} catch (WorkerNameError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		mainFrame frame = new mainFrame(app);
 		frame.setVisible(true);

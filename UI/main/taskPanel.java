@@ -42,8 +42,8 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	private static final long serialVersionUID = 1L;
 	private contentPanel contentPanel;
 	private Task selectedTask;
-	private List<Worker> tempWorkers;
-	private List<Worker> tempAssistingWorkers;
+	private List<Worker> tempWorkers = new ArrayList<Worker>();
+	private List<Worker> tempAssistingWorkers  = new ArrayList<Worker>();
 	
 	DefaultListModel<String> listModelTask;
 	DefaultComboBoxModel<String> comboModelAssignedWorkers, comboModelAssistingWorkers, comboModelTaskCompletion;
@@ -200,7 +200,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	public void clearTaskContent() {
 		textAreaTaskDesc.setText("");
 		textTaskName.setText("");
-		textEndWeek.setText("yyyy-MM-dd");
+		textEndWeek.setText("2017-07-10");
 		comboModelAssignedWorkers = new DefaultComboBoxModel<String>();
 		comboModelAssistingWorkers = new DefaultComboBoxModel<String>();
 		comboModelTaskCompletion = new DefaultComboBoxModel<String>();
@@ -208,24 +208,35 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 		comboTaskCompletion.removeAllItems();
 	}
 	/**
+	 * Returns currently selected task index.
+	 * @author s160902
+	 */
+	public Task getSelectedTask(){
+		return selectedTask;
+	}
+	/**
 	 * Updates comboAssignedWorkers comboBox.
 	 * @author s160902
 	 */
 	public void updateWorkerComboBox() {
-		ArrayList<String> workNames = (ArrayList<String>) tempWorkers.stream()
-		.map(Worker::getWorkName).collect(Collectors.toList());
-		
-		comboModelAssignedWorkers = new DefaultComboBoxModel<String>((String[]) workNames.toArray());
+		if(tempWorkers != null) {
+			String[] workNames = (String[]) tempWorkers.stream()
+					.map(Worker::getWorkName).toArray(String[]::new);
+					
+			comboAssignedWorkers.setModel(new DefaultComboBoxModel<String>(workNames));
+		}
 	}
 	/**
 	 * Updates comboAssistedWorkTime comboBox.
 	 * @author s160902
 	 */
 	public void updateAssistingComboBox() {
-		ArrayList<String> workNames = (ArrayList<String>) tempAssistingWorkers.stream()
-				.map(Worker::getWorkName).collect(Collectors.toList());
-		
-		comboModelAssistingWorkers = new DefaultComboBoxModel<String>((String[]) workNames.toArray());
+		if(tempAssistingWorkers != null) {
+			String[] workNames = (String[]) tempAssistingWorkers.stream()
+					.map(Worker::getWorkName).toArray(String[]::new);
+					
+			comboAssistedWorkTime.setModel(new DefaultComboBoxModel<String>(workNames));
+		}
 	}
 	/**
 	 * Updates comboTaskCompletion comboBox.
@@ -262,7 +273,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 			
 			listModelTask.addElement(
 					"<html>Task    : "+task.getName()+
-					"<br/>Deadline : "+ contentPanel.getDateFormat().format(task.getDeadline())+
+					"<br/>Deadline : "+ contentPanel.getDateFormat().format(task.getDeadline().getTime())+
 					"<br/>Status   : "+status+"</html>");
 		}
 		listModelTask.addElement("<html>-----------------------------<br/>ADD NEW TASK<br/>-----------------------------</html>");
@@ -272,30 +283,32 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 * @author s160902
 	 */
 	public void valueChanged(ListSelectionEvent e) {
-		
-		if(e.getSource() == taskList){
-			if (!e.getValueIsAdjusting()) {//This line prevents double events
-				clearTaskContent();
-				selectedTask = null;
+		//Value changes in task-list with double selection prevention.
+		if(e.getSource() == taskList && !e.getValueIsAdjusting()){
+			clearTaskContent();
+			selectedTask = null;
+			tempWorkers = new ArrayList<Worker>();
+			tempAssistingWorkers = new ArrayList<Worker>();
+			
+			if(taskList.getSelectedIndex() != -1 && listModelTask.size()>1 &&
+					taskList.getSelectedIndex() < contentPanel.projectPanel.getSelectedProject().getTasks().size())
+			{
+				selectedTask = contentPanel.projectPanel.getSelectedProject().getTask(taskList.getSelectedIndex());
 				
-				if(listModelTask.size()>1 && taskList.getSelectedIndex() < listModelTask.size()-1){
-					selectedTask = contentPanel.projectPanel.getSelectedProject().getTask(taskList.getSelectedIndex());
-					
-					textTaskName.setText(selectedTask.getName());
-					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-					textEndWeek.setText(format.format(selectedTask.getDeadline()));
-					try {
-						textWorkTime.setText(String.valueOf(1.0*selectedTask.getWorkTime()/2));
-					} catch (WorkerMissingTask e1) {
-						e1.printStackTrace();
-					}
-					tempWorkers = selectedTask.getAssignedWorkers();
-					tempAssistingWorkers = selectedTask.getAssistingWorkers();
-					
-					updateWorkerComboBox();
-					updateAssistingComboBox();
-					updateCompletionComboBox();
+				textTaskName.setText(selectedTask.getName());
+				textEndWeek.setText(contentPanel.getDateFormat().format(selectedTask.getDeadline().getTime()));
+				
+				try {
+					textWorkTime.setText(String.valueOf(1.0*selectedTask.getWorkTime()/2));
+				} catch (WorkerMissingTask e1) {
+					e1.printStackTrace();
 				}
+				tempWorkers = selectedTask.getAssignedWorkers();
+				tempAssistingWorkers = selectedTask.getAssistingWorkers();
+				
+				updateWorkerComboBox();
+				updateAssistingComboBox();
+				updateCompletionComboBox();
 			}
 		}
 	}
@@ -308,43 +321,61 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 * @author s160902
 	 */
 	public void actionPerformed(ActionEvent e) {
+		//Button save task is pressed
 		if (e.getSource() == btnSaveTask) {
-			 if(taskList.getSelectedIndex() < contentPanel.getProjectPanel().getSelectedProject().getTasks().size()){
-				 
+			//Relevant index is selected.
+			 if(taskList.getSelectedIndex() != -1 && taskList.getSelectedIndex() < contentPanel.getProjectPanel().getSelectedProject().getTasks().size()){
+				 //Change task name.
 				 selectedTask.setName(textTaskName.getText());
+				 //Attempt to parse String to Date and catch with a pop-up telling user date wan't saved.
 				 try {
 					selectedTask.setDeadline(contentPanel.getDateFormat().parse(textEndWeek.getText()));
 				 } catch (ParseException e1) {
 					 JOptionPane.showMessageDialog(contentPanel, "Date wasn't saved, type in the date correctly.");
 				 }
+				 // Check if completion status changed.
 				 if(selectedTask.getStatus() == true && comboTaskCompletion.getSelectedIndex() == 0 ||
 						 selectedTask.getStatus() == false && comboTaskCompletion.getSelectedIndex() == 1)
 					 selectedTask.changeCompletion();
+				 //Update task list.
+				 updateTaskList(contentPanel.getProjectPanel().getSelectedProject().getTasks());
 			 }else{
-				 task.setAssistingWorkers(tempAssistingWorkers);
+				 Date date = null;
+				 //Attempt to parse a Date from String, if it can't, then tell user he has done goof'ed.
 				 try {
-					selectedTask.setDeadline(contentPanel.getDateFormat().parse(textEndWeek.getText()));
+					date = contentPanel.getDateFormat().parse(textEndWeek.getText());
 				 } catch (ParseException e1) {
-					JOptionPane.showMessageDialog(contentPanel, "Date wasn't saved, type in the date correctly.");
+					JOptionPane.showMessageDialog(contentPanel, "Task wasn't saved, type in the date correctly.");
 				 }
-				 Task task = new Task(textTaskName.getText(), textAreaTaskDesc.getText(), tempWorkers,
-						 date, contentPanel.projectPanel.getSelectedProject());
-				 contentPanel.getProjectPanel().getSelectedProject().addTask(task);
-				 
-				 
+				 //If date is valid create task and update list.
+				 if(date != null) {
+					 new Task(textTaskName.getText(), textAreaTaskDesc.getText(), tempWorkers, tempAssistingWorkers,
+							 date, contentPanel.projectPanel.getSelectedProject());
+					 updateTaskList(contentPanel.getProjectPanel().getSelectedProject().getTasks());
+				 }
 			 }
 		 }
+		//If delete task is pressed.
 		 if (e.getSource() == btnDelTask) {
-			 if(taskList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size())
+			 //Relevant index selected, delete selected task.
+			 if(taskList.getSelectedIndex() != -1 && taskList.getSelectedIndex() <
+					 contentPanel.getProjectPanel().getSelectedProject().getTasks().size())
 				 contentPanel.getProjectPanel().getSelectedProject().removeTask(taskList.getSelectedIndex());
 		 }
-		 if (e.getSource() == btnAddWorker) {
-			 if(!tempWorkers.contains(contentPanel.workerPanel.workerList.getSelectedIndex()))
-				 tempWorkers.add(contentPanel.getApp().getWorker(contentPanel.workerPanel.workerList.getSelectedIndex()));
-			 
-			 updateAssistingComboBox();
+		 //Add worker pressed with a worker selected.
+		 if (e.getSource() == btnAddWorker && contentPanel.getWorkerPanel().workerList.getSelectedIndex() != -1) {
+			 //Check if that worker already exists.
+			 if(tempWorkers == null || !tempWorkers.contains(contentPanel.getWorkerPanel().getSelectedWorker())
+					 && contentPanel.getWorkerPanel().getSelectedWorker().isAvailableCurrWeek())
+			 {
+				 //Add worker to temporary list of workers and update combo-box.
+				 tempWorkers.add(contentPanel.getWorkerPanel().getSelectedWorker());
+				 updateWorkerComboBox();
+			 }
 		 }
+		 //If delete worker is pressed and a worker is selected.
 		 if (e.getSource() == btnDelWorker && comboAssignedWorkers.getSelectedIndex() != -1) {
+			 //Remove worker and update combo-box.
 			 tempWorkers.remove(comboAssignedWorkers.getSelectedIndex());
 			 updateWorkerComboBox();
 		 }

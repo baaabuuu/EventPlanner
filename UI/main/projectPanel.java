@@ -187,10 +187,14 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 		Project project;
 		for(int i = 0; i < contentPanel.getApp().getAllProjects().size(); i++){
 			project = contentPanel.getApp().getAllProjects().get(i);
+			String leader = "No Leader";
+			if(project.getLeader() != null)
+				leader = project.getLeader().getName();
+			
 			listModel.addElement(
 					"<html>Project : "+project.getName()+
-					"<br/>Deadline :"+ contentPanel.getDateFormat().format(project.getDeadline())+
-					"<br/>Leader   : "+project.getLeader().getName()+"</html>");
+					"<br/>Deadline :"+ contentPanel.getDateFormat().format(project.getDeadline().getTime())+
+					"<br/>Leader   : "+leader+"</html>");
 		}
 		listModel.addElement("<html>-----------------------------<br/>ADD NEW PROJECT<br/>-----------------------------</html>");
 	}
@@ -208,7 +212,7 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	public void clearProjectContent(){
 		textAreaProjectDesc.setText("");
 		textProjectName.setText("");
-		textEndWeek.setText("yyyy-MM-dd");
+		textEndWeek.setText("2017-07-10");
 		textProjectLeader.setText("");
 		textWorkTime.setText("");
 		textProjectCompletion.setText("");
@@ -225,12 +229,18 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 				clearProjectContent();
 				selectedProject = null;
 				
-				if(listModel.size()>1 && projectList.getSelectedIndex() < listModel.size()) {
+				if(projectList.getSelectedIndex() != -1 && listModel.size()>1 &&
+						projectList.getSelectedIndex() < listModel.size()) {
+					
 					selectedProject = contentPanel.getApp().getAllProjects().get(projectList.getSelectedIndex());
 					
+					contentPanel.getTaskPanel().updateTaskList(selectedProject.getTasks());
+					
 					textProjectName.setText(selectedProject.getName());
-					textEndWeek.setText(contentPanel.getDateFormat().format(selectedProject.getDeadline()));
-					textProjectLeader.setText(selectedProject.getLeader().getName());
+					textEndWeek.setText(contentPanel.getDateFormat().format(selectedProject.getDeadline().getTime()));
+					if(selectedProject.getLeader() != null)
+						textProjectLeader.setText(selectedProject.getLeader().getName());
+					
 					this.tempLeader = selectedProject.getLeader();
 					try {
 						textWorkTime.setText(String.valueOf(1.0*selectedProject.getWorkTime()/2));
@@ -272,6 +282,7 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 				 if(date != null)
 					 contentPanel.getApp().addNewProject(textProjectName.getText(), date, tempLeader);
 			 }
+			 updProjectList();
 		 }
 		 if (e.getSource() == btnDelProject) {
 			 if(projectList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size())
@@ -279,7 +290,9 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 		 }
 		 if (e.getSource() == btnAddLeader) {
 			 this.tempLeader = contentPanel.getApp().getWorker(contentPanel.getWorkerPanel().workerList.getSelectedIndex());
-			 textProjectLeader.setText(tempLeader.getName());
+			 if(tempLeader != null) {
+				 textProjectLeader.setText(tempLeader.getName());
+			 }
 		 }
 		 if (e.getSource() == btnDelLeader) {
 			 this.tempLeader = null;
