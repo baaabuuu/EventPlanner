@@ -175,7 +175,7 @@ public class ProjectPlanningApp {
 	 * @throws IOException 
 	 * @throws WorkerMissingTask
 	 */
-	public void printWorkWeeks(Worker worker, int from, int till, Settings settings) throws WorkerMissingTask, IOException, InvalidDateRange
+	public void printWorkWeeks(Worker worker, int from, int till) throws WorkerMissingTask, IOException, InvalidDateRange
 	{
 		outputter.generateText(worker, from, till, settings);
 	}

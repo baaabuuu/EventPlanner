@@ -121,7 +121,7 @@ public class ProjectplanningAppTests
 	public void workWeekPrintFailRange1() throws WorkerMissingTask, IOException, InvalidDateRange
 	{
 		thrown.expect(InvalidDateRange.class);
-		planningApp.printWorkWeeks(worker,-1,0,settings);
+		planningApp.printWorkWeeks(worker,-1,0);
 	}
 	
 	//s164166
@@ -129,7 +129,7 @@ public class ProjectplanningAppTests
 	public void workWeekPrintFailRange2() throws WorkerMissingTask, IOException, InvalidDateRange
 	{
 		thrown.expect(InvalidDateRange.class);
-		planningApp.printWorkWeeks(worker,1,0,settings);
+		planningApp.printWorkWeeks(worker,1,0);
 	}
 	
 	@Test //s164166
@@ -179,7 +179,7 @@ public class ProjectplanningAppTests
 		when(project.getID()).thenReturn(20170);
 		when(task.getProject()).thenReturn(project);
 		
-		planningApp.printWorkWeeks(worker, 0, 1, settings);
+		planningApp.printWorkWeeks(worker, 0, 1);
 		File f = new File("WorkerInfo\\Test#0.txt"); 
 		
 		if (!f.exists()) {
