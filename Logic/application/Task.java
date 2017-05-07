@@ -138,6 +138,7 @@ public class Task {
 				worker.getCurrWeek().updAssignments(this);
 		}
 	}
+	
 
 	/**
 	 * Returns a list of all workers assigned to the task.
