@@ -293,30 +293,36 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	public void valueChanged(ListSelectionEvent e) {
 		//Value changes in task-list with double selection prevention.
 		if(e.getSource() == taskList && !e.getValueIsAdjusting()){
+			//Clear task content and clear temporary values
 			clearTaskContent();
 			selectedTask = null;
 			tempWorkers = null;
 			tempAssistingWorkers = null;
-			
+			//If within relevant index.
 			if(taskList.getSelectedIndex() != -1 && listModelTask.size()>1 &&
 					taskList.getSelectedIndex() < contentPanel.getProjectPanel().getSelectedProject().getTasks().size())
 			{
+				//Update selected task.
 				selectedTask = contentPanel.getProjectPanel().getSelectedProject().getTask(taskList.getSelectedIndex());
-				
+				//update text fields
 				textTaskName.setText(selectedTask.getName());
 				textEndWeek.setText(contentPanel.getDateFormat().format(selectedTask.getDeadline().getTime()));
 				
 				try {
+					//Update text field
 					textWorkTime.setText(String.valueOf(1.0*selectedTask.getWorkTime()/2));
 				} catch (WorkerMissingTask e1) {
 					e1.printStackTrace();
 				}
+				//Get workers into temporary value
 				tempWorkers = new ArrayList<Worker>(selectedTask.getAssignedWorkers());
 				tempAssistingWorkers = new ArrayList<Worker>(selectedTask.getAssistingWorkers());
-			}else {
+			}else if(taskList.getSelectedIndex() != -1) { //Else new task is selected.
+				//Empty temporary lists is created
 				tempWorkers = new ArrayList<Worker>();
 				tempAssistingWorkers = new ArrayList<Worker>();
 			}
+			//Update combo-boxes.
 			updateWorkerComboBox();
 			updateAssistingComboBox();
 			updateCompletionComboBox();
