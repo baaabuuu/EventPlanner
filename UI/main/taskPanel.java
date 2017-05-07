@@ -26,7 +26,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import application.ProjectInvalidInput;
 import application.Task;
+import application.TaskInvalidInput;
 import application.Worker;
 import application.WorkerMissingTask;
 
@@ -307,7 +309,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 				//update text fields
 				textTaskName.setText(selectedTask.getName());
 				textEndWeek.setText(contentPanel.getDateFormat().format(selectedTask.getDeadline().getTime()));
-				
+				textAreaTaskDesc.setText(selectedTask.getDescription());
 				try {
 					//Update text field
 					textWorkTime.setText(String.valueOf(1.0*selectedTask.getWorkTime()/2));
@@ -342,21 +344,37 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 			//Relevant index is selected.
 			 if(taskList.getSelectedIndex() != -1 && taskList.getSelectedIndex() < contentPanel.getProjectPanel().getSelectedProject().getTasks().size()){
 				 //Change task name.
-				 selectedTask.setName(textTaskName.getText());
+				 try {
+					selectedTask.setName(textTaskName.getText());
+				} catch (TaskInvalidInput e2) {
+					JOptionPane.showMessageDialog(contentPanel, "Error: Empty field");
+					e2.printStackTrace();
+				}
+				 //Update description.
+				 selectedTask.setDescription(textAreaTaskDesc.getText());
 				 //Update worker list.
-				 selectedTask.setAssignedWorkers(tempWorkers);
+				 try {
+					selectedTask.setAssignedWorkers(tempWorkers);
+				} catch (WorkerMissingTask e2) {
+					JOptionPane.showMessageDialog(contentPanel, "Error: Empty field");
+					e2.printStackTrace();
+				}
 				 //Attempt to parse String to Date and catch with a pop-up telling user date wan't saved.
 				 try {
 					selectedTask.setDeadline(contentPanel.getDateFormat().parse(textEndWeek.getText()));
 				 } catch (ParseException e1) {
 					 JOptionPane.showMessageDialog(contentPanel, "Date wasn't saved, type in the date correctly.");
-				 }
+				 } catch (TaskInvalidInput e1) {
+					 JOptionPane.showMessageDialog(contentPanel, "Error: Empty field");
+					e1.printStackTrace();
+				}
 				 // Check if completion status changed.
 				 if(selectedTask.getStatus() == true && comboTaskCompletion.getSelectedIndex() == 0 ||
 						 selectedTask.getStatus() == false && comboTaskCompletion.getSelectedIndex() == 1)
 					 selectedTask.changeCompletion();
 				 //Update task list.
 				 updateTaskList(contentPanel.getProjectPanel().getSelectedProject().getTasks());
+				 contentPanel.getWorkerPanel().updateWeekWorkCombo();
 			 }else{
 				 Date date = null;
 				 //Attempt to parse a Date from String, if it can't, then tell user he has done goof'ed.
@@ -367,8 +385,13 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 				 }
 				 //If date is valid create task and update list.
 				 if(date != null) {
-					 new Task(textTaskName.getText(), textAreaTaskDesc.getText(), tempWorkers, tempAssistingWorkers,
-							 date, contentPanel.getProjectPanel().getSelectedProject());
+					 try {
+						new Task(textTaskName.getText(), textAreaTaskDesc.getText(), tempWorkers, tempAssistingWorkers,
+								 date, contentPanel.getProjectPanel().getSelectedProject());
+					} catch (TaskInvalidInput e1) {
+						JOptionPane.showMessageDialog(contentPanel, "Error: Empty field");
+						e1.printStackTrace();
+					}
 					 updateTaskList(contentPanel.getProjectPanel().getSelectedProject().getTasks());
 				 }
 			 }
@@ -378,7 +401,12 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 			 //Relevant index selected, delete selected task.
 			 if(taskList.getSelectedIndex() != -1 && taskList.getSelectedIndex() <
 					 contentPanel.getProjectPanel().getSelectedProject().getTasks().size())
-				 contentPanel.getProjectPanel().getSelectedProject().removeTask(taskList.getSelectedIndex());
+				try {
+					contentPanel.getProjectPanel().getSelectedProject().removeTask(taskList.getSelectedIndex());
+				} catch (ProjectInvalidInput e1) {
+					JOptionPane.showMessageDialog(contentPanel, "Error: Empty field");
+					e1.printStackTrace();
+				}
 			 updateTaskList(contentPanel.getProjectPanel().getSelectedProject().getTasks());
 		 }
 		 //Add worker pressed with a worker selected.

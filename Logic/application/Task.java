@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-
 public class Task {
 	private String name;
 	private boolean finished = false;
@@ -130,13 +129,17 @@ public class Task {
 		{
 			found = false;
 			
-			for (int i = 0; i<20;i++)
+			for (int i = 0; i<worker.getCurrWeek().getCurrTaskAmm();i++)
 				if (worker.getCurrWeek().getWorkTask(i) != null)
 					if (worker.getCurrWeek().getWorkTask(i).equals(this))
 						found = true;
 			if (!found)
 				worker.getCurrWeek().updAssignments(this);
 		}
+		//dummy production code
+		for (Worker worker : assignedWorkers)
+			System.out.println(worker.getCurrWeek().getWorkTask(0));
+			
 	}
 	
 

@@ -220,8 +220,11 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		List<Task> tempTasks = new ArrayList<Task>();
 		//add them to a list.
 		if(currentWeekTasks[0] != null){
-			for(Task task:currentWeekTasks){
-				tempTasks.add(task);
+			int counter = 0;
+			while(currentWeekTasks[counter] != null)
+			{
+				tempTasks.add(currentWeekTasks[counter]);
+				counter++;
 			}
 			//Go through list and add all names to to string array.
 			String[] taskNames = (String[]) tempTasks.stream().map(Task::getName).toArray(String[]::new);
@@ -235,7 +238,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		if(!e.getValueIsAdjusting() && workerList.getSelectedIndex() != -1) { //Prevents double selection
 			//Update selectedWorker
 			selectedWorker = contentPanel.getApp().getWorker(workerList.getSelectedIndex());
-			
+			System.out.println("THE VALUE HAS CHANGED.");
 			updateWeekWorkCombo();
 		}
 	}

@@ -26,6 +26,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import application.Project;
+import application.ProjectInvalidInput;
 import application.Worker;
 import application.WorkerMissingTask;
 
@@ -286,7 +287,12 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 				 //Get relevant project.
 				 Project project = contentPanel.getApp().getProject(projectList.getSelectedIndex());
 				 //Update name and leader.
-				 project.setName(textProjectName.getText());
+				 try {
+					project.setName(textProjectName.getText());
+				} catch (ProjectInvalidInput e2) {
+					JOptionPane.showMessageDialog(contentPanel, "Error: Empty field");
+					e2.printStackTrace();
+				}
 				 project.setLeader(tempLeader);
 				 try {
 					 //Try to parse deadline.
@@ -294,6 +300,9 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 				} catch (ParseException e1) {
 					//If fail, tell user it's his fault.
 					JOptionPane.showMessageDialog(contentPanel, "Date wasn't saved, type in date correctly.");
+				} catch (ProjectInvalidInput e1) {
+					JOptionPane.showMessageDialog(contentPanel, "Error: Empty field");
+					e1.printStackTrace();
 				}
 			 }else if (projectList.getSelectedIndex() != -1) { //If not within index, new project is selected.
 				 Date date = null;
@@ -306,7 +315,12 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 					}
 				 //Update if date was parsed.
 				 if(date != null)
-					 contentPanel.getApp().addNewProject(textProjectName.getText(), date, tempLeader);
+					try {
+						contentPanel.getApp().addNewProject(textProjectName.getText(), date, tempLeader);
+					} catch (ProjectInvalidInput e1) {
+						JOptionPane.showMessageDialog(contentPanel, "Error: Empty field");
+						e1.printStackTrace();
+					}
 			 }
 			 //Got to update that project list now.
 			 updProjectList();
