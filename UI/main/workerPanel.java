@@ -105,7 +105,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		textTime.setBounds(170, 75, 120, 20);
 		add(textTime);
 		
-		lblAddAssTime = new JLabel("Add Assisted");
+		lblAddAssTime = new JLabel("Add assisted time");
 		lblAddAssTime.setBounds(170, 132, 120, 20);
 		add(lblAddAssTime);
 		
@@ -136,9 +136,9 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		}
 	}
 	public void valueChanged(ListSelectionEvent e) {
-		if(!e.getValueIsAdjusting()) {
+		//When worker list gets updated
+		if(!e.getValueIsAdjusting()) { //Prevents double selection
 			selectedWorker = contentPanel.getApp().getWorker(workerList.getSelectedIndex());
-			System.out.println(selectedWorker.getName());
 			
 			Task[] currentWeekTasks = contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().getAssignments();
 			String[] taskNames = {"Select Worker"};

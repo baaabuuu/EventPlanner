@@ -45,14 +45,6 @@ public class Task {
 	}
 
 	//s164147
-	public Task(String name, String description, Date date, Project project)
-	{
-		this.project	=	project;
-		this.name = name;
-		this.description = description;
-		this.deadline = new GregorianCalendar();
-		this.deadline.setTime(date);
-	}
 	public Task(Project project){
 		this.project	=	project;
 	}
@@ -60,6 +52,7 @@ public class Task {
 			List<Worker> assistingWorkers, Date date, Project project)
 	{
 		this.project	=	project;
+		project.addTask(this);
 		this.name = name;
 		this.description = description;
 		this.deadline = new GregorianCalendar();
@@ -67,7 +60,6 @@ public class Task {
 		this.assignedWorkers = assignedWorkers;
 		this.assistingWorkers = assistingWorkers;
 	}
-	
 	public String getName()
 	{
 		return name;
@@ -104,7 +96,11 @@ public class Task {
 	}
 	public void addWorker(Worker worker)
 	{
-		assignedWorkers.add(worker);
+		if (!assignedWorkers.contains(worker))
+        {
+            assignedWorkers.add(worker);
+            worker.getCurrWeek().updAssignments(this);
+        }
 	}
 	public void removeWorker(int idToRemove)
 	{		

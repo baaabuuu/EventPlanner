@@ -179,6 +179,8 @@ public class Worker
 			System.out.println(tasks);
 			for (int i = 0; i<tasks.length;i++)
 			{
+				if (tasks[i] == null)
+					break;
 				if (tasks[i].getTaskID() == taskID)
 					totalWorkTime += getWorkWeeks().get(workWeekIndex).getWorkTime(i);
 			}
@@ -189,7 +191,6 @@ public class Worker
 					totalWorkTime += getWorkWeeks().get(workWeekIndex).getHelpedTasksTime().get(i);
 			}
 		}
-		System.out.println(totalWorkTime);
 		return totalWorkTime;
 	} 
 	//Code has been merged and "fixed"
