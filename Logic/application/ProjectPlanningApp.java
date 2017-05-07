@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,7 @@ public class ProjectPlanningApp {
 	private ArrayList<Worker>	companyWorkers	=	new ArrayList<Worker>();
 	private ArrayList<Project>	companyProjects =	new ArrayList<Project>();
 	private int					projectCounter	=	0;
+	private	WorkOutput			outputter		=	new WorkOutput();
 	
 	/**
 	 * Adds a new project
@@ -143,5 +145,16 @@ public class ProjectPlanningApp {
 	public Settings getSettings()
 	{
 		return settings;
+	}
+	
+	/**
+	 * Print WorkWeek Info
+	 * @throws InvalidDateRange 
+	 * @throws IOException 
+	 * @throws WorkerMissingTask
+	 */
+	public void printWorkWeeks(Worker worker, int from, int till, Settings settings) throws WorkerMissingTask, IOException, InvalidDateRange
+	{
+		outputter.generateText(worker, from, till, settings);
 	}
 }
