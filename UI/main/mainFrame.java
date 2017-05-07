@@ -3,7 +3,7 @@ package main;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import application.ProjectPlanningApp;
-import workerLogic.WorkerNameError;;
+import application.WorkerNameError;
 
 public class mainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
