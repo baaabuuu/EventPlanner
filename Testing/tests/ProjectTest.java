@@ -37,7 +37,7 @@ public class ProjectTest {
 		cal.set(Calendar.YEAR, 2016);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 8);
-		project =	new Project("Test Project",cal.getTime(),leader,new Settings());
+		project =	new Project("Test Project","Test",cal.getTime(),leader,new Settings());
 	}
 	
 	
@@ -55,7 +55,7 @@ public class ProjectTest {
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 8);
 		thrown.expect(ProjectInvalidInput.class);
-		project =	new Project("",cal.getTime(),leader, new Settings());
+		project =	new Project("","Test",cal.getTime(),leader, new Settings());
 	}
 	
 	@Test //s164166
@@ -66,7 +66,7 @@ public class ProjectTest {
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 8);
 		thrown.expect(ProjectInvalidInput.class);
-		project =	new Project("Test",cal.getTime(),leader, new Settings());
+		project =	new Project("Test","Test",cal.getTime(),leader, new Settings());
 	}
 	
 	
@@ -77,7 +77,7 @@ public class ProjectTest {
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 8);
-		project =	new Project("Test",cal.getTime(),leader, new Settings());
+		project =	new Project("Test","Test",cal.getTime(),leader, new Settings());
 		cal.set(Calendar.YEAR, 2001);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 8);

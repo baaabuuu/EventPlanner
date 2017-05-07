@@ -94,7 +94,7 @@ public class ProjectplanningAppTests
 	@Test
 	public void removeProject() throws WorkerNameError, ProjectInvalidInput
 	{
-		planningApp.addNewProject("Test", cal.getTime(), worker);
+		planningApp.addNewProject("Test","Test", cal.getTime(), worker);
 		planningApp.removeProject(-1);
 		assertEquals("Project Size is 1",planningApp.getAllProjects().size(),1);
 		planningApp.removeProject(1);
@@ -193,7 +193,7 @@ public class ProjectplanningAppTests
 		ArrayList<Worker> communism = new ArrayList<Worker>();
 		communism.add(worker);
 		when(task.getAssignedWorkers()).thenReturn(communism);
-		planningApp.addNewProject("Test", planningApp.getSettings().getCurrDate().getTime(), worker);
+		planningApp.addNewProject("Test","Test", planningApp.getSettings().getCurrDate().getTime(), worker);
 		task.addWorker(worker);
 		planningApp.addNewWorker(worker);
 		planningApp.getAllProjects().get(0).addTask(task);
@@ -220,7 +220,7 @@ public class ProjectplanningAppTests
 		communism.add(worker);
 		when(task.getAssignedWorkers()).thenReturn(communism);
 		when(worker.isFired()).thenReturn(true);
-		planningApp.addNewProject("Test", planningApp.getSettings().getCurrDate().getTime(), worker);
+		planningApp.addNewProject("Test","Test", planningApp.getSettings().getCurrDate().getTime(), worker);
 		task.addWorker(worker);
 		planningApp.addNewWorker(worker);
 		planningApp.getAllProjects().get(0).addTask(task);

@@ -32,7 +32,7 @@ public class TaskTest {
 	
 	//s164166 && S164147
 	@Before
-	public void setup() throws TaskInvalidInput
+	public void setup() throws TaskInvalidInput, WorkerMissingTask
 	{
 		//All projects in this test has to be created after this date.
 		Calendar cal = new GregorianCalendar();
@@ -60,7 +60,7 @@ public class TaskTest {
 	}
 	
 	@Test //s164166
-	public void createInvalidTaskName() throws TaskInvalidInput
+	public void createInvalidTaskName() throws TaskInvalidInput, WorkerMissingTask
 	{
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, 2017);
@@ -71,7 +71,7 @@ public class TaskTest {
 	}
 	
 	@Test //s164166
-	public void createInvalidDate1() throws TaskInvalidInput
+	public void createInvalidDate1() throws TaskInvalidInput, WorkerMissingTask
 	{
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, 2008);
@@ -82,7 +82,7 @@ public class TaskTest {
 	}
 	
 	@Test //s164166
-	public void createInvalidDate2() throws TaskInvalidInput
+	public void createInvalidDate2() throws TaskInvalidInput, WorkerMissingTask
 	{
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, 3199);
@@ -127,7 +127,7 @@ public class TaskTest {
 	}
 	
 	@Test //s164166
-	public void setInvalidName() throws TaskInvalidInput
+	public void setInvalidName() throws TaskInvalidInput, WorkerMissingTask
 	{
 		Calendar cal1 = Calendar.getInstance();
 		cal1.set(Calendar.YEAR, 2017);
@@ -198,5 +198,44 @@ public class TaskTest {
 		task.addWorker(worker);
 		task.removeWorker(0);
 		assertEquals("Size is now equal to 0",task.getAssignedWorkers().size(),0);
+	}
+	@Test //s164166
+	public void setAssignedWorkers1() throws WorkerMissingTask, TaskInvalidInput
+	{
+		Calendar cal = new GregorianCalendar();
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.MARCH);
+		cal.set(Calendar.DAY_OF_MONTH, 8);
+		
+		ArrayList<Worker> newWorkers = new ArrayList<Worker>();
+		Worker worker1 = mock(Worker.class);
+		task = new Task("Test","Test", newWorkers, new ArrayList<Worker>(), cal.getTime(),project);
+		WorkWeek week = mock(WorkWeek.class);
+		
+		when(week.getWorkTask(0)).thenReturn(task);
+		when(week.getWorkTask(1)).thenReturn(null);
+		when(worker1.getCurrWeek()).thenReturn(week);
+		
+		newWorkers.add(worker1);
+		
+		task.setAssignedWorkers(newWorkers);	
+	}
+	@Test //s164166
+	public void setAssignedWorkers2() throws WorkerMissingTask, TaskInvalidInput
+	{
+		Calendar cal = new GregorianCalendar();
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.MARCH);
+		cal.set(Calendar.DAY_OF_MONTH, 8);
+		
+		ArrayList<Worker> newWorkers = new ArrayList<Worker>();
+		Worker worker1 = mock(Worker.class);
+		task = new Task("Test","Test", newWorkers, new ArrayList<Worker>(), cal.getTime(),project);
+		WorkWeek week = mock(WorkWeek.class);
+		when(worker1.getCurrWeek()).thenReturn(week);
+		
+		newWorkers.add(worker1);
+		
+		task.setAssignedWorkers(newWorkers);	
 	}
 }

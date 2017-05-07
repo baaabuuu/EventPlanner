@@ -48,7 +48,7 @@ public class WorkWeek
 	public Task getWorkTask(int index) throws WorkerMissingTask
 	{
 		if (assignments[index] == null)
-			throw new WorkerMissingTask("Could not get workTime.");
+			throw new WorkerMissingTask("Could not get task.");
 		return assignments[index];
 	}
 	/**

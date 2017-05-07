@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+
 public class Task {
 	private String name;
 	private boolean finished = false;
@@ -45,15 +46,15 @@ public class Task {
 
 	//s164147
 	public Task(String name, String description, List<Worker> assignedWorkers,
-            List<Worker> assistingWorkers, Date date, Project project) throws TaskInvalidInput
+            List<Worker> assistingWorkers, Date date, Project project) throws TaskInvalidInput, WorkerMissingTask
     {
         this.project    =    project;
         project.addTask(this);
         setName(name);
         this.description = description;
         setDeadline(date);
-        this.assignedWorkers = assignedWorkers;
-        this.assistingWorkers = assistingWorkers;
+        setAssignedWorkers(assignedWorkers);
+        this.assistingWorkers	=	assistingWorkers;
     }
 
 	public String getName()
@@ -128,7 +129,6 @@ public class Task {
 		for(Worker worker : assignedWorkers)
 		{
 			found = false;
-			
 			for (int i = 0; i<worker.getCurrWeek().getCurrTaskAmm();i++)
 				if (worker.getCurrWeek().getWorkTask(i) != null)
 					if (worker.getCurrWeek().getWorkTask(i).equals(this))
@@ -136,10 +136,6 @@ public class Task {
 			if (!found)
 				worker.getCurrWeek().updAssignments(this);
 		}
-		//dummy production code
-		for (Worker worker : assignedWorkers)
-			System.out.println(worker.getCurrWeek().getWorkTask(0));
-			
 	}
 	
 
@@ -165,7 +161,6 @@ public class Task {
 			for(int i = 0; i < getAssistingWorkers().size(); i++)
 				if (!getAssignedWorkers().contains(getAssistingWorkers().get(i)))
 					totalWorkTime += getAssistingWorkers().get(i).timeSpentOnTaskThisWeek(this);
-	
 		return totalWorkTime + workedTime;
 	}
 	
