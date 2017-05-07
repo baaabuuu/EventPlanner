@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -189,26 +191,41 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		
 		updateWorkerList();
 	}
+	/**
+	 * Returns currently selected worker.
+	 * @author s160902
+	 */
 	public Worker getSelectedWorker(){
 		return selectedWorker;
 	}
-	//S164147
+	/**
+	 * Updates worker combo-box.
+	 * @author S164147 & s160902
+	 */
 	public void updateWorkerList() {
 		listModel.clear();
+		//For each worker, add it
 		for(Worker worker : contentPanel.getApp().getAllWorkers()){
 			listModel.addElement(worker.getName());
 		}
 		workerList.setSelectedIndex(0);
 	}
+	/**
+	 * Updates week work combo-box.
+	 * @author S164147 & s160902
+	 */
 	public void updateWeekWorkCombo(){
-		Task[] currentWeekTasks = contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().getAssignments();
-		String[] taskNames = {"Select Worker"};
+		//Get all current tasks
+		Task[] currentWeekTasks = contentPanel.getApp().getWorker(workerList.getSelectedIndex()).getCurrWeek().getAssignments();
+		List<Task> tempTasks = new ArrayList<Task>();
+		//add them to a list.
 		if(currentWeekTasks[0] != null){
-			for(Task task : currentWeekTasks) {
-				int i = 0;
-				taskNames[i] = task.getName();
-				i++;
+			for(Task task:currentWeekTasks){
+				tempTasks.add(task);
 			}
+			//Go through list and add all names to to string array.
+			String[] taskNames = (String[]) tempTasks.stream().map(Task::getName).toArray(String[]::new);
+			//Update combo-box and set selected index.
 			comboWeekWork.setModel(new DefaultComboBoxModel<String>(taskNames));
 			comboWeekWork.setSelectedIndex(0);
 		}
@@ -216,6 +233,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 	public void valueChanged(ListSelectionEvent e) {
 		//When worker list gets updated
 		if(!e.getValueIsAdjusting() && workerList.getSelectedIndex() != -1) { //Prevents double selection
+			//Update selectedWorker
 			selectedWorker = contentPanel.getApp().getWorker(workerList.getSelectedIndex());
 			
 			updateWeekWorkCombo();
@@ -238,8 +256,10 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 				JOptionPane.showMessageDialog(contentPanel, "Attempted to add more hours than there is in a day, time wasn't added");
 			}
 		}
+		//If remove time button is pressed.
 		if(e.getSource() == btnRemTime) {
 			try {
+				//Attempt to remove time from task of selected worker.
 				contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboWeekWork.getSelectedIndex(), -(Integer.parseInt(textTime.getText())));
 			} catch (NumberFormatException e1) {
 				JOptionPane.showMessageDialog(contentPanel, "Attempted to remove something else than integers from time");
@@ -249,9 +269,12 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 				JOptionPane.showMessageDialog(contentPanel, "This message should never be ale to appear when removing time from task");
 			}
 		}
+		//If add assisted time button is pressed.
 		if(e.getSource() == btnAddAssTime) {
 			if(contentPanel.getTaskPanel().taskList.getSelectedIndex() != -1) {
+				//Get selected task from task panel.
 				Task task = contentPanel.getTaskPanel().getSelectedTask();
+				//Add assisting worker
 				task.addAssistingWorker(contentPanel.getApp().getWorker(workerList.getSelectedIndex()));
 				
 				int time = 0;
@@ -270,15 +293,37 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 				}
 			}
 		}
+		//If advance week is pressed
 		if(e.getSource() == btnAdvWeek) {
+			//Advance a day 7 times.
 			for(int t = 0; t < 7; t++){
-				contentPanel.getApp().getSettings().updateDay();
+				try {
+					contentPanel.getApp().advanceDay();
+				} catch (WorkerMissingTask e1) {
+					//Will never happen.
+					e1.printStackTrace();
+				}
 			}
+			//Update current week.
 			textCurrentWeek.setText(""+contentPanel.getApp().getSettings().getWeekNumber());
+			//Update combo-boxes.
+			contentPanel.getTaskPanel().updateWorkerComboBox();
+			contentPanel.getTaskPanel().updateAssistingComboBox();
 		}
+		//If advance day is pressed.
 		if(e.getSource() == btnAdvDay) {
-			contentPanel.getApp().getSettings().updateDay();
+			try {
+				//Advance one day
+				contentPanel.getApp().advanceDay();
+			} catch (WorkerMissingTask e1) {
+				//Will never happen.
+				e1.printStackTrace();
+			}
+			//Update current week.
 			textCurrentWeek.setText(""+contentPanel.getApp().getSettings().getWeekNumber());
+			//Update combo-boxes.
+			contentPanel.getTaskPanel().updateWorkerComboBox();
+			contentPanel.getTaskPanel().updateAssistingComboBox();
 		}
 		//If hire worker button is pressed and there's something in the text-field.
 		if(e.getSource() == btnHireWorker && !textAddWorker.getText().equals("")) {
@@ -297,8 +342,10 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 			contentPanel.getApp().removeWorker(workerList.getSelectedIndex());
 			updateWorkerList();
 		}
+		//If busy button is pressed.
 		if(e.getSource() == btnBusy) {
 			try {
+				//Attempt to parse input to integer and set that week as busy.
 				contentPanel.getApp().getWorker(workerList.getSelectedIndex()).getXweek(
 						Integer.parseInt(textSetBusy.getText())).setBussy();
 			} catch(NumberFormatException e1){

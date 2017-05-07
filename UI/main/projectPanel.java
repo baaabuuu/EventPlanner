@@ -183,26 +183,32 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	 * @author s160902
 	 */
 	public void updProjectList(){
+		//Clear project list.
 		listModel.clear();
 		Project project;
+		//For each project in the list of projects.
 		for(int i = 0; i < contentPanel.getApp().getAllProjects().size(); i++){
+			//Get relevant project.
 			project = contentPanel.getApp().getProject(i);
+			//Set a leader string.
 			String leader = "No Leader";
 			if(project.getLeader() != null)
 				leader = project.getLeader().getName();
-			
+			//Create 3 lines as element with project name, deadline and leader.
 			listModel.addElement(
 					"<html>Project : "+project.getName()+
 					"<br/>Deadline :"+ contentPanel.getDateFormat().format(project.getDeadline().getTime())+
 					"<br/>Leader   : "+leader+"</html>");
 		}
+		//Add additional element to allow adding new projects.
 		listModel.addElement("<html>-----------------------------<br/>ADD NEW PROJECT<br/>-----------------------------</html>");
+		//If there is no projects, set selected index to zero.
 		if(contentPanel.getApp().getAllProjects().size() < 1) {
 			projectList.setSelectedIndex(0);
 		}else{
+			//Else set it to the newest added project.
 			projectList.setSelectedIndex(contentPanel.getApp().getAllProjects().size()-1);			
 		}
-		
 	}
 	/**
 	 * Returns the current selected project.
@@ -229,31 +235,36 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	 */
 	public void valueChanged(ListSelectionEvent e) {
 		if(e.getSource() == projectList) {
-			if (!e.getValueIsAdjusting()) {//This line prevents double events
-				this.contentPanel.getTaskPanel().clearTaskList();
-				this.contentPanel.getTaskPanel().clearTaskContent();
+			if (!e.getValueIsAdjusting()) {//This line prevents double events'
+				//Clear task list and content.
+				contentPanel.getTaskPanel().clearTaskList();
+				contentPanel.getTaskPanel().clearTaskContent();
+				//clear project content and set selected project to null.
 				clearProjectContent();
 				selectedProject = null;
-				
+				//If within relevant index.
 				if(projectList.getSelectedIndex() != -1 && listModel.size()>1 && 
 						projectList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size()) {
-					
-					selectedProject = contentPanel.getApp().getAllProjects().get(projectList.getSelectedIndex());
-					
+					//Update selected project
+					selectedProject = contentPanel.getApp().getProject(projectList.getSelectedIndex());
+					//Update task list in task panel.
 					contentPanel.getTaskPanel().updateTaskList(selectedProject.getTasks());
-					
+					//Update text fields.
 					textProjectName.setText(selectedProject.getName());
 					textEndWeek.setText(contentPanel.getDateFormat().format(selectedProject.getDeadline().getTime()));
 					if(selectedProject.getLeader() != null)
 						textProjectLeader.setText(selectedProject.getLeader().getName());
-					
-					this.tempLeader = selectedProject.getLeader();
+					//Update temporary leader object, so that it can be used when saved.
+					tempLeader = selectedProject.getLeader();
 					try {
+						//Attempt to update time text field.
 						textWorkTime.setText(String.valueOf(1.0*selectedProject.getWorkTime()/2));
 					} catch (WorkerMissingTask e1) {
+						//If fail, throw error message (should'nt fail)
 						JOptionPane.showMessageDialog(contentPanel, "Error: A worker didn't have the task requested. WorkTime isn't shown");
 						e1.printStackTrace();
 					}
+					//update status.
 					textProjectCompletion.setText(selectedProject.getStatus());
 				}
 			}
@@ -268,26 +279,36 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	 * @author s160902
 	 */
 	public void actionPerformed(ActionEvent e) {
+		//When save button is pressed.
 		 if (e.getSource() == btnProjectSave) {
+			 //If within relevant index.
 			 if(projectList.getSelectedIndex() != -1 && projectList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size()){
-				 Project project = contentPanel.getApp().getAllProjects().get(projectList.getSelectedIndex());
+				 //Get relevant project.
+				 Project project = contentPanel.getApp().getProject(projectList.getSelectedIndex());
+				 //Update name and leader.
 				 project.setName(textProjectName.getText());
 				 project.setLeader(tempLeader);
 				 try {
-					project.setDeadline(contentPanel.getDateFormat().parse(textEndWeek.getText()));
+					 //Try to parse deadline.
+					 project.setDeadline(contentPanel.getDateFormat().parse(textEndWeek.getText()));
 				} catch (ParseException e1) {
+					//If fail, tell user it's his fault.
 					JOptionPane.showMessageDialog(contentPanel, "Date wasn't saved, type in date correctly.");
 				}
-			 }else if (projectList.getSelectedIndex() != -1) {
+			 }else if (projectList.getSelectedIndex() != -1) { //If not within index, new project is selected.
 				 Date date = null;
 				 try {
+					 	//Try to parse deadline.
 						date = contentPanel.getDateFormat().parse(textEndWeek.getText());
 					} catch (ParseException e1) {
+						//If fail, tell user it's his fault.
 						JOptionPane.showMessageDialog(contentPanel, "Project wasn't saved, type in the date correctly.");
 					}
+				 //Update if date was parsed.
 				 if(date != null)
 					 contentPanel.getApp().addNewProject(textProjectName.getText(), date, tempLeader);
 			 }
+			 //Got to update that project list now.
 			 updProjectList();
 		 }
 		 //Delete task button is pressed.
@@ -301,14 +322,19 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 				 updProjectList();
 			 }
 		 }
+		 //If add leader is pressed
 		 if (e.getSource() == btnAddLeader) {
-			 this.tempLeader = contentPanel.getApp().getWorker(contentPanel.getWorkerPanel().workerList.getSelectedIndex());
+			 //Update temporary leader.
+			 tempLeader = contentPanel.getApp().getWorker(contentPanel.getWorkerPanel().workerList.getSelectedIndex());
+			 //Update text field.
 			 if(tempLeader != null) {
 				 textProjectLeader.setText(tempLeader.getName());
 			 }
 		 }
+		 //If delete leader button is pressed, set temporary leader to null.
 		 if (e.getSource() == btnDelLeader) {
-			 this.tempLeader = null;
+			 tempLeader = null;
+			 //remove text from text field.
 			 textProjectLeader.setText("");
 		 }
 	}
