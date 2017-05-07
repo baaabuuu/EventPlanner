@@ -31,6 +31,7 @@ public class Worker
 	{
 		fired	=	true;
 	}
+	
 	/**
 	 * returns full name of the worker.
 	 * @author s164166
@@ -159,7 +160,7 @@ public class Worker
 	 * @param index
 	 * @author s164166
 	 */
-	private void fillMissingWorkWeeks(int index)
+	public void fillMissingWorkWeeks(int index)
 	{
 		for (int i = getWorkWeeks().size(); i <= index+1; i++)
 			getWorkWeeks().add(new WorkWeek(settings));

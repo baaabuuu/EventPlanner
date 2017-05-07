@@ -23,9 +23,15 @@ public class ProjectPlanningApp {
 	{
 		settings.updateDay();
 		if (settings.getDay() == 1)
+		{
 			for (Project project : companyProjects)
 				for (Task task : project.getTasks())
 					task.saveLastWeeksTime();
+			for (Worker worker : companyWorkers)
+				if (!worker.isFired())
+					worker.fillMissingWorkWeeks(settings.getWeekNumber());
+
+		}
 	}
 	
 	
