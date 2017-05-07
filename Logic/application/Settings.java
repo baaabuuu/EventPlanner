@@ -1,7 +1,6 @@
 package application;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -10,19 +9,25 @@ import java.util.GregorianCalendar;
  */
 public class Settings 
 {
-	private final int		maxAssignments		=	20;
-	private final String	applicationName		=	"Work Planner";
-	private final Date		startupDate 		=	new GregorianCalendar(2017, Calendar.APRIL, 10).getTime();
-	private 	  int		weekNumber			=	0;
-	private		  int		day 				=	1;
-	private 	  Date		currDate			=	new GregorianCalendar(2017, Calendar.APRIL, 10).getTime();
+	private	int					maxAssignments			=	20;
+	private	String				applicationName			=	"Work Planner";
+	private	GregorianCalendar	startupDate 			=	new GregorianCalendar(2017, Calendar.APRIL, 10);
+	private	int					weekNumber				=	0;
+	private	int					day 					=	1;
+	private	GregorianCalendar	currDate				=	new GregorianCalendar(2017, Calendar.APRIL, 10);
+		
+	public GregorianCalendar getCurrDate()
+	{
+		return currDate;
+	}
+	
 	
 	/**
 	 * Returns the startup date of the application
 	 * @author s164166
 	 * @return date
 	 */
-	public Date getStartupDate()
+	public GregorianCalendar getStartupDate()
 	{
 		return startupDate;
 	}
@@ -56,7 +61,7 @@ public class Settings
 		if (day == 6)
 			updateWeek();
 		day = (day  % 7) + 1;
-		currDate.setDate(currDate.getDate());
+		currDate.add(Calendar.DAY_OF_MONTH, 1);
 		return day == 1 ? true : false;
 	}
 	

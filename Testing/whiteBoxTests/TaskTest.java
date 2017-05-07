@@ -2,6 +2,7 @@ package whiteBoxTests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import static org.mockito.Mockito.*;
@@ -29,7 +30,7 @@ public class TaskTest {
 		cal.set(Calendar.YEAR, 2017);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 8);
-		task = new Task("Test","Test",cal.getTime(),project);
+		task = new Task("Test","Test",new ArrayList<Worker>(), new ArrayList<Worker>(), cal.getTime(),project);
 		when(worker.getCurrWeek()).thenReturn(mock(WorkWeek.class));
 	}
 	

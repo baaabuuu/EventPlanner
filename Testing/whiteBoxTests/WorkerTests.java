@@ -7,6 +7,7 @@ import org.junit.rules.ExpectedException;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import application.InvalidTime;
 import application.Settings;
 import application.Task;
 import application.Worker;
@@ -105,7 +106,7 @@ public class WorkerTests
 	
 	//Test the timeSpentOnAtask
 	@Test
-	public void timeSpentOnTaskTest() throws WorkerMissingTask
+	public void timeSpentOnTaskTest() throws WorkerMissingTask, InvalidTime
 	{
 		worker.getCurrWeek().updAssignments(task);		
 		worker.getCurrWeek().updWorkTime(0, 2);		

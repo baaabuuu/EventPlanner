@@ -10,6 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import application.InvalidTime;
 import application.Settings;
 import application.Task;
 import application.WorkWeek;
@@ -57,15 +58,24 @@ public class WorkWeekTest {
 	
 	//s164166
 	@Test
-	public void updWorkTimeException() throws WorkerMissingTask
+	public void updWorkTimeWorkerException() throws WorkerMissingTask, InvalidTime
 	{
 		thrown.expect(WorkerMissingTask.class);
 		week.updWorkTime(0, 2);
 	}
+	
+	//s164166
+	@Test
+	public void updWorkTimeTimeException() throws WorkerMissingTask, InvalidTime
+	{
+		week.updAssignments(task);
+		thrown.expect(InvalidTime.class);
+		week.updWorkTime(0, 25);
+	}
 		
 	//s164166
 	@Test
-	public void updWorkTimeNoException() throws WorkerMissingTask
+	public void updWorkTimeNoExceptions() throws WorkerMissingTask, InvalidTime
 	{
 		week.updAssignments(task);
 		week.updWorkTime(0, 2);
@@ -80,6 +90,25 @@ public class WorkWeekTest {
 		week.getWorkTime(0);
 		assertEquals("Time spent 2 hours",week.getWorkTime(0),0);
 	}
+	
+	
+	//s164166
+	@Test
+	public void updHelpedTasksTimeException() throws InvalidTime
+	{
+		thrown.expect(InvalidTime.class);
+		week.uppHelpedTasks(26, task);
+	}
+	
+	//s164166
+	@Test
+	public void updHelpedTasks() throws InvalidTime
+	{
+		week.uppHelpedTasks(2, task);
+	}
+		
+	
+	
 	
 	//s164166
 	@Test

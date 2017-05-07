@@ -24,7 +24,7 @@ public class ProjectPlanningApp {
 		companyProjects.add(project);
 	}
 	/**
-	 * removes a project from the company database using a specific object.
+	 * removes a project from the company database using a specific project.
 	 * THIS SHOULD NEVER BE CALLED ON A PROJECT THAT HAS BEEN WORKED ON.
 	 * It would result in a project being deleted making it hard for a user to find something they've worked previously on.
 	 * @author s160902
@@ -35,13 +35,16 @@ public class ProjectPlanningApp {
 		companyProjects.remove(project);
 	}
 	/**
-	 * removes a worker from the company database using its index.
+	 * removes a project from the company database using its index in the list.
+	 * THIS SHOULD NEVER BE CALLED ON A PROJECT THAT HAS BEEN WORKED ON.
+	 * It would result in a project being deleted making it hard for a user to find something they've worked previously on.
 	 * @author s160902
 	 * @param index.
 	 */
 	public  void removeProject(int index)
 	{
-		companyProjects.remove(index);
+		if (index >= 0 && index<companyProjects.size())
+			companyProjects.remove(index);
 	}
 	/**
 	 * gets a specific project by their index number.
@@ -100,7 +103,8 @@ public class ProjectPlanningApp {
 	 */
 	public void removeWorker(int index)
 	{
-		companyWorkers.remove(index);
+		if (index >= 0 && index < companyWorkers.size())
+			companyWorkers.remove(index);
 	}
 	/**
 	 * gets a specific worker by their index number.
@@ -129,5 +133,15 @@ public class ProjectPlanningApp {
 	public List<Worker> getAllWorkers()
 	{
 		return (ArrayList<Worker>) companyWorkers.stream().filter(Worker -> !Worker.isFired()).collect(Collectors.toList());		
+	}
+	
+	/**
+	 * Gets all the settings
+	 * @return settings.
+	 * @author s164166
+	 */
+	public Settings getSettings()
+	{
+		return settings;
 	}
 }

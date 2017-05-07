@@ -69,9 +69,12 @@ public class WorkWeek
 	 * @param time - in half hours
 	 * @param name - name of the task
 	 * @author s164166
+	 * @throws InvalidTime 
 	 */
-	public void uppHelpedTasks(int time, Task task)
+	public void uppHelpedTasks(int time, Task task) throws InvalidTime
 	{
+		if (time>24)
+			throw new InvalidTime("You cannot work more than 24 hours a day.");
 		helpedTasks.add(task);
 		helpedTasksTime.add(time);
 	}
@@ -101,14 +104,25 @@ public class WorkWeek
 	 * @param index
 	 * @param time
 	 * @throws WorkerMissingTask
+	 * @throws InvalidTime 
 	 */
-	public void updWorkTime(int index, int time) throws WorkerMissingTask
+	public void updWorkTime(int index, int time) throws WorkerMissingTask, InvalidTime
 	{
 		if (assignments[index] == null)
 			throw new WorkerMissingTask("Could not update task time");
+		if (time>24)
+			throw new InvalidTime("You cannot work more than 24 hours a day.");
 		timeWorkedOnTask[settings.getDay()][index] += time;
 		workTime[index]	+=	time;
 	}
+	
+	public int getTimeWorkedDay(int day, int task)
+	{
+		return timeWorkedOnTask[day][task];
+	}
+	
+	
+	
 	/**
 	 * Adds a task to the worker.
 	 * @author s164166

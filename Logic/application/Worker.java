@@ -20,7 +20,8 @@ public class Worker
 	{
 		setName(NAME);
 		this.settings	=	settings;
-		workWeek.add(new WorkWeek(settings));
+		for (int i = 0; i <= settings.getWeekNumber(); i++)
+			workWeek.add(new WorkWeek(settings));
 	}
 	/**
 	 * Fires a worker, their work hours can still be access in the database but they cannot be assigned to projects anymore.
@@ -118,6 +119,22 @@ public class Worker
 			fillMissingWorkWeeks(index);
 		return getWorkWeeks().get(settings.getWeekNumber() + index);
 	}
+	
+	
+	/**
+	 * Returns the x week from the START time point.
+	 * @param index
+	 * @return
+	 * @author s164166
+	 */
+	public WorkWeek getWeekFromStart(int index)
+	{
+		if (getWorkWeeks().size() <= index)
+			fillMissingWorkWeeks(index);
+		return getWorkWeeks().get(index);
+	}
+	
+	
 	/**
 	 * Checks whether the worker is available this week.
 	 * @author s164166
@@ -187,5 +204,6 @@ public class Worker
 			}
 		}
 		return totalWorkTime;
-	} 
+	}
+
 }
