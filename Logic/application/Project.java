@@ -79,7 +79,7 @@ public class Project {
 	/**
 	 * Removes a task from the list, can either use an index or a task object.
 	 * @param task
-	 * @author s164166
+	 * @author s164166 
 	 */
 	public void removeTask(Task task)
 	{
