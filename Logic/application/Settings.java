@@ -47,7 +47,7 @@ public class Settings
 	 * Added so we can advance weeks, 
 	 * @author s164166
 	 */
-	public void updateWeek()
+	private void updateWeek()
 	{
 		weekNumber++;
 	}
