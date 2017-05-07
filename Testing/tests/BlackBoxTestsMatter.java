@@ -327,4 +327,20 @@ public class BlackBoxTestsMatter {
 		assertEquals("Description is now Test",testTask.getDescription(),"Test");
 	}
 	
+	@Test //s164166
+	public void changeWorkerNameLegal() throws WorkerNameError
+	{
+		Worker worker = new Worker("Adam", new Settings());
+		worker.setName("George");
+		assertEquals("New name is Adam",worker.getName(),"George");
+	}
+	
+	@Test //s164166
+	public void changeWorkerNameIllegal() throws WorkerNameError
+	{
+		Worker worker = new Worker("Adam", new Settings());
+		thrown.expect(WorkerNameError.class);
+		worker.setName("");
+	}
+	
 }

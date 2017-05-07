@@ -116,12 +116,27 @@ public class Task {
 	public List<Worker> getAssignedWorkers(){
 		return assignedWorkers;
 	}
+	
 	/**
 	 * Sets the assignedWorkers list to a given list.
 	 * @author s160902
+	 * @throws WorkerMissingTask 
 	 */
-	public void setAssignedWorkers(List<Worker> assignedWorkers){
+	public void setAssignedWorkers(List<Worker> assignedWorkers) throws WorkerMissingTask
+	{
+		boolean found;
 		this.assignedWorkers = assignedWorkers;
+		for(Worker worker : assignedWorkers)
+		{
+			found = false;
+			
+			for (int i = 0; i<20;i++)
+				if (worker.getCurrWeek().getWorkTask(i) != null)
+					if (worker.getCurrWeek().getWorkTask(i).equals(this))
+						found = true;
+			if (!found)
+				worker.getCurrWeek().updAssignments(this);
+		}
 	}
 
 	/**
