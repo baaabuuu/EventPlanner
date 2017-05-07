@@ -275,9 +275,56 @@ public class BlackBoxTestsMatter {
 		cal.set(Calendar.YEAR, 1941);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 7);
-		
 		thrown.expect(TaskInvalidInput.class);
 		testTask.setDeadline(cal.getTime());
+	}
+	
+	@Test //s164166
+	public void changeTaskNameIllegal() throws TaskInvalidInput, WorkerNameError, ProjectInvalidInput
+	{
+		ArrayList<Worker> workers1 = new ArrayList<Worker>();
+		ArrayList<Worker> workers2 = new ArrayList<Worker>();
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.MARCH);
+		cal.set(Calendar.DAY_OF_MONTH, 8);
+		Worker worker = new Worker("Adam", new Settings());
+		Project project =	new Project("Test Project",cal.getTime(),worker, new Settings());
+		Task testTask = new Task("Test task", "Test description", workers1, workers2, cal.getTime(), project);
+		thrown.expect(TaskInvalidInput.class);
+		testTask.setName("");
+	}
+	
+	@Test //s164166
+	public void changeTaskNameLegal() throws TaskInvalidInput, WorkerNameError, ProjectInvalidInput
+	{
+		ArrayList<Worker> workers1 = new ArrayList<Worker>();
+		ArrayList<Worker> workers2 = new ArrayList<Worker>();
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.MARCH);
+		cal.set(Calendar.DAY_OF_MONTH, 8);
+		Worker worker = new Worker("Adam", new Settings());
+		Project project =	new Project("Test Project",cal.getTime(),worker, new Settings());
+		Task testTask = new Task("Test task", "Test description", workers1, workers2, cal.getTime(), project);
+		testTask.setName("Test_new");
+		assertEquals("Name is now Test_new",testTask.getName(),"Test_new");
+	}
+	
+	@Test //s164166
+	public void changeDescLegal() throws TaskInvalidInput, WorkerNameError, ProjectInvalidInput
+	{
+		ArrayList<Worker> workers1 = new ArrayList<Worker>();
+		ArrayList<Worker> workers2 = new ArrayList<Worker>();
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 2018);
+		cal.set(Calendar.MONTH, Calendar.MARCH);
+		cal.set(Calendar.DAY_OF_MONTH, 8);
+		Worker worker = new Worker("Adam", new Settings());
+		Project project =	new Project("Test Project",cal.getTime(),worker, new Settings());
+		Task testTask = new Task("Test task", "Test description", workers1, workers2, cal.getTime(), project);
+		testTask.setDescription("Test");
+		assertEquals("Description is now Test",testTask.getDescription(),"Test");
 	}
 	
 }
