@@ -16,7 +16,6 @@ public class mainFrame extends JFrame {
 		ProjectPlanningApp app = new ProjectPlanningApp();
 		
 		//Test
-		
 		try {
 			app.addNewWorker("Hubert");
 			app.addNewWorker("Bob");
