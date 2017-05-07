@@ -17,12 +17,23 @@ public class Project {
 	private int projectID;
 	private int taskCount;
 	private Settings settings;
+	private String description;
 	
-	public Project(String name, Date date, Worker leader, Settings settings) throws ProjectInvalidInput {
+	public Project(String name, String description, Date date, Worker leader, Settings settings) throws ProjectInvalidInput {
 		this.settings	=	settings;
+		setDescription(description);
 		setName(name);
 		setDeadline(date);
 		setLeader(leader);
+	}
+	public String getDescription()
+	{
+		return description;
+	}
+	
+	public void setDescription(String description)
+	{
+		this.description	=	description;
 	}
 	
 	public Settings getSettings()

@@ -40,9 +40,9 @@ public class ProjectPlanningApp {
 	 * @author s160902
 	 * @throws ProjectInvalidInput 
 	 */
-	public  void addNewProject(String name, Date date, Worker leader) throws ProjectInvalidInput
+	public  void addNewProject(String name, String description, Date date, Worker leader) throws ProjectInvalidInput
 	{
-		Project project = new Project(name, date, leader, settings);
+		Project project = new Project(name, description, date, leader, settings);
 		project.setID(Integer.valueOf(settings.getCurrDate().get(Calendar.YEAR) + "" + projectCounter));
 		projectCounter++;
 		companyProjects.add(project);
