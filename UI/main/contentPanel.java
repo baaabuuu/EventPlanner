@@ -14,11 +14,11 @@ import java.awt.BorderLayout;
 
 public class contentPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	projectPanel projectPanel;
-	taskPanel taskPanel;
-	workerPanel workerPanel;
-	ProjectPlanningApp app;
-	SimpleDateFormat dateFormat;
+	private projectPanel projectPanel;
+	private taskPanel taskPanel;
+	private workerPanel workerPanel;
+	private ProjectPlanningApp app;
+	private SimpleDateFormat dateFormat;
 	/**
 	 * Creates 3 sections each containing its own JPanel.
 	 * @author s160902

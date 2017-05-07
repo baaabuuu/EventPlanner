@@ -40,9 +40,11 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 	JScrollPane workerScroll;
 	DefaultComboBoxModel<String> taskList;
 	JComboBox<String> comboBox;
-	JTextField textTime, textAssTime;
-	JButton btnRemAssTime, btnAddAssTime, btnRemTime, btnAddTime;
-	JLabel lblAddAssTime, lblTime, lblCurrentWork, lblWorkerSelection;
+	JTextField textTime, textAssTime, textSetBusy, textCurrentWeek, textAddWorker;
+	JButton btnRemAssTime, btnAddAssTime, btnRemTime, btnAddTime, btnAdvWeek, btnAdvDay, btnBusy, btnAddWorker,
+	btnFire;
+	JLabel lblAddAssTime, lblTime, lblCurrentWork, lblWorkerSelection, lblFireWorker, lblTimeTravel, lblSetBusy,
+	lblCurrentWeek, lblAddWorker;
 	/**
 	 * Contains UI related to worker.
 	 * @author s160902
@@ -107,23 +109,85 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		add(textTime);
 		
 		lblAddAssTime = new JLabel("Add assisted time");
-		lblAddAssTime.setBounds(170, 132, 120, 20);
+		lblAddAssTime.setBounds(170, 125, 120, 20);
 		add(lblAddAssTime);
 		
 		textAssTime = new JTextField();
-		textAssTime.setBounds(172, 152, 116, 20);
+		textAssTime.setBounds(172, 145, 116, 20);
 		add(textAssTime);
 		
 		btnAddAssTime = new JButton("Add");
 		btnAddAssTime.addActionListener(this);
 		btnAddAssTime.setFont(new Font("Dialog", Font.PLAIN, 11));
-		btnAddAssTime.setBounds(170, 184, 57, 20);
+		btnAddAssTime.setBounds(170, 170, 57, 20);
 		add(btnAddAssTime);
 		
 		btnRemAssTime = new JButton("DEL");
 		btnRemAssTime.addActionListener(this);
-		btnRemAssTime.setBounds(233, 184, 57, 20);
+		btnRemAssTime.setBounds(233, 170, 57, 20);
 		add(btnRemAssTime);
+		
+		lblCurrentWeek = new JLabel("Current week is  :");
+		lblCurrentWeek.setBounds(10, 310, 105, 20);
+		add(lblCurrentWeek);
+		
+		lblSetBusy = new JLabel("Set busy week    :");
+		lblSetBusy.setBounds(10, 335, 105, 20);
+		add(lblSetBusy);
+		
+		textSetBusy = new JTextField();
+		textSetBusy.setBounds(115, 335, 40, 20);
+		add(textSetBusy);
+		
+		textCurrentWeek = new JTextField();
+		textCurrentWeek.setEditable(false);
+		textCurrentWeek.setBounds(115, 310, 40, 20);
+		add(textCurrentWeek);
+		
+		btnBusy = new JButton("Busy");
+		btnBusy.addActionListener(this);
+		btnBusy.setBounds(90, 360, 65, 20);
+		add(btnBusy);
+		
+		lblAddWorker = new JLabel("Hire Worker");
+		lblAddWorker.setBounds(170, 195, 120, 20);
+		add(lblAddWorker);
+		
+		textAddWorker = new JTextField();
+		textAddWorker.setBounds(170, 215, 116, 20);
+		add(textAddWorker);
+		
+		btnAddWorker = new JButton("You're Hired!");
+		btnAddWorker.addActionListener(this);
+		btnAddWorker.setBackground(new Color(0, 255, 0));
+		btnAddWorker.setFont(new Font("Dialog", Font.PLAIN, 11));
+		btnAddWorker.setBounds(170, 240, 120, 20);
+		add(btnAddWorker);
+		
+		btnFire = new JButton("FIRE HIM!");
+		btnFire.setForeground(Color.white);
+		btnFire.addActionListener(this);
+		btnFire.setBackground(new Color(255, 0, 0));
+		btnFire.setBounds(170, 285, 120, 23);
+		add(btnFire);
+		
+		lblFireWorker = new JLabel("Fire Worker");
+		lblFireWorker.setBounds(170, 265, 120, 20);
+		add(lblFireWorker);
+		
+		lblTimeTravel = new JLabel("Travel forward in time");
+		lblTimeTravel.setBounds(10, 390, 130, 20);
+		add(lblTimeTravel);
+		
+		btnAdvWeek = new JButton("Week");
+		btnAdvWeek.addActionListener(this);
+		btnAdvWeek.setBounds(10, 410, 80, 20);
+		add(btnAdvWeek);
+		
+		btnAdvDay = new JButton("Day");
+		btnAdvDay.addActionListener(this);
+		btnAdvDay.setBounds(10, 435, 80, 20);
+		add(btnAdvDay);
 		
 		updateWorkerList();
 	}
@@ -189,6 +253,12 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 			}
 		}
 		if(e.getSource() == btnRemAssTime) {
+			
+		}
+		if(e.getSource() == btnAdvWeek) {
+			//contentPanel.getApp().
+		}
+		if(e.getSource() == btnAdvDay) {
 			
 		}
 	}

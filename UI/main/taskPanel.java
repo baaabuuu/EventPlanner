@@ -223,7 +223,11 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 			String[] workNames = (String[]) tempWorkers.stream()
 					.map(Worker::getWorkName).toArray(String[]::new);
 					
-			comboAssignedWorkers.setModel(new DefaultComboBoxModel<String>(workNames));
+			comboModelAssignedWorkers = new DefaultComboBoxModel<String>(workNames);
+			comboAssignedWorkers.setModel(comboModelAssignedWorkers);
+		}else {
+			comboModelAssignedWorkers.removeAllElements();
+			comboAssignedWorkers.setModel(comboModelAssignedWorkers);
 		}
 	}
 	/**
@@ -243,11 +247,12 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 * @author s160902
 	 */
 	public void updateCompletionComboBox() {
-		comboModelAssistingWorkers.addElement("Incomplete");
-		comboModelAssistingWorkers.addElement("Complete");
+		String[] status = {"Incomplete", "Complete"};
+		comboTaskCompletion.setModel(new DefaultComboBoxModel<String>(status));
 		
-		if(selectedTask.getStatus())
-			comboAssistedWorkTime.setSelectedIndex(1);
+		if(taskList.getSelectedIndex() != -1 && listModelTask.size()>1 && taskList.getSelectedIndex() <
+				contentPanel.getProjectPanel().getSelectedProject().getTasks().size() && selectedTask.getStatus())
+			comboTaskCompletion.setSelectedIndex(1);
 	}
 	/**
 	 * Clears the task list.
@@ -287,13 +292,13 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 		if(e.getSource() == taskList && !e.getValueIsAdjusting()){
 			clearTaskContent();
 			selectedTask = null;
-			tempWorkers = new ArrayList<Worker>();
-			tempAssistingWorkers = new ArrayList<Worker>();
+			tempWorkers = null;
+			tempAssistingWorkers = null;
 			
 			if(taskList.getSelectedIndex() != -1 && listModelTask.size()>1 &&
-					taskList.getSelectedIndex() < contentPanel.projectPanel.getSelectedProject().getTasks().size())
+					taskList.getSelectedIndex() < contentPanel.getProjectPanel().getSelectedProject().getTasks().size())
 			{
-				selectedTask = contentPanel.projectPanel.getSelectedProject().getTask(taskList.getSelectedIndex());
+				selectedTask = contentPanel.getProjectPanel().getSelectedProject().getTask(taskList.getSelectedIndex());
 				
 				textTaskName.setText(selectedTask.getName());
 				textEndWeek.setText(contentPanel.getDateFormat().format(selectedTask.getDeadline().getTime()));
@@ -303,13 +308,15 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 				} catch (WorkerMissingTask e1) {
 					e1.printStackTrace();
 				}
-				tempWorkers = selectedTask.getAssignedWorkers();
-				tempAssistingWorkers = selectedTask.getAssistingWorkers();
-				
-				updateWorkerComboBox();
-				updateAssistingComboBox();
-				updateCompletionComboBox();
+				tempWorkers = new ArrayList<Worker>(selectedTask.getAssignedWorkers());
+				tempAssistingWorkers = new ArrayList<Worker>(selectedTask.getAssistingWorkers());
+			}else {
+				tempWorkers = new ArrayList<Worker>();
+				tempAssistingWorkers = new ArrayList<Worker>();
 			}
+			updateWorkerComboBox();
+			updateAssistingComboBox();
+			updateCompletionComboBox();
 		}
 	}
 	//Unused keyEvents
@@ -327,6 +334,8 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 			 if(taskList.getSelectedIndex() != -1 && taskList.getSelectedIndex() < contentPanel.getProjectPanel().getSelectedProject().getTasks().size()){
 				 //Change task name.
 				 selectedTask.setName(textTaskName.getText());
+				 //Update worker list.
+				 selectedTask.setAssignedWorkers(tempWorkers);
 				 //Attempt to parse String to Date and catch with a pop-up telling user date wan't saved.
 				 try {
 					selectedTask.setDeadline(contentPanel.getDateFormat().parse(textEndWeek.getText()));
@@ -350,7 +359,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 				 //If date is valid create task and update list.
 				 if(date != null) {
 					 new Task(textTaskName.getText(), textAreaTaskDesc.getText(), tempWorkers, tempAssistingWorkers,
-							 date, contentPanel.projectPanel.getSelectedProject());
+							 date, contentPanel.getProjectPanel().getSelectedProject());
 					 updateTaskList(contentPanel.getProjectPanel().getSelectedProject().getTasks());
 				 }
 			 }
@@ -361,6 +370,7 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 			 if(taskList.getSelectedIndex() != -1 && taskList.getSelectedIndex() <
 					 contentPanel.getProjectPanel().getSelectedProject().getTasks().size())
 				 contentPanel.getProjectPanel().getSelectedProject().removeTask(taskList.getSelectedIndex());
+			 updateTaskList(contentPanel.getProjectPanel().getSelectedProject().getTasks());
 		 }
 		 //Add worker pressed with a worker selected.
 		 if (e.getSource() == btnAddWorker && contentPanel.getWorkerPanel().workerList.getSelectedIndex() != -1) {

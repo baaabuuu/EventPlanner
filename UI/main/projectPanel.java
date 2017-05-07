@@ -229,8 +229,8 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 				clearProjectContent();
 				selectedProject = null;
 				
-				if(projectList.getSelectedIndex() != -1 && listModel.size()>1 &&
-						projectList.getSelectedIndex() < listModel.size()) {
+				if(projectList.getSelectedIndex() != -1 && listModel.size()>1 && 
+						projectList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size()) {
 					
 					selectedProject = contentPanel.getApp().getAllProjects().get(projectList.getSelectedIndex());
 					
@@ -263,7 +263,7 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	 */
 	public void actionPerformed(ActionEvent e) {
 		 if (e.getSource() == btnProjectSave) {
-			 if(projectList.getSelectedIndex() != -1 && projectList.getSelectedIndex() < contentPanel.app.getAllProjects().size()){
+			 if(projectList.getSelectedIndex() != -1 && projectList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size()){
 				 Project project = contentPanel.getApp().getAllProjects().get(projectList.getSelectedIndex());
 				 project.setName(textProjectName.getText());
 				 project.setLeader(tempLeader);
@@ -284,9 +284,16 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 			 }
 			 updProjectList();
 		 }
+		 //Delete task button is pressed.
 		 if (e.getSource() == btnDelProject) {
-			 if(projectList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size())
+			 //If within index
+			 if(projectList.getSelectedIndex() != -1 && projectList.getSelectedIndex() <
+					 contentPanel.getApp().getAllProjects().size())
+			 {
+				 //Remove project and update list.
 				 contentPanel.getApp().removeProject(projectList.getSelectedIndex());
+				 updProjectList();
+			 }
 		 }
 		 if (e.getSource() == btnAddLeader) {
 			 this.tempLeader = contentPanel.getApp().getWorker(contentPanel.getWorkerPanel().workerList.getSelectedIndex());
