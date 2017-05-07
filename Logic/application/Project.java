@@ -16,12 +16,20 @@ public class Project {
 	private Worker leader;
 	private int projectID;
 	private int taskCount;
+	private Settings settings;
 	
-	public Project(String name, Date date, Worker leader) {
+	public Project(String name, Date date, Worker leader, Settings settings) throws ProjectInvalidInput {
+		this.settings	=	settings;
 		setName(name);
 		setDeadline(date);
 		setLeader(leader);
 	}
+	
+	public Settings getSettings()
+	{
+		return settings;
+	}
+	
 	public void setID(int id)
 	{
 		projectID=id;
@@ -36,8 +44,10 @@ public class Project {
 	{
 		return name;
 	}
-	public void setName(String newName)
+	public void setName(String newName) throws ProjectInvalidInput
 	{
+		if (newName.equals(""))
+			throw new ProjectInvalidInput("Wrong name Input");
 		name = newName;
 	}
 	public List<Task> getTasks()
@@ -72,8 +82,10 @@ public class Project {
 	 * @param index
 	 * @author s164166
 	 */
-	public void removeTask(int index)
+	public void removeTask(int index) throws ProjectInvalidInput
 	{
+		if (index < 0 || index >= getTasks().size())
+			throw new ProjectInvalidInput("Cannot remove task, invalid ID");
 		tasks.remove(index);
 	}
 	/**
@@ -93,22 +105,17 @@ public class Project {
 		taskCount++;
 	}
 	
-	public void setDeadline(int[] newDeadline)
-	{
-		deadline = new GregorianCalendar(newDeadline[0],newDeadline[1],newDeadline[2]);
-	}
-	public void setDeadline(TimeZone date)
-	{
-		deadline = new GregorianCalendar(date);
-	}
-	
+
+
 	/**
-	 * .
+	 * Sets the deadline, can thrown ProjectInvalidInput
 	 * @author s160902
+	 * @throws ProjectInvalidInput 
 	 */
-	public void setDeadline(Date date)
+	public void setDeadline(Date date) throws ProjectInvalidInput
 	{
-		deadline = new GregorianCalendar();
+		if (date.before(settings.getCurrDate().getTime()))
+			throw new ProjectInvalidInput("Invalid date format");
 		deadline.setTime(date);
 	}
 

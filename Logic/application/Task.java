@@ -14,7 +14,7 @@ public class Task {
 	private List<Worker> assignedWorkers = new ArrayList<Worker>();
 	private List<Worker> assistingWorkers = new ArrayList<Worker>();
 	private	int		workedTime	=	0;
-	private Calendar deadline;
+	private Calendar deadline	=	new GregorianCalendar();
 	private int taskID;
 	private Project project;
 	
@@ -46,14 +46,13 @@ public class Task {
 
 	//s164147
 	public Task(String name, String description, List<Worker> assignedWorkers,
-            List<Worker> assistingWorkers, Date date, Project project)
+            List<Worker> assistingWorkers, Date date, Project project) throws TaskInvalidInput
     {
         this.project    =    project;
         project.addTask(this);
-        this.name = name;
+        setName(name);
         this.description = description;
-        this.deadline = new GregorianCalendar();
-        this.deadline.setTime(date);
+        setDeadline(date);
         this.assignedWorkers = assignedWorkers;
         this.assistingWorkers = assistingWorkers;
     }
@@ -62,8 +61,10 @@ public class Task {
 	{
 		return name;
 	}
-	public void setName(String newName)
+	public void setName(String newName) throws TaskInvalidInput
 	{
+		if (newName.equals(""))
+			throw new TaskInvalidInput("Invalid name");
 		name = newName;
 	}
 	public boolean getStatus()
@@ -75,9 +76,12 @@ public class Task {
 		finished = !finished;
 	}
 	
-	public void setDeadline(Date date)
+	public void setDeadline(Date date) throws TaskInvalidInput
 	{
-		deadline.setTime(date);;
+		if (date.after(getProject().getDeadline().getTime()) ||
+				date.before(getProject().getSettings().getCurrDate().getTime()))
+					throw new TaskInvalidInput("Invalid date range.");
+		deadline.setTime(date);
 	}
 	
 	public Calendar getDeadline()

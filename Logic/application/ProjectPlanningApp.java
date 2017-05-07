@@ -38,10 +38,11 @@ public class ProjectPlanningApp {
 	/**
 	 * Adds a new project
 	 * @author s160902
+	 * @throws ProjectInvalidInput 
 	 */
-	public  void addNewProject(String name, Date date, Worker leader)
+	public  void addNewProject(String name, Date date, Worker leader) throws ProjectInvalidInput
 	{
-		Project project = new Project(name, date, leader);
+		Project project = new Project(name, date, leader, settings);
 		project.setID(Integer.valueOf(settings.getCurrDate().get(Calendar.YEAR) + "" + projectCounter));
 		projectCounter++;
 		companyProjects.add(project);
@@ -147,9 +148,9 @@ public class ProjectPlanningApp {
 	{	
 		return (ArrayList<Worker>) companyWorkers.stream().filter(Worker -> Worker.isAvailableCurrWeek()).collect(Collectors.toList());		
 	}
+	
 	/**
 	 * Returns a list of workers that are not fired.
-	 * "You're fired." - Donald J. Trump, President of the United States of America.
 	 * @author s164166
 	 * @return the workers than can work on a task at the moment
 	 */

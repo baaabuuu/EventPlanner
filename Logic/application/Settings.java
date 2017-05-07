@@ -11,10 +11,10 @@ public class Settings
 {
 	private	int					maxAssignments			=	20;
 	private	String				applicationName			=	"Work Planner";
-	private	GregorianCalendar	startupDate 			=	new GregorianCalendar(2017, Calendar.APRIL, 10);
+	private	GregorianCalendar	startupDate 			=	new GregorianCalendar(2004, Calendar.APRIL, 10);
 	private	int					weekNumber				=	0;
 	private	int					day 					=	1;
-	private	GregorianCalendar	currDate				=	new GregorianCalendar(2017, Calendar.APRIL, 10);
+	private	GregorianCalendar	currDate				=	new GregorianCalendar(2004, Calendar.APRIL, 10);
 		
 	public GregorianCalendar getCurrDate()
 	{

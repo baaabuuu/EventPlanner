@@ -1,4 +1,4 @@
-package whiteBoxTests;
+package tests;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,6 +19,7 @@ import org.junit.rules.ExpectedException;
 
 import application.InvalidDateRange;
 import application.Project;
+import application.ProjectInvalidInput;
 import application.ProjectPlanningApp;
 import application.Settings;
 import application.Task;
@@ -38,6 +39,7 @@ public class ProjectplanningAppTests
 
 	@Rule //s164166
     public ExpectedException thrown = ExpectedException.none();
+
 	
 	@Before
 	public void setup() 
@@ -90,7 +92,7 @@ public class ProjectplanningAppTests
 	}
 	//s164166
 	@Test
-	public void removeProject() throws WorkerNameError
+	public void removeProject() throws WorkerNameError, ProjectInvalidInput
 	{
 		planningApp.addNewProject("Test", cal.getTime(), worker);
 		planningApp.removeProject(-1);
@@ -186,7 +188,7 @@ public class ProjectplanningAppTests
 	}
 	//s164166
 	@Test
-	public void advanceDayTest() throws WorkerMissingTask
+	public void advanceDayTest() throws WorkerMissingTask, ProjectInvalidInput
 	{
 		ArrayList<Worker> communism = new ArrayList<Worker>();
 		communism.add(worker);

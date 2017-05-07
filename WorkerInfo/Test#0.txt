@@ -1,19 +1,36 @@
 Workname: Test#0 Full Name: Test
-From: Mon Apr 10 23:00:00 CEST 2017  till: Sun Apr 16 00:00:00 CEST 2017
+From: Mon Apr 10 23:00:00 CEST 2017  till: Sun Apr 23 00:00:00 CEST 2017
 Week: 0
 Monday		
-		Project: Test Project#0 Task: Test_task#0. Hours worked: 5.
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 5.
 Tuesday		
-		Project: Test Project#0 Task: Test_task#0. Hours worked: 9.
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 9.
 Wednessday	
-		Project: Test Project#0 Task: Test_task#0. Hours worked: 12.
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 12.
 Thursday	
-		Project: Test Project#0 Task: Test_task#0. Hours worked: 5.
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 5.
 Friday		
-		Project: Test Project#0 Task: Test_task#0. Hours worked: 1.
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 1.
 Saturday	
-		Project: Test Project#0 Task: Test_task#0. Hours worked: 0.
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 0.
 Sunday		
-		Project: Test Project#0 Task: Test_task#0. Hours worked: 24.
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 24.
 		----- HELPED TASKS -----
-		Project: Test Project#0 Task: Test_task#0. Hours worked: 5.
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 5.
+Week: 1
+Monday		
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 5.
+Tuesday		
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 9.
+Wednessday	
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 12.
+Thursday	
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 5.
+Friday		
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 1.
+Saturday	
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 0.
+Sunday		
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 24.
+		----- HELPED TASKS -----
+		Project: Test Project#20170 Task: Test_task#0. Hours worked: 5.
