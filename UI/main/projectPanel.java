@@ -186,7 +186,7 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 		listModel.clear();
 		Project project;
 		for(int i = 0; i < contentPanel.getApp().getAllProjects().size(); i++){
-			project = contentPanel.getApp().getAllProjects().get(i);
+			project = contentPanel.getApp().getProject(i);
 			String leader = "No Leader";
 			if(project.getLeader() != null)
 				leader = project.getLeader().getName();
@@ -197,6 +197,12 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 					"<br/>Leader   : "+leader+"</html>");
 		}
 		listModel.addElement("<html>-----------------------------<br/>ADD NEW PROJECT<br/>-----------------------------</html>");
+		if(contentPanel.getApp().getAllProjects().size() < 1) {
+			projectList.setSelectedIndex(0);
+		}else{
+			projectList.setSelectedIndex(contentPanel.getApp().getAllProjects().size()-1);			
+		}
+		
 	}
 	/**
 	 * Returns the current selected project.

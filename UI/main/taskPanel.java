@@ -7,11 +7,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -28,7 +26,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import application.Project;
 import application.Task;
 import application.Worker;
 import application.WorkerMissingTask;
@@ -282,6 +279,12 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 					"<br/>Status   : "+status+"</html>");
 		}
 		listModelTask.addElement("<html>-----------------------------<br/>ADD NEW TASK<br/>-----------------------------</html>");
+		
+		if(contentPanel.getProjectPanel().getSelectedProject().getTasks().size() < 1) {
+			taskList.setSelectedIndex(0);
+		}else{
+			taskList.setSelectedIndex(contentPanel.getProjectPanel().getSelectedProject().getTasks().size()-1);			
+		}
 	}
 	/**
 	 * Updates when a value changes in a list.

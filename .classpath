@@ -7,6 +7,5 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Christian/Desktop/Mockito/mockito-all-2.0.2-beta.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Arada/Desktop/Mockito/mockito-all-2.0.2-beta.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

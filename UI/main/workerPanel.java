@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
@@ -18,9 +19,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import application.InvalidTime;
 import application.Task;
 import application.Worker;
 import application.WorkerMissingTask;
+import application.WorkerNameError;
 
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -39,10 +42,10 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 	JList<String> workerList;
 	JScrollPane workerScroll;
 	DefaultComboBoxModel<String> taskList;
-	JComboBox<String> comboBox;
+	JComboBox<String> comboWeekWork;
 	JTextField textTime, textAssTime, textSetBusy, textCurrentWeek, textAddWorker;
-	JButton btnRemAssTime, btnAddAssTime, btnRemTime, btnAddTime, btnAdvWeek, btnAdvDay, btnBusy, btnAddWorker,
-	btnFire;
+	JButton btnAddAssTime, btnRemTime, btnAddTime, btnAdvWeek, btnAdvDay, btnBusy, btnHireWorker,
+	btnFireWorker;
 	JLabel lblAddAssTime, lblTime, lblCurrentWork, lblWorkerSelection, lblFireWorker, lblTimeTravel, lblSetBusy,
 	lblCurrentWeek, lblAddWorker;
 	/**
@@ -84,9 +87,9 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		lblCurrentWork.setBounds(170, 10, 120, 20);
 		add(lblCurrentWork);
 		
-		comboBox = new JComboBox<String>();
-		comboBox.setBounds(170, 30, 120, 20);
-		add(comboBox);
+		comboWeekWork = new JComboBox<String>();
+		comboWeekWork.setBounds(170, 30, 120, 20);
+		add(comboWeekWork);
 		
 		lblTime = new JLabel("Add time to task");
 		lblTime.setBounds(170, 55, 120, 20);
@@ -122,12 +125,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		btnAddAssTime.setBounds(170, 170, 57, 20);
 		add(btnAddAssTime);
 		
-		btnRemAssTime = new JButton("DEL");
-		btnRemAssTime.addActionListener(this);
-		btnRemAssTime.setBounds(233, 170, 57, 20);
-		add(btnRemAssTime);
-		
-		lblCurrentWeek = new JLabel("Current week is  :");
+		lblCurrentWeek = new JLabel("Current week is  : ");
 		lblCurrentWeek.setBounds(10, 310, 105, 20);
 		add(lblCurrentWeek);
 		
@@ -139,7 +137,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		textSetBusy.setBounds(115, 335, 40, 20);
 		add(textSetBusy);
 		
-		textCurrentWeek = new JTextField();
+		textCurrentWeek = new JTextField(""+contentPanel.getApp().getSettings().getWeekNumber());
 		textCurrentWeek.setEditable(false);
 		textCurrentWeek.setBounds(115, 310, 40, 20);
 		add(textCurrentWeek);
@@ -157,19 +155,19 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		textAddWorker.setBounds(170, 215, 116, 20);
 		add(textAddWorker);
 		
-		btnAddWorker = new JButton("You're Hired!");
-		btnAddWorker.addActionListener(this);
-		btnAddWorker.setBackground(new Color(0, 255, 0));
-		btnAddWorker.setFont(new Font("Dialog", Font.PLAIN, 11));
-		btnAddWorker.setBounds(170, 240, 120, 20);
-		add(btnAddWorker);
+		btnHireWorker = new JButton("You're Hired!");
+		btnHireWorker.addActionListener(this);
+		btnHireWorker.setBackground(new Color(0, 255, 0));
+		btnHireWorker.setFont(new Font("Dialog", Font.PLAIN, 11));
+		btnHireWorker.setBounds(170, 240, 120, 20);
+		add(btnHireWorker);
 		
-		btnFire = new JButton("FIRE HIM!");
-		btnFire.setForeground(Color.white);
-		btnFire.addActionListener(this);
-		btnFire.setBackground(new Color(255, 0, 0));
-		btnFire.setBounds(170, 285, 120, 23);
-		add(btnFire);
+		btnFireWorker = new JButton("FIRE HIM!");
+		btnFireWorker.setForeground(Color.white);
+		btnFireWorker.addActionListener(this);
+		btnFireWorker.setBackground(new Color(255, 0, 0));
+		btnFireWorker.setBounds(170, 285, 120, 23);
+		add(btnFireWorker);
 		
 		lblFireWorker = new JLabel("Fire Worker");
 		lblFireWorker.setBounds(170, 265, 120, 20);
@@ -196,25 +194,31 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 	}
 	//S164147
 	public void updateWorkerList() {
+		listModel.clear();
 		for(Worker worker : contentPanel.getApp().getAllWorkers()){
 			listModel.addElement(worker.getName());
+		}
+		workerList.setSelectedIndex(0);
+	}
+	public void updateWeekWorkCombo(){
+		Task[] currentWeekTasks = contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().getAssignments();
+		String[] taskNames = {"Select Worker"};
+		if(currentWeekTasks[0] != null){
+			for(Task task : currentWeekTasks) {
+				int i = 0;
+				taskNames[i] = task.getName();
+				i++;
+			}
+			comboWeekWork.setModel(new DefaultComboBoxModel<String>(taskNames));
+			comboWeekWork.setSelectedIndex(0);
 		}
 	}
 	public void valueChanged(ListSelectionEvent e) {
 		//When worker list gets updated
-		if(!e.getValueIsAdjusting()) { //Prevents double selection
+		if(!e.getValueIsAdjusting() && workerList.getSelectedIndex() != -1) { //Prevents double selection
 			selectedWorker = contentPanel.getApp().getWorker(workerList.getSelectedIndex());
 			
-			Task[] currentWeekTasks = contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().getAssignments();
-			String[] taskNames = {"Select Worker"};
-			if(currentWeekTasks[0] != null){
-				for(Task task : currentWeekTasks) {
-					int i = 0;
-					taskNames[i] = task.getName();
-					i++;
-				}
-				taskList = new DefaultComboBoxModel<String>(taskNames);
-			}
+			updateWeekWorkCombo();
 		}
 	}
 	//Unused keyEvents
@@ -225,22 +229,24 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		//Check which button has been pressed
 		if (e.getSource() == btnAddTime) {
 			try {
-				contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboBox.getSelectedIndex(), Integer.parseInt(textTime.getText()));
+				contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboWeekWork.getSelectedIndex(), Integer.parseInt(textTime.getText()));
 			} catch (NumberFormatException e1) {
-				e1.printStackTrace();
-				System.out.println("Please insert integer.");
+				JOptionPane.showMessageDialog(contentPanel, "Attempted to add something else than integers to time");
 			} catch (WorkerMissingTask e1) {
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(contentPanel, "Attempted to add time to a task, that the worker isn't assigned to");
+			} catch (InvalidTime e1) {
+				JOptionPane.showMessageDialog(contentPanel, "Attempted to add more hours than there is in a day, time wasn't added");
 			}
 		}
 		if(e.getSource() == btnRemTime) {
 			try {
-				contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboBox.getSelectedIndex(), -(Integer.parseInt(textTime.getText())));
+				contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboWeekWork.getSelectedIndex(), -(Integer.parseInt(textTime.getText())));
 			} catch (NumberFormatException e1) {
-				e1.printStackTrace();
-				System.out.println("Please insert integer.");
+				JOptionPane.showMessageDialog(contentPanel, "Attempted to remove something else than integers from time");
 			} catch (WorkerMissingTask e1) {
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(contentPanel, "Attempted to remove time from a task, that the worker isn't assigned to");
+			} catch (InvalidTime e1) {
+				JOptionPane.showMessageDialog(contentPanel, "This message should never be ale to appear when removing time from task");
 			}
 		}
 		if(e.getSource() == btnAddAssTime) {
@@ -248,18 +254,56 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 				Task task = contentPanel.getTaskPanel().getSelectedTask();
 				task.addAssistingWorker(contentPanel.getApp().getWorker(workerList.getSelectedIndex()));
 				
-				int time = Integer.parseInt(textAssTime.getText())*2;
-				contentPanel.getApp().getWorker(workerList.getSelectedIndex()).getCurrWeek().uppHelpedTasks(time, task);
+				int time = 0;
+				try {
+					//Attempt to parse to integer.
+					time = Integer.parseInt(textAssTime.getText())*2;
+					//If parsed time is not negative
+					if(time > 0) {
+						//Add assisted time to task.
+						contentPanel.getApp().getWorker(workerList.getSelectedIndex()).getCurrWeek().uppHelpedTasks(time, task);						
+					}
+				  } catch (NumberFormatException e1) {
+					  JOptionPane.showMessageDialog(contentPanel, "Attempted to add something else than integers to time");
+				  } catch (InvalidTime e1) {
+					  JOptionPane.showMessageDialog(contentPanel, "Attempted to add more hours than there is in a day, time wasn't added");
+				}
 			}
 		}
-		if(e.getSource() == btnRemAssTime) {
-			
-		}
 		if(e.getSource() == btnAdvWeek) {
-			//contentPanel.getApp().
+			for(int t = 0; t < 7; t++){
+				contentPanel.getApp().getSettings().updateDay();
+			}
+			textCurrentWeek.setText(""+contentPanel.getApp().getSettings().getWeekNumber());
 		}
 		if(e.getSource() == btnAdvDay) {
-			
+			contentPanel.getApp().getSettings().updateDay();
+			textCurrentWeek.setText(""+contentPanel.getApp().getSettings().getWeekNumber());
+		}
+		//If hire worker button is pressed and there's something in the text-field.
+		if(e.getSource() == btnHireWorker && !textAddWorker.getText().equals("")) {
+			try {
+				//Add new worker. WorkerNameError should not occur, as empty field is tested for.
+				contentPanel.getApp().addNewWorker(textAddWorker.getText());
+			} catch (WorkerNameError e1) {
+				JOptionPane.showMessageDialog(contentPanel, "Attempted to add un-named worker");
+			}
+			//Update worker list.
+			updateWorkerList();
+		}
+		//If fire worker button is pressed and a worker is selected
+		if(e.getSource() == btnFireWorker && workerList.getSelectedIndex() != -1) {
+			//Remove worker and update worker list.
+			contentPanel.getApp().removeWorker(workerList.getSelectedIndex());
+			updateWorkerList();
+		}
+		if(e.getSource() == btnBusy) {
+			try {
+				contentPanel.getApp().getWorker(workerList.getSelectedIndex()).getXweek(
+						Integer.parseInt(textSetBusy.getText())).setBussy();
+			} catch(NumberFormatException e1){
+				JOptionPane.showMessageDialog(contentPanel, "Type in valid integer");
+			}
 		}
 	}
 }
