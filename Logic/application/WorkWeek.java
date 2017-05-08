@@ -73,7 +73,7 @@ public class WorkWeek
 	 */
 	public void uppHelpedTasks(int time, Task task) throws InvalidTime
 	{
-		if (time>24)
+		if (time>48)
 			throw new InvalidTime("You cannot work more than 24 hours a day.");
 		helpedTasks.add(task);
 		helpedTasksTime.add(time);
@@ -110,7 +110,7 @@ public class WorkWeek
 	{
 		if (assignments[index] == null)
 			throw new WorkerMissingTask("Could not update task time");
-		if (time>24)
+		if (time>48)
 			throw new InvalidTime("You cannot work more than 24 hours a day.");
 		timeWorkedOnTask[settings.getDay()][index] += time;
 		workTime[index]	+=	time;

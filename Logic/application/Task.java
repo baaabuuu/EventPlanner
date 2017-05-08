@@ -16,6 +16,7 @@ public class Task {
 	private	int		workedTime	=	0;
 	private Calendar deadline	=	new GregorianCalendar();
 	private int taskID;
+	private int lastWorkedTime;
 	private Project project;
 	
 	/**
@@ -153,14 +154,21 @@ public class Task {
 	 */
 	public int getWorkTime() throws WorkerMissingTask
 	{
+		ArrayList<Worker> illegals = new ArrayList<Worker>();
 		int totalWorkTime = 0;
 		if (getAssignedWorkers().size()>0)
 			for(int i = 0; i < getAssignedWorkers().size(); i++)
 				totalWorkTime += getAssignedWorkers().get(i).timeSpentOnTaskThisWeek(this);
 		if (getAssistingWorkers().size()>0)
 			for(int i = 0; i < getAssistingWorkers().size(); i++)
-				if (!getAssignedWorkers().contains(getAssistingWorkers().get(i)))
+				if (!getAssignedWorkers().contains(getAssistingWorkers().get(i))
+						&& !illegals.contains(getAssistingWorkers().get(i)))
+				{
+					illegals.add(getAssistingWorkers().get(i));
 					totalWorkTime += getAssistingWorkers().get(i).timeSpentOnTaskThisWeek(this);
+
+				}
+		lastWorkedTime = totalWorkTime;
 		return totalWorkTime + workedTime;
 	}
 	
@@ -180,7 +188,7 @@ public class Task {
 	 */
 	public void saveLastWeeksTime() throws WorkerMissingTask
 	{
-		workedTime	= getWorkTime();
+		workedTime	= lastWorkedTime;
 		assignedWorkers.clear();
 		assistingWorkers.clear();
 	}
