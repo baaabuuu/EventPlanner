@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import application.InvalidDateRange;
 import application.InvalidTime;
 import application.Task;
 import application.Worker;
@@ -50,6 +52,11 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 	btnFireWorker;
 	JLabel lblAddAssTime, lblTime, lblCurrentWork, lblWorkerSelection, lblFireWorker, lblTimeTravel, lblSetBusy,
 	lblCurrentWeek, lblAddWorker;
+	private JLabel lblFromWeek;
+	private JLabel lblToWeek;
+	private JTextField textFromWeek;
+	private JTextField textToWeek;
+	private JButton btnPrint;
 	/**
 	 * Contains UI related to worker.
 	 * @author s160902
@@ -189,6 +196,27 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		btnAdvDay.setBounds(10, 435, 80, 20);
 		add(btnAdvDay);
 		
+		lblFromWeek = new JLabel("From Week  : ");
+		lblFromWeek.setBounds(10, 460, 105, 20);
+		add(lblFromWeek);
+		
+		lblToWeek = new JLabel("To Week      : ");
+		lblToWeek.setBounds(10, 485, 105, 20);
+		add(lblToWeek);
+		
+		textFromWeek = new JTextField();
+		textFromWeek.setBounds(90, 460, 40, 20);
+		add(textFromWeek);
+		
+		textToWeek = new JTextField();
+		textToWeek.setBounds(90, 485, 40, 20);
+		add(textToWeek);
+		
+		btnPrint = new JButton("Print");
+		btnPrint.addActionListener(this);
+		btnPrint.setBounds(10, 510, 80, 20);
+		add(btnPrint);
+		
 		updateWorkerList();
 	}
 	/**
@@ -206,7 +234,7 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		listModel.clear();
 		//For each worker, add it
 		for(Worker worker : contentPanel.getApp().getAllWorkers()){
-			listModel.addElement(worker.getName());
+			listModel.addElement(worker.getWorkName()+"#" + worker.getWorkID());
 		}
 		workerList.setSelectedIndex(0);
 	}
@@ -215,8 +243,9 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 	 * @author S164147 & s160902
 	 */
 	public void updateWeekWorkCombo(){
+		comboWeekWork.setModel(new DefaultComboBoxModel<String>());
 		//Get all current tasks
-		Task[] currentWeekTasks = contentPanel.getApp().getWorker(workerList.getSelectedIndex()).getCurrWeek().getAssignments();
+		Task[] currentWeekTasks = selectedWorker.getCurrWeek().getAssignments();
 		List<Task> tempTasks = new ArrayList<Task>();
 		//add them to a list.
 		if(currentWeekTasks[0] != null){
@@ -238,7 +267,6 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		if(!e.getValueIsAdjusting() && workerList.getSelectedIndex() != -1) { //Prevents double selection
 			//Update selectedWorker
 			selectedWorker = contentPanel.getApp().getWorker(workerList.getSelectedIndex());
-			System.out.println("THE VALUE HAS CHANGED.");
 			updateWeekWorkCombo();
 		}
 	}
@@ -250,7 +278,8 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 		//Check which button has been pressed
 		if (e.getSource() == btnAddTime) {
 			try {
-				contentPanel.getApp().getAllWorkers().get(workerList.getSelectedIndex()).getCurrWeek().updWorkTime(comboWeekWork.getSelectedIndex(), Integer.parseInt(textTime.getText()));
+				//Attempt to parse to integer.
+				selectedWorker.getCurrWeek().updWorkTime(comboWeekWork.getSelectedIndex(), Integer.parseInt(textTime.getText()));
 			} catch (NumberFormatException e1) {
 				JOptionPane.showMessageDialog(contentPanel, "Attempted to add something else than integers to time");
 			} catch (WorkerMissingTask e1) {
@@ -278,16 +307,16 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 				//Get selected task from task panel.
 				Task task = contentPanel.getTaskPanel().getSelectedTask();
 				//Add assisting worker
-				task.addAssistingWorker(contentPanel.getApp().getWorker(workerList.getSelectedIndex()));
+				task.addAssistingWorker(contentPanel.getWorkerPanel().getSelectedWorker());
 				
 				int time = 0;
 				try {
 					//Attempt to parse to integer.
-					time = Integer.parseInt(textAssTime.getText())*2;
+					time = Integer.parseInt(textAssTime.getText());
 					//If parsed time is not negative
 					if(time > 0) {
 						//Add assisted time to task.
-						contentPanel.getApp().getWorker(workerList.getSelectedIndex()).getCurrWeek().uppHelpedTasks(time, task);						
+						contentPanel.getWorkerPanel().getSelectedWorker().getCurrWeek().uppHelpedTasks(time, task);
 					}
 				  } catch (NumberFormatException e1) {
 					  JOptionPane.showMessageDialog(contentPanel, "Attempted to add something else than integers to time");
@@ -353,6 +382,16 @@ public class workerPanel extends JPanel implements ActionListener, KeyListener, 
 						Integer.parseInt(textSetBusy.getText())).setBussy();
 			} catch(NumberFormatException e1){
 				JOptionPane.showMessageDialog(contentPanel, "Type in valid integer");
+			}
+		}
+		if(e.getSource() == btnPrint) {
+			if(textFromWeek.getText() != "" && textToWeek.getText() != ""){
+				try {
+					contentPanel.getApp().printWorkWeeks(selectedWorker, Integer.parseInt(textFromWeek.getText()), Integer.parseInt(textToWeek.getText()));
+				} catch (NumberFormatException | WorkerMissingTask | IOException | InvalidDateRange e1) {
+					JOptionPane.showMessageDialog(contentPanel, "Error: Type valid weeks.");
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

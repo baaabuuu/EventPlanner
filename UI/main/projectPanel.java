@@ -253,8 +253,10 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 					//Update text fields.
 					textProjectName.setText(selectedProject.getName());
 					textEndWeek.setText(contentPanel.getDateFormat().format(selectedProject.getDeadline().getTime()));
+					textAreaProjectDesc.setText(selectedProject.getDescription());
 					if(selectedProject.getLeader() != null)
-						textProjectLeader.setText(selectedProject.getLeader().getName());
+						textProjectLeader.setText(selectedProject.getLeader().getWorkName()+"#" +
+								selectedProject.getLeader().getWorkID());
 					//Update temporary leader object, so that it can be used when saved.
 					tempLeader = selectedProject.getLeader();
 					try {
@@ -286,6 +288,7 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 			 if(projectList.getSelectedIndex() != -1 && projectList.getSelectedIndex() < contentPanel.getApp().getAllProjects().size()){
 				 //Get relevant project.
 				 Project project = contentPanel.getApp().getProject(projectList.getSelectedIndex());
+				 project.setDescription(textAreaProjectDesc.getText());
 				 //Update name and leader.
 				 try {
 					project.setName(textProjectName.getText());
@@ -316,7 +319,7 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 				 //Update if date was parsed.
 				 if(date != null)
 					try {
-						contentPanel.getApp().addNewProject(textProjectName.getText(), date, tempLeader);
+						contentPanel.getApp().addNewProject(textProjectName.getText(), textAreaProjectDesc.getText(), date, tempLeader);
 					} catch (ProjectInvalidInput e1) {
 						JOptionPane.showMessageDialog(contentPanel, "Error: Empty field");
 						e1.printStackTrace();
@@ -342,7 +345,7 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 			 tempLeader = contentPanel.getApp().getWorker(contentPanel.getWorkerPanel().workerList.getSelectedIndex());
 			 //Update text field.
 			 if(tempLeader != null) {
-				 textProjectLeader.setText(tempLeader.getName());
+				 textProjectLeader.setText(tempLeader.getWorkName()+"#" + tempLeader.getWorkID());
 			 }
 		 }
 		 //If delete leader button is pressed, set temporary leader to null.
