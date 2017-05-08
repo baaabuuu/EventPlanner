@@ -215,16 +215,26 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	}
 	/**
 	 * Updates comboAssignedWorkers comboBox.
-	 * @author s160902
+	 * @author s160902 & s164166
 	 */
 	public void updateWorkerComboBox() {
 		if(tempWorkers != null) {
-			String[] workNames = (String[]) tempWorkers.stream()
-					.map(Worker::getWorkName).toArray(String[]::new);
-					
-			comboModelAssignedWorkers = new DefaultComboBoxModel<String>(workNames);
+			//Create an array at the size of tempWorkers.
+			String [] combo= new String[tempWorkers.size()];
+	        for (int i = 0; i < combo.length;i++)
+	        	//Add every property needed from each worker to String array.
+				try {
+					combo[i] = tempWorkers.get(i).getWorkName() + "#" + tempWorkers.get(i).getWorkID() +
+					" " + 1.0*tempWorkers.get(i).timeSpentOnTask(selectedTask)/2;
+				} catch (WorkerMissingTask e) {
+					JOptionPane.showMessageDialog(contentPanel, "Error: Worker missing task.");
+					e.printStackTrace();
+				}
+	        //Update combo-box with new string array.
+			comboModelAssignedWorkers = new DefaultComboBoxModel<String>(combo);
 			comboAssignedWorkers.setModel(comboModelAssignedWorkers);
 		}else {
+			//If temporary value is empty, remove all elements.
 			comboModelAssignedWorkers.removeAllElements();
 			comboAssignedWorkers.setModel(comboModelAssignedWorkers);
 		}
@@ -235,10 +245,25 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	 */
 	public void updateAssistingComboBox() {
 		if(tempAssistingWorkers != null) {
-			String[] workNames = (String[]) tempAssistingWorkers.stream()
-					.map(Worker::getWorkName).toArray(String[]::new);
-					
-			comboAssistedWorkTime.setModel(new DefaultComboBoxModel<String>(workNames));
+			//Create an array at the size of tempAssistingWorkers.
+			String [] combo= new String[tempAssistingWorkers.size()];
+	        for (int i = 0; i < combo.length;i++)
+	        	//Add every property needed from each worker to String array.
+				try {
+					combo[i] = tempAssistingWorkers.get(i).getWorkName() + "#" +
+							tempAssistingWorkers.get(i).getWorkID() + " " +
+							1.0*tempAssistingWorkers.get(i).timeSpentOnTask(selectedTask)/2;
+				} catch (WorkerMissingTask e) {
+					JOptionPane.showMessageDialog(contentPanel, "Error: Worker missing task.");
+					e.printStackTrace();
+				}
+	        //Update combo-box with new string array.
+			comboModelAssistingWorkers = new DefaultComboBoxModel<String>(combo);
+			comboAssistedWorkTime.setModel(comboModelAssistingWorkers);
+		}else {
+			//If temporary value is empty, remove all elements.
+			comboModelAssistingWorkers.removeAllElements();
+			comboAssistedWorkTime.setModel(comboModelAssistingWorkers);
 		}
 	}
 	/**

@@ -255,7 +255,8 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 					textEndWeek.setText(contentPanel.getDateFormat().format(selectedProject.getDeadline().getTime()));
 					textAreaProjectDesc.setText(selectedProject.getDescription());
 					if(selectedProject.getLeader() != null)
-						textProjectLeader.setText(selectedProject.getLeader().getName());
+						textProjectLeader.setText(selectedProject.getLeader().getWorkName()+"#" +
+								selectedProject.getLeader().getWorkID());
 					//Update temporary leader object, so that it can be used when saved.
 					tempLeader = selectedProject.getLeader();
 					try {
@@ -344,7 +345,7 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 			 tempLeader = contentPanel.getApp().getWorker(contentPanel.getWorkerPanel().workerList.getSelectedIndex());
 			 //Update text field.
 			 if(tempLeader != null) {
-				 textProjectLeader.setText(tempLeader.getName());
+				 textProjectLeader.setText(tempLeader.getWorkName()+"#" + tempLeader.getWorkID());
 			 }
 		 }
 		 //If delete leader button is pressed, set temporary leader to null.
