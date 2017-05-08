@@ -104,7 +104,7 @@ public class Worker
 	
 	/**
 	 * Returns a list of workweeks that the user has.
-	 * @author s164166
+	 * @author s160902
 	 * @return ArrayList<WorkWeek>
 	 */
 	public ArrayList<WorkWeek> getWorkWeeks()
@@ -114,7 +114,7 @@ public class Worker
 	/**
 	 * Returns the current workweek.
 	 * @return
-	 * @author s164166
+	 * @author s164166 & s164147
 	 *
 	 */
 	public WorkWeek getCurrWeek()
@@ -126,7 +126,7 @@ public class Worker
 	 * Returns the x week from the current time point.
 	 * @param index
 	 * @return
-	 * @author s164166
+	 * @author s164166 & s164147
 	 */
 	public WorkWeek getXweek(int index)
 	{
@@ -140,7 +140,7 @@ public class Worker
 	 * Returns the x week from the START time point.
 	 * @param index
 	 * @return
-	 * @author s164166
+	 * @author s164166 & s164147
 	 */
 	public WorkWeek getWeekFromStart(int index)
 	{
@@ -152,7 +152,7 @@ public class Worker
 	
 	/**
 	 * Checks whether the worker is available this week.
-	 * @author s164166
+	 * @author s164166 & s164147
 	 * @return boolean
 	 */
 	public boolean	isAvailableCurrWeek()
@@ -190,7 +190,7 @@ public class Worker
 	
 	/**
 	 *  This function takes a task and returns all half hours spent on this specific task this week.
-	 * @author s164166
+	 * @author s164166 & s160902
 	 * @param task
 	 * @return the amount of hours worked on a project.
 	 * @throws WorkerMissingTask 
@@ -224,7 +224,7 @@ public class Worker
 	
 	/**
 	 *  This function takes a task and returns all half hours spent on this specific task.
-	 * @author s164166
+	 * @author s164166 & s160902
 	 * @param task
 	 * @return the amount of hours worked on a project.
 	 * @throws WorkerMissingTask 

@@ -3,7 +3,7 @@ package application;
 import java.util.ArrayList;
 /**
  * Used to contain data for a WorkWeek for a user.
- * @author s164166
+ * @author s164166 & s164147 & s160902
  */
 public class WorkWeek
 {
@@ -18,7 +18,7 @@ public class WorkWeek
 		
 	/**
 	 * Creates a workweek object
-	 * @author s164166
+	 * @author s164166 & s160902 & s164147
 	 * @param settings 
 	 */
 	public WorkWeek(Settings settings)
@@ -38,12 +38,13 @@ public class WorkWeek
 	{
 		isBussy = true;
 	}
+	
 	/**
 	 * Returns a specific task
 	 * @param index
 	 * @return task
 	 * @throws WorkerMissingTask
-	 * @author s164166
+	 * @author s164166 & s160902
 	 */
 	public Task getWorkTask(int index) throws WorkerMissingTask
 	{
@@ -51,12 +52,13 @@ public class WorkWeek
 			throw new WorkerMissingTask("Could not get task.");
 		return assignments[index];
 	}
+	
 	/**
 	 * Returns the work time for a single project.
 	 * @param index
 	 * @return amount of half hours worked on a single project.
 	 * @throws WorkerMissingTask 
-	 * @author s164166
+	 * @author s164166 & s160902
 	 */
 	public int getWorkTime(int index) throws WorkerMissingTask
 	{
@@ -64,11 +66,12 @@ public class WorkWeek
 			throw new WorkerMissingTask("Could not get workTime.");
 		return workTime[index];
 	}
+	
 	/**
 	 * Adds a task to the helped list with an amount of time, if the user works on the same tasks multiple times a week, each will be logged as something different.
 	 * @param time - in half hours
 	 * @param name - name of the task
-	 * @author s164166
+	 * @author s164166 & s164147
 	 * @throws InvalidTime 
 	 */
 	public void uppHelpedTasks(int time, Task task) throws InvalidTime
@@ -81,26 +84,29 @@ public class WorkWeek
 	
 	/**
 	 * Gets the helpedTasksTime
-	 * @author s164166
+	 * @author s164147
 	 * @return
 	 */
 	public ArrayList<Integer> getHelpedTasksTime()
 	{
 		return helpedTasksTime;
 	}
+	
 	/**
 	 * Gets the helpedTasksNames
-	 * @author s164166
+	 * @author s164147
 	 * @return
 	 */
 	public ArrayList<Task> getHelpedTasks()
 	{
 		return helpedTasks;
 	}
+	
 	/**
 	 * Updates the time for a task, index is the index number of the assignment, 
 	 * time is the amount of time added. In case a task is missing it will throw a WorkerMissingTask error.
-	 * @author s164166
+	 * If someone tries to reduce worktime, it will go to a minimum of 0.
+	 * @author s164166 & s164147 & s160902
 	 * @param index
 	 * @param time
 	 * @throws WorkerMissingTask
@@ -125,6 +131,7 @@ public class WorkWeek
 	 * @param day
 	 * @param task
 	 * @return int
+	 * @author s160902
 	 */
 	public int getTimeWorkedDay(int day, int task)
 	{
@@ -132,13 +139,13 @@ public class WorkWeek
 	}
 	
 	/**
-	 * 
+	 * Gets how many tasks a user has helped with.
+	 * @author s160902
 	 */
 	public int getHelpedTaskCount()
 	{
 		return helpedTasks.size();
 	}
-	
 	
 	
 	/**
@@ -166,7 +173,7 @@ public class WorkWeek
 	}
 	/**
 	 * Gets the current amount of tasks
-	 * @author s164166
+	 * @author s164166 & s160902
 	 * @return the current amount of tasks.
 	 */
 	public int getCurrTaskAmm()
@@ -179,7 +186,7 @@ public class WorkWeek
 	}
 
 	/**
-	 * @author s164166
+	 * @author s164166 & s160902
 	 * @return whether or whether not the user can take on more tasks currently.
 	 */
 	public boolean isLegalThisweek(Worker worker)

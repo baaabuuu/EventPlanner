@@ -8,6 +8,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * Generates a file which consists of how much a person has worked on a task from 1 day to another.
+ * @author s164166 & s160902
+ */
 public class WorkOutput {
 	
 	private	final 	String[] days = {"Monday\t","Tuesday\t","Wednessday","Thursday","Friday\t","Saturday","Sunday\t"};
@@ -20,7 +24,7 @@ public class WorkOutput {
 	 * @param till
 	 * @throws WorkerMissingTask
 	 * @throws IOException
-	 * @author s164166
+	 * @author s164166 & (bugfixes) s160902
 	 * @throws InvalidDateRange 
 	 */
 	public  void generateText(Worker worker,int from, int till, Settings settings) throws WorkerMissingTask, IOException, InvalidDateRange
@@ -79,6 +83,7 @@ public class WorkOutput {
 	 * @param fileName
 	 * @param text
 	 * @throws IOException
+	 * @author s164166
 	 */
 	private  void writeToFile(String fileName, ArrayList<String> text) throws IOException {
 		Path file = Paths.get("WorkerInfo\\" + fileName + ".txt");
