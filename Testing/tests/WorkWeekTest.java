@@ -70,7 +70,7 @@ public class WorkWeekTest {
 	{
 		week.updAssignments(task);
 		thrown.expect(InvalidTime.class);
-		week.updWorkTime(0, 25);
+		week.updWorkTime(0, 49);
 	}
 		
 	//s164166
@@ -97,7 +97,7 @@ public class WorkWeekTest {
 	public void updHelpedTasksTimeException() throws InvalidTime
 	{
 		thrown.expect(InvalidTime.class);
-		week.uppHelpedTasks(26, task);
+		week.uppHelpedTasks(49, task);
 	}
 	
 	//s164166

@@ -107,7 +107,7 @@ public class WorkWeek
 	 * @throws InvalidTime 
 	 */
 	public void updWorkTime(int index, int time) throws WorkerMissingTask, InvalidTime
-	{
+	{		
 		if (assignments[index] == null)
 			throw new WorkerMissingTask("Could not update task time");
 		if (time>48)
