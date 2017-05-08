@@ -22,7 +22,7 @@ import application.Worker;
 import application.WorkerMissingTask;
 import application.WorkerNameError;
 
-public class BlackBoxTestsMatter {
+public class BlackBoxTests {
 
 	@Rule //s164166
     public ExpectedException thrown = ExpectedException.none();

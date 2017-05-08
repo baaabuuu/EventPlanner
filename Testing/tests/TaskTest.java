@@ -30,7 +30,7 @@ public class TaskTest {
 	@Rule //s164166
     public ExpectedException thrown = ExpectedException.none();
 	
-	//s164166 && S164147
+	//s164166 && S164147 & s160902
 	@Before
 	public void setup() throws TaskInvalidInput, WorkerMissingTask
 	{
@@ -39,7 +39,6 @@ public class TaskTest {
 		cal.set(Calendar.YEAR, 2015);
 		cal.set(Calendar.MONTH, Calendar.MARCH);
 		cal.set(Calendar.DAY_OF_MONTH, 8);
-		
 		when(settings.getCurrDate()).thenReturn((GregorianCalendar) cal);
 
 		cal = new GregorianCalendar();
@@ -59,7 +58,7 @@ public class TaskTest {
 		when(worker.getCurrWeek()).thenReturn(mock(WorkWeek.class));
 	}
 	
-	@Test //s164166
+	@Test //s164166 s160902
 	public void createInvalidTaskName() throws TaskInvalidInput, WorkerMissingTask
 	{
 		Calendar cal = Calendar.getInstance();
@@ -70,7 +69,7 @@ public class TaskTest {
 		task = new Task("","Test",new ArrayList<Worker>(), new ArrayList<Worker>(), cal.getTime(),project);
 	}
 	
-	@Test //s164166
+	@Test //s164166 s160902
 	public void createInvalidDate1() throws TaskInvalidInput, WorkerMissingTask
 	{
 		Calendar cal = Calendar.getInstance();
@@ -81,7 +80,7 @@ public class TaskTest {
 		task = new Task("","Test",new ArrayList<Worker>(), new ArrayList<Worker>(), cal.getTime(),project);
 	}
 	
-	@Test //s164166
+	@Test //s164166 s160902
 	public void createInvalidDate2() throws TaskInvalidInput, WorkerMissingTask
 	{
 		Calendar cal = Calendar.getInstance();
@@ -99,7 +98,7 @@ public class TaskTest {
 	
 
 	
-	@Test //s164166
+	@Test //s164166 s160902
 	public void setInvalidDate1() throws TaskInvalidInput
 	{
 
@@ -113,7 +112,7 @@ public class TaskTest {
 		task.setDeadline(cal.getTime());
 	}
 	
-	@Test //s164166
+	@Test //s164166 s160902
 	public void setInvalidDate2() throws TaskInvalidInput
 	{
 
@@ -126,7 +125,7 @@ public class TaskTest {
 		task.setDeadline(cal.getTime());
 	}
 	
-	@Test //s164166
+	@Test //s164166 s160902
 	public void setInvalidName() throws TaskInvalidInput, WorkerMissingTask
 	{
 		Calendar cal1 = Calendar.getInstance();
@@ -142,7 +141,7 @@ public class TaskTest {
 	
 	
 	
-	@Test
+	@Test //s164166 s164147 s160902
 	public void changeCompletionTest()
 	{
 		task.changeCompletion();
@@ -151,7 +150,7 @@ public class TaskTest {
 		assertFalse("Completion is now true",task.getStatus());
 	}
 	
-	@Test //s164166
+	@Test //s164166 s164166 s164147 s160902
 	public void workTime() throws WorkerMissingTask
 	{
 		assertEquals("No work Time",task.getWorkTime(),0);
@@ -160,7 +159,7 @@ public class TaskTest {
 		assertEquals("5 Hours of work time",5,task.getWorkTime());
 	}
 	
-	@Test //s164166
+	@Test //s164166 s164147 s160902
 	public void workTimeAssisted() throws WorkerMissingTask
 	{
 		assertEquals("No work Time",task.getWorkTime(),0);
@@ -173,7 +172,7 @@ public class TaskTest {
 		assertEquals("10 Hours of work time, 5 in each.",10,task.getWorkTime());
 	}
 	
-	@Test //s164166
+	@Test //s164166 s164147
 	public void addWorkerTets() throws WorkerMissingTask
 	{
 		task.addWorker(worker);
@@ -182,7 +181,7 @@ public class TaskTest {
 		assertEquals("When adding workers, a worker can only be added once",task.getAssignedWorkers().size(),1);
 	}
 	
-	@Test //s164166
+	@Test //s164166 s164147 s160902
 	public void testRemoveWorkerNon()
 	{
 		when(worker.getWorkID()).thenReturn(0);
@@ -191,7 +190,7 @@ public class TaskTest {
 		assertEquals("Size is still equal to 1",task.getAssignedWorkers().size(),1);
 	}
 	
-	@Test //s164166
+	@Test //s164166 s164147 s160902
 	public void removeWorker1()
 	{
 		when(worker.getWorkID()).thenReturn(0);
@@ -199,7 +198,7 @@ public class TaskTest {
 		task.removeWorker(0);
 		assertEquals("Size is now equal to 0",task.getAssignedWorkers().size(),0);
 	}
-	@Test //s164166
+	@Test //s164166 s164147 s160902
 	public void setAssignedWorkers1() throws WorkerMissingTask, TaskInvalidInput
 	{
 		Calendar cal = new GregorianCalendar();
@@ -220,7 +219,7 @@ public class TaskTest {
 		
 		task.setAssignedWorkers(newWorkers);	
 	}
-	@Test //s164166
+	@Test //s164166 s164147 s160902
 	public void setAssignedWorkers2() throws WorkerMissingTask, TaskInvalidInput
 	{
 		Calendar cal = new GregorianCalendar();

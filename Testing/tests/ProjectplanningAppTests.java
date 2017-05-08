@@ -28,9 +28,7 @@ import application.Worker;
 import application.WorkerMissingTask;
 import application.WorkerNameError;
 
-/**
- * Each test was written with s164166 and whoever thought it was necessary  to test it.
- */
+
 public class ProjectplanningAppTests 
 {
 	ProjectPlanningApp planningApp;

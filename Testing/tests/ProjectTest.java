@@ -18,9 +18,6 @@ import application.Task;
 import application.Worker;
 import application.WorkerMissingTask;
 
-/**
- * Each test was written with s164166 and whoever thought it was necessary  to test it.
- */
 public class ProjectTest {
 	Project project;
 	ProjectPlanningApp database;
