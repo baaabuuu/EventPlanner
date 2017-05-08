@@ -14,6 +14,7 @@ public class Task {
 	private List<Worker> assignedWorkers = new ArrayList<Worker>();
 	private List<Worker> assistingWorkers = new ArrayList<Worker>();
 	private	int		workedTime	=	0;
+	private int		lastWorkedTime;
 	private Calendar deadline	=	new GregorianCalendar();
 	private int taskID;
 	private Project project;
@@ -152,17 +153,24 @@ public class Task {
 	 * @author s160902
 	 */
 	public int getWorkTime() throws WorkerMissingTask
-	{
-		int totalWorkTime = 0;
-		if (getAssignedWorkers().size()>0)
-			for(int i = 0; i < getAssignedWorkers().size(); i++)
-				totalWorkTime += getAssignedWorkers().get(i).timeSpentOnTaskThisWeek(this);
-		if (getAssistingWorkers().size()>0)
-			for(int i = 0; i < getAssistingWorkers().size(); i++)
-				if (!getAssignedWorkers().contains(getAssistingWorkers().get(i)))
-					totalWorkTime += getAssistingWorkers().get(i).timeSpentOnTaskThisWeek(this);
-		return totalWorkTime + workedTime;
-	}
+    {
+        ArrayList<Worker> illegals = new ArrayList<Worker>();
+        int totalWorkTime = 0;
+        if (getAssignedWorkers().size()>0)
+            for(int i = 0; i < getAssignedWorkers().size(); i++)
+                totalWorkTime += getAssignedWorkers().get(i).timeSpentOnTaskThisWeek(this);
+        if (getAssistingWorkers().size()>0)
+            for(int i = 0; i < getAssistingWorkers().size(); i++)
+                if (!getAssignedWorkers().contains(getAssistingWorkers().get(i))
+                        && !illegals.contains(getAssistingWorkers().get(i)))
+                {
+                    illegals.add(getAssistingWorkers().get(i));
+                    totalWorkTime += getAssistingWorkers().get(i).timeSpentOnTaskThisWeek(this);
+
+                }
+        lastWorkedTime = totalWorkTime;
+        return totalWorkTime + workedTime;
+    }
 	
 
 	
@@ -180,7 +188,8 @@ public class Task {
 	 */
 	public void saveLastWeeksTime() throws WorkerMissingTask
 	{
-		workedTime	= getWorkTime();
+		System.out.println("update");
+		workedTime	= lastWorkedTime;
 		assignedWorkers.clear();
 		assistingWorkers.clear();
 	}

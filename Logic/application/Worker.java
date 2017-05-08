@@ -106,6 +106,7 @@ public class Worker
 	 */
 	public WorkWeek getCurrWeek()
 	{
+		fillMissingWorkWeeks(settings.getWeekNumber());
 		return getWorkWeeks().get(settings.getWeekNumber());
 	}
 	/**

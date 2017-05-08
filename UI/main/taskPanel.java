@@ -391,6 +391,9 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 					} catch (TaskInvalidInput e1) {
 						JOptionPane.showMessageDialog(contentPanel, "Error: Empty field");
 						e1.printStackTrace();
+					} catch (WorkerMissingTask e1) {
+						JOptionPane.showMessageDialog(contentPanel, "Error: Worker does not contain task.");
+						e1.printStackTrace();
 					}
 					 updateTaskList(contentPanel.getProjectPanel().getSelectedProject().getTasks());
 				 }
