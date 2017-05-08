@@ -199,7 +199,8 @@ public class taskPanel extends JPanel implements ActionListener, KeyListener, Li
 	public void clearTaskContent() {
 		textAreaTaskDesc.setText("");
 		textTaskName.setText("");
-		textEndWeek.setText("2017-07-10");
+		textEndWeek.setText(contentPanel.getDateFormat().format(contentPanel.getApp().
+				getSettings().getCurrDate().getTime()));
 		comboModelAssignedWorkers = new DefaultComboBoxModel<String>();
 		comboModelAssistingWorkers = new DefaultComboBoxModel<String>();
 		comboModelTaskCompletion = new DefaultComboBoxModel<String>();

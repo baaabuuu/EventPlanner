@@ -107,7 +107,7 @@ public class WorkOutputTests
 		when(task.getProject()).thenReturn(project);
 		
 		outputter.generateText(worker, 0, 0, settings);
-		File f = new File("C:\\Users\\Arada\\Desktop\\Test#0.txt"); 
+		File f = new File("WorkerInfo\\Test#0.txt"); 
 		
 		if (!f.exists()) {
 			fail();

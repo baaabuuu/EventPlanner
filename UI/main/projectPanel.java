@@ -225,7 +225,8 @@ public class projectPanel extends JPanel implements ActionListener, KeyListener,
 	public void clearProjectContent(){
 		textAreaProjectDesc.setText("");
 		textProjectName.setText("");
-		textEndWeek.setText("2017-07-10");
+		textEndWeek.setText(contentPanel.getDateFormat().format(contentPanel.getApp().
+				getSettings().getCurrDate().getTime()));
 		textProjectLeader.setText("");
 		textWorkTime.setText("");
 		textProjectCompletion.setText("");
