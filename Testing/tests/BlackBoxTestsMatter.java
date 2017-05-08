@@ -27,7 +27,7 @@ public class BlackBoxTestsMatter {
 	@Rule //s164166
     public ExpectedException thrown = ExpectedException.none();
 	
-	@Test
+	@Test //s164166 & s164147
 	public void createProjectWorking() throws ProjectInvalidInput, WorkerNameError
 	{
 		Calendar cal = Calendar.getInstance();
@@ -38,7 +38,7 @@ public class BlackBoxTestsMatter {
 		Project project =	new Project("Test Project","Test",cal.getTime(),worker, new Settings());
 	}
 	
-	@Test //s164166
+	@Test ///s164166 & s164147
 	public void createInvalidDateProject() throws ProjectInvalidInput, WorkerNameError
 	{
 		Calendar cal = Calendar.getInstance();
@@ -51,7 +51,7 @@ public class BlackBoxTestsMatter {
 	}
 	
 	
-	@Test //s164166
+	@Test ///s164166 & s164147
 	public void createInvalidNameProject() throws ProjectInvalidInput, WorkerNameError
 	{
 		Calendar cal = Calendar.getInstance();
@@ -63,7 +63,7 @@ public class BlackBoxTestsMatter {
 		Project project =	new Project("","Test",cal.getTime(),worker, new Settings());
 	}
 	
-	@Test //s164166
+	@Test ///s164166 & s164147
 	public void addTaskToProject() throws ProjectInvalidInput, WorkerNameError, TaskInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -77,7 +77,7 @@ public class BlackBoxTestsMatter {
 		Task testTask = new Task("Test task", "Test description", workers1, workers2, cal.getTime(), project);
 	}
 	
-	@Test //s164166
+	@Test ///s164166 & s164147
 	public void addTaskToProjectDateError() throws ProjectInvalidInput, WorkerNameError, TaskInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -96,7 +96,7 @@ public class BlackBoxTestsMatter {
 		Task testTask = new Task("Test task", "Test description", workers1, workers2, cal.getTime(), project);
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void changeTaskComplete1() throws WorkerNameError, ProjectInvalidInput, TaskInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -111,7 +111,7 @@ public class BlackBoxTestsMatter {
 		assertFalse("Hasn't been changed yet",testTask.getStatus());
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void changeTaskComplete2() throws WorkerNameError, ProjectInvalidInput, TaskInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -127,7 +127,7 @@ public class BlackBoxTestsMatter {
 		assertTrue("Has been changed",testTask.getStatus());
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void projectCompletion1() throws WorkerNameError, ProjectInvalidInput, TaskInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -142,7 +142,7 @@ public class BlackBoxTestsMatter {
 		assertEquals("Project has not yet been completed",project.getStatus(),"0/1");
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void projectCompletion2() throws WorkerNameError, ProjectInvalidInput, TaskInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -158,7 +158,7 @@ public class BlackBoxTestsMatter {
 		assertEquals("Project has been completed",project.getStatus(),"1/1");
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void taskRemoval1() throws WorkerNameError, ProjectInvalidInput, TaskInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -174,7 +174,7 @@ public class BlackBoxTestsMatter {
 		assertEquals("Properly removed the project",project.getTasks().size(),0);
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void taskRemoval2() throws WorkerNameError, ProjectInvalidInput, TaskInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -190,7 +190,7 @@ public class BlackBoxTestsMatter {
 		project.removeTask(-1);
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void taskRemoval3() throws WorkerNameError, ProjectInvalidInput, TaskInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -206,7 +206,7 @@ public class BlackBoxTestsMatter {
 		project.removeTask(2);
 	}
 	
-	//In case a name is empty it should fail. s164166
+	//s164166 & s164147
 	@Test
 	public void createWorkerNameException() throws WorkerNameError
 	{
@@ -214,14 +214,14 @@ public class BlackBoxTestsMatter {
 		Worker worker = new Worker("",new Settings());
 	}
 	
-	//s164166
+	//s164166 & s164147
 	@Test
 	public void createWorkerNoeException() throws WorkerNameError
 	{
 		Worker worker = new Worker("Test",new Settings());
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void setLegalDate() throws TaskInvalidInput, WorkerNameError, ProjectInvalidInput, WorkerMissingTask
 	{
 
@@ -240,7 +240,7 @@ public class BlackBoxTestsMatter {
 		testTask.setDeadline(cal.getTime());
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void setIllegalDate1() throws TaskInvalidInput, WorkerNameError, ProjectInvalidInput, WorkerMissingTask
 	{
 
@@ -261,7 +261,7 @@ public class BlackBoxTestsMatter {
 		testTask.setDeadline(cal.getTime());
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void setIllegalDate2() throws TaskInvalidInput, WorkerNameError, ProjectInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -280,7 +280,7 @@ public class BlackBoxTestsMatter {
 		testTask.setDeadline(cal.getTime());
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void changeTaskNameIllegal() throws TaskInvalidInput, WorkerNameError, ProjectInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -296,7 +296,7 @@ public class BlackBoxTestsMatter {
 		testTask.setName("");
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void changeTaskNameLegal() throws TaskInvalidInput, WorkerNameError, ProjectInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -312,7 +312,7 @@ public class BlackBoxTestsMatter {
 		assertEquals("Name is now Test_new",testTask.getName(),"Test_new");
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void changeDescLegal() throws TaskInvalidInput, WorkerNameError, ProjectInvalidInput, WorkerMissingTask
 	{
 		ArrayList<Worker> workers1 = new ArrayList<Worker>();
@@ -328,7 +328,7 @@ public class BlackBoxTestsMatter {
 		assertEquals("Description is now Test",testTask.getDescription(),"Test");
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void changeWorkerNameLegal() throws WorkerNameError
 	{
 		Worker worker = new Worker("Adam", new Settings());
@@ -336,7 +336,7 @@ public class BlackBoxTestsMatter {
 		assertEquals("New name is Adam",worker.getName(),"George");
 	}
 	
-	@Test //s164166
+	@Test //s164166 & s164147
 	public void changeWorkerNameIllegal() throws WorkerNameError
 	{
 		Worker worker = new Worker("Adam", new Settings());

@@ -28,6 +28,9 @@ import application.Worker;
 import application.WorkerMissingTask;
 import application.WorkerNameError;
 
+/**
+ * Each test was written with s164166 and whoever thought it was necessary  to test it.
+ */
 public class ProjectplanningAppTests 
 {
 	ProjectPlanningApp planningApp;
@@ -41,7 +44,7 @@ public class ProjectplanningAppTests
     public ExpectedException thrown = ExpectedException.none();
 
 	
-	@Before
+	@Before //s164166 & s160902
 	public void setup() 
 	{
 		cal = Calendar.getInstance();
@@ -52,7 +55,7 @@ public class ProjectplanningAppTests
 		planningApp = new ProjectPlanningApp();
 	}
 	
-	@Test
+	@Test //s164166 & s160902
 	public void getEligibleWorkersNonAvailableThisWeek() throws WorkerNameError
 	{
 		when(worker.isAvailableCurrWeek()).thenReturn(false);
@@ -60,7 +63,7 @@ public class ProjectplanningAppTests
 		assertEquals("There are no workers in this list",planningApp.getEligibleWorkers().size(),0);
 	}
 	
-	@Test
+	@Test //s164166 & s160902
 	public void getEligibleWorkersThereIsAvailableWorkers() throws WorkerNameError
 	{
 		when(worker.isAvailableCurrWeek()).thenReturn(true);
@@ -68,7 +71,7 @@ public class ProjectplanningAppTests
 		assertEquals("There are workers in this list",planningApp.getEligibleWorkers().size(),1);
 	}
 	
-	@Test
+	@Test //s164166 & s160902
 	public void getAllNonFiredWorkersAllAreFired() throws WorkerNameError
 	{
 		when(worker.isFired()).thenReturn(true);
@@ -76,21 +79,23 @@ public class ProjectplanningAppTests
 		assertEquals("There are no workers in this list",planningApp.getAllWorkers().size(),0);
 	}
 	
-	@Test
+	@Test //s164166 & s160902
 	public void getAllNonFiredWorkersNoneAreFired() throws WorkerNameError
 	{
 		when(worker.isFired()).thenReturn(false);
 		planningApp.addNewWorker(worker);
 		assertEquals("There are workers in this list",planningApp.getAllWorkers().size(),1);
 	}
-	//s164166
+	
+	//s164166 & s164147
 	@Test
 	public void updHelpedTasksTimeException() throws WorkerNameError
 	{
 		thrown.expect(WorkerNameError.class);
 		planningApp.addNewWorker("");
 	}
-	//s164166
+	
+	//s164166 & s164147
 	@Test
 	public void removeProject() throws WorkerNameError, ProjectInvalidInput
 	{
@@ -103,7 +108,7 @@ public class ProjectplanningAppTests
 		assertEquals("Project Size is 0",planningApp.getAllProjects().size(),0);
 	}
 	
-	//s164166
+	//s164166 & s164147
 	@Test
 	public void removeWorker() throws WorkerNameError
 	{
@@ -133,7 +138,7 @@ public class ProjectplanningAppTests
 	}
 	
 	@Test //s164166
-	public void noErrors() throws InvalidDateRange, WorkerMissingTask, IOException
+	public void noErrorsPrinting() throws InvalidDateRange, WorkerMissingTask, IOException
 	{
 		WorkWeek week = mock(WorkWeek.class);
 		Project	project	=	mock(Project.class);
@@ -186,7 +191,7 @@ public class ProjectplanningAppTests
 			fail();
 		}
 	}
-	//s164166
+	//s164166 & s160902
 	@Test
 	public void advanceDayTest() throws WorkerMissingTask, ProjectInvalidInput, WorkerNameError
 	{
@@ -212,7 +217,7 @@ public class ProjectplanningAppTests
 		assertEquals("There is 0 workers assigned to the project", planningApp.getAllProjects().get(0).getTask(0).getAssignedWorkers().size(),0);
 	}
 	
-	//s164166
+	//s164166 & s160902
 	@Test
 	public void advanceDayTest2() throws WorkerMissingTask, ProjectInvalidInput, WorkerNameError
 	{
@@ -237,7 +242,5 @@ public class ProjectplanningAppTests
 		planningApp.advanceDay();
 		when(task.getAssignedWorkers()).thenReturn(new ArrayList<Worker>());
 		assertEquals("There is 0 workers assigned to the project", planningApp.getAllProjects().get(0).getTask(0).getAssignedWorkers().size(),0);
-	}
-	
-	
+	}	
 }
