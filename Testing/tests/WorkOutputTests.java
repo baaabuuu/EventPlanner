@@ -40,30 +40,30 @@ public class WorkOutputTests
 	Project		project			=	mock(Project.class);
 	WorkOutput	outputter;
 
-	@Rule //s164166
+	@Rule //s164166 
     public ExpectedException thrown = ExpectedException.none();
 	
-	@Before
+	@Before //s164166 s164147
 	public void setup() 
 	{		
 		outputter	=	new WorkOutput();
 	}
 	
-	@Test //s164166
+	@Test //s164166 s164147
 	public void throwInvalidDateRange1() throws InvalidDateRange, WorkerMissingTask, IOException
 	{
 		thrown.expect(InvalidDateRange.class);
 		outputter.generateText(worker, -1, 1, settings);
 	}
 	
-	@Test //s164166
+	@Test //s164166 s164147
 	public void throwInvalidDateRange2() throws InvalidDateRange, WorkerMissingTask, IOException
 	{
 		thrown.expect(InvalidDateRange.class);
 		outputter.generateText(worker, 3, 1, settings);
 	}
 	
-	@Test //s164166
+	@Test //s164166 s164147
 	public void noErrors() throws InvalidDateRange, WorkerMissingTask, IOException
 	{
 		when(settings.getStartupDate()).thenReturn(new GregorianCalendar(2017, Calendar.APRIL, 10));

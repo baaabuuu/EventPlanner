@@ -26,21 +26,21 @@ public class WorkWeekTest {
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 	
-	@Before //s164166
+	@Before //s164166 s164147
 	public  void setup()
 	{
 		when(settings.getMaxAssignments()).thenReturn(20);
 		week = new WorkWeek(settings);
 	}
 		
-	//s164166
+	//s164166 s164147
 	@Test
 	public void getWorkTaskErrork() throws WorkerMissingTask
 	{
 		thrown.expect(WorkerMissingTask.class);
 		week.getWorkTask(0);
 	}
-	//s164166
+	//s164166 s164147
 	@Test
 	public void getWorkTaskNoError() throws WorkerMissingTask
 	{
@@ -48,7 +48,7 @@ public class WorkWeekTest {
 		assertNotNull("We have added a new thing, therefor it will not return null",week.getWorkTask(0));
 	}
 	
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void getWorkTimeExpception() throws WorkerMissingTask
 	{
@@ -56,7 +56,7 @@ public class WorkWeekTest {
 		week.getWorkTime(0);
 	}
 	
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void updWorkTimeWorkerException() throws WorkerMissingTask, InvalidTime
 	{
@@ -64,7 +64,7 @@ public class WorkWeekTest {
 		week.updWorkTime(0, 2);
 	}
 	
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void updWorkTimeTimeException() throws WorkerMissingTask, InvalidTime
 	{
@@ -73,7 +73,7 @@ public class WorkWeekTest {
 		week.updWorkTime(0, 49);
 	}
 		
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void updWorkTimeNoExceptions() throws WorkerMissingTask, InvalidTime
 	{
@@ -82,7 +82,7 @@ public class WorkWeekTest {
 		assertEquals("Time spent 2 hours",week.getWorkTime(0),2);
 	}
 	
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void getWorkTimeNoException() throws WorkerMissingTask
 	{
@@ -92,7 +92,7 @@ public class WorkWeekTest {
 	}
 	
 	
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void updHelpedTasksTimeException() throws InvalidTime
 	{
@@ -100,31 +100,28 @@ public class WorkWeekTest {
 		week.uppHelpedTasks(49, task);
 	}
 	
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void updHelpedTasks() throws InvalidTime
 	{
 		week.uppHelpedTasks(2, task);
 	}
 		
-	
-	
-	
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void isLegalThisWeekTrue()
 	{
 		when(worker.isFired()).thenReturn(false);
 		assertTrue("Works is not fired, week is not bussy, and there are less assignments than the maximum.",week.isLegalThisweek(worker));
 	}
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void isLegalThisWeekFired()
 	{
 		when(worker.isFired()).thenReturn(true);
 		assertFalse("Worker is  fired, project not bussy, less assignments than max",week.isLegalThisweek(worker));
 	}
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void isLegalThisWeekIsBussy()
 	{
@@ -132,7 +129,7 @@ public class WorkWeekTest {
 		week.setBussy();
 		assertFalse("Worker is not fired, project bussy, less assignments than max",week.isLegalThisweek(worker));
 	}
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void isLegalThisWeekFiredAndBussy()
 	{
@@ -140,7 +137,7 @@ public class WorkWeekTest {
 		week.setBussy();
 		assertFalse("Worker is  fired, project bussy, less assignments",week.isLegalThisweek(worker));
 	}
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void isNotLegalThisWeek()
 	{
@@ -151,7 +148,7 @@ public class WorkWeekTest {
 		assertFalse("Worker is  fired, project bussy, max assignments reached",week.isLegalThisweek(worker));
 	}
 	
-	//s164166
+	//s164166 s160902 s164147
 	@Test
 	public void NotLegalThisWeekfilledSchedule()
 	{

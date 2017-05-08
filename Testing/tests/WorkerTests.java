@@ -23,14 +23,14 @@ public class WorkerTests
 	@Rule //s164166
     public ExpectedException thrown = ExpectedException.none();
 	
-	@Before
+	@Before //s164166
 	public void setup() throws WorkerNameError
 	{
 		when(settings.getMaxAssignments()).thenReturn(20);
 		worker = new Worker("Testname",settings);
 	}
 		
-	//In case a name is empty it should fail. s164166
+	//In case a name is empty it should fail. s164166 s160902
 	@Test
 	public void createWorkerNameException() throws WorkerNameError
 	{
@@ -38,7 +38,7 @@ public class WorkerTests
 		worker = new Worker("",settings);
 	}
 	
-	//In case a name is empty it should fail. s164166
+	//In case a name is empty it should fail.  s164166 s160902
 	@Test
 	public void setNameException() throws WorkerNameError
 	{
@@ -47,7 +47,7 @@ public class WorkerTests
 	    worker.setName("");
 	}
 	
-	//Check that setname works without throwing exception if proper rules are followed. s164166
+	//Check that setname works without throwing exception if proper rules are followed.  s164166 s160902
 	@Test
 	public void setNameMorethan4Chars() throws WorkerNameError
 	{
@@ -55,7 +55,7 @@ public class WorkerTests
 		assertEquals("Name has changed NewName",worker.getName(),"NewName");
 		assertEquals("Work name has changed New",worker.getWorkName(),"NewN");
 	}
-	//Check that setname works without throwing exception if proper rules are followed. s164166
+	//Check that setname works without throwing exception if proper rules are followed.  s164166 s160902
 	@Test
 	public void setNameLessthanOrEqualTo4Chars() throws WorkerNameError
 	{
@@ -64,7 +64,7 @@ public class WorkerTests
 		assertEquals("Work name has changed test",worker.getWorkName(),"Eva");
 	}
 	
-	//Test whether or whether not the worker is available this week s164166
+	//Test whether or whether not the worker is available this week s164166 s164147
 	@Test
 	public void checkAvailableWeek()
 	{
@@ -77,7 +77,7 @@ public class WorkerTests
 		assertFalse("Check that the worker is not availabile in the current week",worker.isAvailableCurrWeek());
 	}
 	
-	//Test whether or whether not the worker is available next week s164166
+	//Test whether or whether not the worker is available next week s164166 s164147
 	@Test
 	public void checkMultipleWeeks()
 	{
@@ -95,7 +95,7 @@ public class WorkerTests
 		assertFalse("Check that the worker is not availabile in 100 weeks from now",worker.isAvailableXweek(100));
 	}
 
-	//Test whether a worker can be fired, and if they are fired they are not available in the next couple of weeks s164166
+	//Test whether a worker can be fired, and if they are fired they are not available in the next couple of weeks s164166 s164147
 	@Test
 	public void fireWorker()
 	{
@@ -104,7 +104,7 @@ public class WorkerTests
 		assertFalse("Check that the worker is not available 2 weeks after being fired",worker.isAvailableXweek(2));
 	}
 	
-	//Test the timeSpentOnAtask s164166
+	//Test the timeSpentOnAtask s164166 s164147
 	@Test
 	public void timeSpentOnTaskTest() throws WorkerMissingTask, InvalidTime
 	{
@@ -114,7 +114,7 @@ public class WorkerTests
 		worker.getCurrWeek().uppHelpedTasks(10, task);
 		assertEquals("Checking that 12 hours has been worked on the task where 10 has been \"helped\"", worker.timeSpentOnTask(task),12);
 	}
-	//Test the timeSpentOnAtask s164166
+	//Test the timeSpentOnAtask s164166 s164147
 	@Test
 	public void timeSpentThisWeekOnTask() throws WorkerMissingTask, InvalidTime
 	{
