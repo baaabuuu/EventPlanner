@@ -7,6 +7,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Contains a list of all companyWorkers, the settings, the project and how many projects have been created
+ * @author s164166 & s160902 & s164147
+ */
 public class ProjectPlanningApp {
 	
 	private Settings 			settings		=	new Settings();
@@ -16,7 +20,8 @@ public class ProjectPlanningApp {
 	private	WorkOutput			outputter		=	new WorkOutput();
 	
 	/**
-	 * Update week
+	 * Advances the week by a day, in case new week is entered, the project removes all workers from all tasks.
+	 * @author s164166 & s160902
 	 * @throws WorkerMissingTask 
 	 */
 	public void advanceDay() throws WorkerMissingTask
@@ -33,11 +38,9 @@ public class ProjectPlanningApp {
 		}
 	}
 	
-	
-	
 	/**
 	 * Adds a new project
-	 * @author s160902
+	 * @author s160902 & s164166
 	 * @throws ProjectInvalidInput 
 	 */
 	public  void addNewProject(String name, String description, Date date, Worker leader) throws ProjectInvalidInput
@@ -47,22 +50,24 @@ public class ProjectPlanningApp {
 		projectCounter++;
 		companyProjects.add(project);
 	}
+	
 	/**
 	 * removes a project from the company database using a specific project.
 	 * THIS SHOULD NEVER BE CALLED ON A PROJECT THAT HAS BEEN WORKED ON.
 	 * It would result in a project being deleted making it hard for a user to find something they've worked previously on.
-	 * @author s160902
+	 * @author s160902 & s164147
 	 * @param project
 	 */
 	public  void removeProject(Project project)
 	{
 		companyProjects.remove(project);
 	}
+	
 	/**
 	 * removes a project from the company database using its index in the list.
 	 * THIS SHOULD NEVER BE CALLED ON A PROJECT THAT HAS BEEN WORKED ON.
 	 * It would result in a project being deleted making it hard for a user to find something they've worked previously on.
-	 * @author s160902
+	 * @author s160902 & s164166
 	 * @param index.
 	 */
 	public  void removeProject(int index)
@@ -70,6 +75,7 @@ public class ProjectPlanningApp {
 		if (index >= 0 && index<companyProjects.size())
 			companyProjects.remove(index);
 	}
+	
 	/**
 	 * gets a specific project by their index number.
 	 * @author s160902
@@ -79,6 +85,7 @@ public class ProjectPlanningApp {
 	{
 		return companyProjects.get(index);
 	}
+	
 	/**
 	 * Returns a list of projects.
 	 * @author s160902
@@ -88,6 +95,7 @@ public class ProjectPlanningApp {
 	{
 		return companyProjects;
 	}
+	
 	/**
 	 * Adds a worker to the company database.
 	 * @author s164166
@@ -102,7 +110,7 @@ public class ProjectPlanningApp {
 	
 	/**
 	 * Adds a worker to the company database.
-	 * @author s164166
+	 * @author s160902
 	 * @param worker
 	 */
 	public void addNewWorker(Worker worker) throws WorkerNameError
@@ -113,7 +121,7 @@ public class ProjectPlanningApp {
 	
 	/**
 	 * removes a worker from the company database using a specific object.
-	 * @author s164166
+	 * @author s160902
 	 * @param worker
 	 */
 	public void removeWorker(Worker worker)
@@ -122,7 +130,7 @@ public class ProjectPlanningApp {
 	}
 	/**
 	 * removes a worker from the company database using the ID.
-	 * @author s164166
+	 * @author s160902
 	 * @param index, the index.
 	 */
 	public void removeWorker(int index)
@@ -132,7 +140,7 @@ public class ProjectPlanningApp {
 	}
 	/**
 	 * gets a specific worker by their index number.
-	 * @author s164166
+	 * @author s160902
 	 * @param index, the index.
 	 */
 	public Worker getWorker(int index)
@@ -160,7 +168,7 @@ public class ProjectPlanningApp {
 	}
 	
 	/**
-	 * Gets all the settings
+	 * Returns a settings object.
 	 * @return settings.
 	 * @author s164166
 	 */
@@ -174,6 +182,7 @@ public class ProjectPlanningApp {
 	 * @throws InvalidDateRange 
 	 * @throws IOException 
 	 * @throws WorkerMissingTask
+	 * @author s164166
 	 */
 	public void printWorkWeeks(Worker worker, int from, int till) throws WorkerMissingTask, IOException, InvalidDateRange
 	{

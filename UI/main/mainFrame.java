@@ -36,8 +36,9 @@ public class mainFrame extends JFrame {
 	public mainFrame(ProjectPlanningApp app) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 925, 625);
-		
+		setTitle(app.getSettings().getAppName());
 		contentPanel = new contentPanel(app);
+		
 		
 		JScrollPane scrollPane = new JScrollPane(contentPanel);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

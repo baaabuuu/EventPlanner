@@ -2,6 +2,11 @@ package application;
 
 import java.util.ArrayList;
 
+/**
+ * A worker holds info about the workweek and so on.
+ * @author s164166
+ *
+ */
 public class Worker 
 {
 	private String 				name, workName;
@@ -15,6 +20,7 @@ public class Worker
 	 * @param settings 
 	 * @param Worker Name
 	 * @throws WorkerNameError
+	 * @author s164166 & s164147 & s160902
 	 */
 	public Worker(String NAME, Settings settings) throws WorkerNameError
 	{
@@ -23,6 +29,7 @@ public class Worker
 		for (int i = 0; i <= settings.getWeekNumber(); i++)
 			workWeek.add(new WorkWeek(settings));
 	}
+	
 	/**
 	 * Fires a worker, their work hours can still be access in the database but they cannot be assigned to projects anymore.
 	 * @author s160902
@@ -41,9 +48,10 @@ public class Worker
 	{
 		return name;
 	}
+	
 	/**
 	 * sets the name of the worker, can throw an error in case of blank name.
-	 * @author s164166
+	 * @author s164166 & s160902
 	 * @return
 	 */
 	public void setName(String name) throws WorkerNameError
@@ -53,6 +61,7 @@ public class Worker
 		this.name = name;
 		setWorkName(name);
 	}
+	
 	/**
 	 * returns the work name of the worker
 	 * @author s164166
@@ -62,8 +71,9 @@ public class Worker
 	{
 		return workName;
 	}
+	
 	/**
-	 * Author s164166
+	 * Author s164166 & s160902
 	 * @param workName - the name for the user.
 	 * Since we in our creation take a full "worker name" we only want the first 4 letters as the name.
 	 */
@@ -71,15 +81,17 @@ public class Worker
 	{
 		this.workName = (workName.length()<5) ? workName : String.format("%4s", workName).substring(0, 4) ;
 	}
+	
 	/**
 	 * returns the workID of the worker.
-	 * @author s164166
+	 * @author s164166 & s164147
 	 * @param workID
 	 */
 	public int getWorkID()
 	{
 		return workID;
 	}
+	
 	/**
 	 * Sets the work ID of the user to a specific value - used in CompanyDatabase.
 	 * @param workID
@@ -89,6 +101,7 @@ public class Worker
 	{
 		this.workID = workID;
 	}
+	
 	/**
 	 * Returns a list of workweeks that the user has.
 	 * @author s164166

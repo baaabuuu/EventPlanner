@@ -24,7 +24,7 @@ public class Settings
 	
 	/**
 	 * Returns the startup date of the application
-	 * @author s164166
+	 * @author s160902
 	 * @return date
 	 */
 	public GregorianCalendar getStartupDate()
@@ -35,7 +35,7 @@ public class Settings
 	
 	/**
 	 * Returns the name of the application
-	 * @author s164166
+	 * @author s160902
 	 * @return string
 	 */
 	public String getAppName()
@@ -67,7 +67,7 @@ public class Settings
 	
 	/**
 	 * returns the current day of the week, 1 = monday etc.
-	 * @author s164166
+	 * @author s164147
 	 */
 	public int getDay()
 	{
@@ -76,7 +76,7 @@ public class Settings
 	
 	/**
 	 * Returns the current day.
-	 * @author s164166
+	 * @author s164147
 	 */
 	public int getWeekNumber()
 	{
